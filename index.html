@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Le Plateau de Cécile</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;700;900&display=swap">
+<style>
+/* Plateau télé de nuit : bandeau des scores en haut, la roue au centre, la fiche d'épreuve glisse du bas */
+:root{
+  --stage:#17134a; --stage2:#2a2185; --panel:#241e6e; --line:#3a3399;
+  --ink:#fff6e4; --muted:#bdb6ee; --dark:#140f3a;
+  --gold:#ffc53d; --pink:#ff4f8b; --cyan:#3fd2f5; --violet:#a07bff; --orange:#ff8a3d; --teal:#2fd6a3;
+  --display:"Bungee","Arial Black",Impact,sans-serif;
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:radial-gradient(ellipse 120% 70% at 50% -10%,var(--stage2),var(--stage) 65%) fixed,var(--stage);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+.app{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:18px 40px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+h1{font-family:var(--display);font-weight:400;line-height:.95;margin:10px 0 8px;font-size:clamp(2.3rem,11vw,3.6rem);text-wrap:balance;color:var(--gold);text-shadow:0 3px 0 var(--pink)}
+h1 span{color:var(--ink);text-shadow:0 3px 0 var(--violet)}
+.lead{color:var(--muted);margin:0 0 22px;max-width:40ch}
+.label{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:900;margin:0 0 8px}
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
+.mode button{padding:14px 10px;border-radius:14px;border:2px solid var(--line);background:var(--panel);font-weight:900}
+.mode button[aria-pressed="true"]{border-color:var(--gold);background:var(--gold);color:var(--dark)}
+.names{display:grid;gap:10px;margin-bottom:24px}
+.team{display:grid;gap:8px;padding:12px;border-radius:14px;border:2px dashed var(--line)}
+.team .label{margin:0}
+.field{display:grid;gap:4px}
+.field label{font-size:.85rem;color:var(--muted);font-weight:700}
+.field input{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--dark);color:var(--ink);font:inherit;font-weight:700}
+.big{display:block;width:100%;padding:18px;border-radius:18px;background:var(--pink);color:var(--ink);font-family:var(--display);font-size:1.35rem;box-shadow:0 5px 0 #b3265c;transition:transform .08s}
+.big:active{transform:translateY(4px);box-shadow:0 1px 0 #b3265c}
+.ghostbtn{display:block;width:100%;margin-top:12px;padding:14px;border-radius:14px;border:2px solid var(--line);font-weight:900}
+details{margin-top:22px;background:var(--panel);border-radius:14px;padding:12px 14px}
+summary{font-weight:900;cursor:pointer}
+details ul{margin:10px 0 2px;padding-left:18px;color:var(--muted)}
+details li{margin:4px 0}
+
+/* jeu */
+.scores{display:grid;gap:8px;grid-template-columns:repeat(var(--n,4),minmax(0,1fr))}
+.chip{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:8px 6px 6px;text-align:center;min-width:0;transition:border-color .2s,transform .2s}
+.chip.now{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 0 0 3px rgba(255,197,61,.18)}
+.chip .nm{font-weight:900;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip .pt{font-family:var(--display);font-size:1.7rem;line-height:1.1;color:var(--gold);font-variant-numeric:tabular-nums}
+.chip .adj{display:flex;justify-content:center;gap:6px}
+.chip .adj button{width:28px;height:24px;border-radius:8px;background:var(--dark);font-weight:900;color:var(--muted)}
+.chip.pop .pt{animation:pop .5s}
+@keyframes pop{40%{transform:scale(1.35);color:var(--ink)}}
+.turn{text-align:center;margin:18px 0 6px;font-size:1.05rem;color:var(--muted)}
+.turn strong{display:block;font-family:var(--display);font-weight:400;font-size:1.7rem;color:var(--ink);line-height:1.1;overflow-wrap:anywhere}
+.wheelwrap{position:relative;width:min(88vw,400px);aspect-ratio:1;max-width:100%;margin:10px auto 0}
+.wheelwrap canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 24px rgba(0,0,0,.45))}
+.pointer{position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:30px solid var(--ink);z-index:2;filter:drop-shadow(0 3px 0 var(--pink))}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:26%;aspect-ratio:1;border-radius:50%;background:var(--ink);color:var(--dark);font-family:var(--display);font-size:clamp(.8rem,3.6vw,1.05rem);box-shadow:0 0 0 6px var(--dark),0 0 0 9px var(--gold)}
+.hub:disabled{opacity:.85;cursor:default}
+.gamebar{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.gamebar button{padding:10px 14px;border-radius:12px;border:2px solid var(--line);font-weight:700;color:var(--muted);font-size:.9rem}
+
+/* fiche */
+.backdrop{position:fixed;inset:0;background:rgba(10,7,35,.6);z-index:5}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:6;max-height:calc(100% - 30px);overflow:auto;background:var(--stage);border-top:4px solid var(--c,var(--gold));border-radius:22px 22px 0 0;padding:20px 16px calc(24px + env(safe-area-inset-bottom,0px));animation:up .3s ease-out}
+.sheet-in{max-width:560px;margin:0 auto}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+.cathead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cat{font-family:var(--display);font-weight:400;font-size:clamp(1.3rem,6vw,1.8rem);line-height:1.05;margin:0;color:var(--c,var(--gold));text-wrap:balance}
+.pts{flex:none;background:var(--c,var(--gold));color:var(--dark);font-weight:900;border-radius:999px;padding:4px 10px;font-size:.85rem}
+.how{color:var(--muted);margin:8px 0 14px;font-size:.95rem}
+.card{background:var(--panel);border-radius:16px;padding:16px;margin-bottom:14px}
+.q{font-size:1.2rem;font-weight:900;margin:0;text-wrap:pretty}
+.ans{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:var(--dark);color:var(--gold);font-weight:900;font-size:1.15rem}
+.ans.huge{font-family:var(--display);font-weight:400;font-size:1.8rem;text-align:center}
+.qcm{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
+.qcm li{padding:10px 12px;border-radius:10px;border:2px solid var(--line);font-weight:700}
+.qcm li b{color:var(--gold);margin-right:6px}
+.qcm li.ok{border-color:var(--teal);background:rgba(47,214,163,.15)}
+.steps{margin:0;padding-left:22px;display:grid;gap:12px;font-weight:700}
+.steps .ans{display:block;margin-top:6px;font-size:1rem}
+.letters{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.letters span{width:34px;height:40px;display:grid;place-items:center;border-radius:6px;background:#1f5fd6;font-family:var(--display);font-size:1.2rem}
+.letters span.first{background:#d8322e}
+.reveal{width:100%;padding:12px;border-radius:12px;background:var(--dark);border:2px dashed var(--line);font-weight:900;color:var(--muted)}
+.actions{display:grid;grid-template-columns:2fr 1fr;gap:8px}
+.win{padding:14px 10px;border-radius:14px;background:var(--teal);color:var(--dark);font-weight:900}
+.lose{padding:14px 10px;border-radius:14px;background:var(--panel);border:2px solid var(--line);font-weight:900}
+.others-l{margin:14px 0 6px;font-size:.85rem;color:var(--muted);font-weight:700}
+.others{display:flex;flex-wrap:wrap;gap:6px}
+.others button{padding:8px 12px;border-radius:999px;border:2px solid var(--line);font-weight:700;font-size:.9rem}
+.redraw{margin-top:14px;width:100%;padding:10px;color:var(--muted);font-weight:700;text-decoration:underline}
+.boxes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.box{aspect-ratio:1;border-radius:14px;background:var(--violet);color:var(--dark);font-family:var(--display);font-size:2rem;box-shadow:0 5px 0 #6a45c9;display:grid;place-items:center;padding:6px;text-align:center}
+.box.open{font-family:var(--body);font-weight:900;font-size:.85rem;background:var(--dark);color:var(--muted);box-shadow:none;border:2px solid var(--line)}
+.box.mine{border-color:var(--gold);color:var(--gold)}
+.result{margin:12px 0 0;font-weight:900;font-size:1.1rem;text-align:center}
+
+/* podium */
+.rank{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:8px}
+.rank li{display:flex;align-items:center;gap:12px;background:var(--panel);border-radius:14px;padding:12px 14px}
+.rank .pos{font-family:var(--display);font-size:1.4rem;color:var(--muted);width:1.6em}
+.rank li:first-child{background:var(--gold);color:var(--dark)}
+.rank li:first-child .pos{color:var(--dark)}
+.rank .nm{flex:1;font-weight:900;min-width:0;overflow-wrap:anywhere}
+.rank .sc{font-family:var(--display);font-size:1.3rem;font-variant-numeric:tabular-nums}
+/* présentateur */
+.host{display:flex;align-items:flex-end;gap:10px;margin:14px 0 4px}
+.host .avatar{width:80px;height:auto;aspect-ratio:100/130;flex:none;overflow:visible}
+.host.mini{margin:0 0 14px}
+.host.mini .avatar{width:56px}
+.bubble{position:relative;flex:1;min-width:0;background:var(--ink);color:var(--dark);border-radius:16px 16px 16px 4px;padding:10px 40px 10px 12px;font-weight:700;font-size:.95rem;min-height:2.4em;overflow-wrap:anywhere}
+.bubble .who{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#6b3fd1;font-weight:900}
+.replay{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:var(--dark);color:var(--ink);font-weight:900;font-size:.95rem;line-height:1}
+.mouth{transform-box:fill-box;transform-origin:0 0}
+.avatar.talking .mouth{animation:talk .15s infinite alternate}
+.avatar.talking{animation:bob .45s infinite alternate}
+@keyframes talk{from{transform:rotate(0)}to{transform:rotate(16deg)}}
+@keyframes bob{to{transform:translateY(-3px) rotate(-2deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section id="setup">
+    <h1>Le Plateau<br><span>de Cécile</span></h1>
+    <p class="lead">12 jeux télé sur une roue. Un seul téléphone qu'on se passe : celui qui ne joue pas lit la question.</p>
+
+    <p class="label">Formule</p>
+    <div class="mode">
+      <button type="button" id="m-solo" aria-pressed="true">4 joueurs</button>
+      <button type="button" id="m-couple" aria-pressed="false">2 couples</button>
+    </div>
+
+    <p class="label">Les candidats</p>
+    <div class="names" id="names"></div>
+
+    <button type="button" class="big" id="start">C'est parti !</button>
+    <button type="button" class="ghostbtn" id="resume" hidden>Reprendre la partie en cours</button>
+
+    <details>
+      <summary>Comment on joue</summary>
+      <ul>
+        <li>À ton tour, tu tournes la roue. Elle choisit le jeu.</li>
+        <li>Tu passes le téléphone à ton voisin : il lit la question et garde la réponse cachée.</li>
+        <li>Il touche « Gagné » ou « Raté ». Les points s'ajoutent tout seuls.</li>
+        <li>En couples, les deux partenaires jouent ensemble (sauf aux Z'amours, évidemment).</li>
+        <li>Les petits + et − sous chaque score servent à corriger ou à donner un bonus.</li>
+      </ul>
+    </details>
+  </section>
+
+  <section id="game" hidden>
+    <div class="scores" id="scores"></div>
+    <p class="turn">Au tour de <strong id="turnName"></strong></p>
+    <div class="host" data-host></div>
+    <div class="wheelwrap">
+      <div class="pointer"></div>
+      <canvas id="wheel" aria-label="Roue des jeux"></canvas>
+      <button type="button" class="hub" id="spin">TOURNE</button>
+    </div>
+    <div class="gamebar">
+      <button type="button" id="voice">Voix off : oui</button>
+      <button type="button" id="skip">Passer son tour</button>
+      <button type="button" id="end">Fin de partie</button>
+    </div>
+  </section>
+
+  <section id="podium" hidden>
+    <h1>Et le gagnant<br><span>est…</span></h1>
+    <div class="host" data-host></div>
+    <ol class="rank" id="rank"></ol>
+    <button type="button" class="big" id="continue">Encore une manche</button>
+    <button type="button" class="ghostbtn" id="restart">Nouvelle partie (scores à zéro)</button>
+  </section>
+</div>
+
+<div class="backdrop" id="backdrop" hidden></div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true"><div class="sheet-in" id="sheetIn"></div></div>
+
+<script>
+const CATS=[
+ {id:'qpuc',wheel:'Champion',name:'Questions pour un champion',col:'--gold',pts:1,type:'qa',
+  how:"Le voisin lit la question à voix haute et compte jusqu'à 5. Réponds avant la fin !",
+  items:[
+   {q:"Top ! Je suis une ville française. On m'appelle la cité phocéenne. J'ai un Vieux-Port et une Bonne Mère. Je suis…",a:"Marseille"},
+   {q:"Top ! Je suis un monument. On m'a construite pour l'Exposition universelle de 1889 et beaucoup m'ont d'abord trouvée affreuse. Je suis…",a:"La tour Eiffel"},
+   {q:"Combien de cœurs possède une pieuvre ?",a:"3"},
+   {q:"Quelle est la capitale de l'Australie ?",a:"Canberra (pas Sydney !)"},
+   {q:"Quel est le plus long fleuve de France ?",a:"La Loire"},
+   {q:"Quel métal précieux a pour symbole chimique Au ?",a:"L'or"},
+   {q:"En quelle année l'homme a-t-il marché sur la Lune pour la première fois ?",a:"1969"},
+   {q:"Qui a écrit Les Misérables ?",a:"Victor Hugo"},
+   {q:"Quel peintre s'est coupé une partie de l'oreille ?",a:"Vincent Van Gogh"},
+   {q:"Dans quel pays se trouve le Machu Picchu ?",a:"Au Pérou"}
+  ]},
+ {id:'motus',wheel:'Motus',name:'Motus',col:'--pink',pts:2,type:'motus',
+  how:"Tu as la première lettre et le nombre de lettres. Propose des mots : le voisin te dit quelles lettres sont bien placées. 5 essais.",
+  items:["GATEAU","CADEAU","BOUGIE","CHANSON","CONFETTI","SURPRISE","GUIRLANDE","CHAMPAGNE","COTILLON","MUSIQUE","FARANDOLE","BALLON"]},
+ {id:'qvgdm',wheel:'Millions',name:'Qui veut gagner des millions ?',col:'--cyan',pts:1,type:'qcm',
+  how:"Quatre réponses, une seule bonne. Tu as droit à un joker : demander l'avis d'un adversaire (il peut mentir).",
+  items:[
+   {q:"Combien de pattes a une araignée ?",c:["6","8","10","12"],a:1},
+   {q:"Quel est le plus grand océan du monde ?",c:["Atlantique","Indien","Pacifique","Arctique"],a:2},
+   {q:"Quelle planète surnomme-t-on la planète rouge ?",c:["Vénus","Mars","Jupiter","Saturne"],a:1},
+   {q:"Qui a peint La Joconde ?",c:["Michel-Ange","Raphaël","Léonard de Vinci","Botticelli"],a:2},
+   {q:"Combien d'étoiles compte le drapeau européen ?",c:["10","12","15","27"],a:1},
+   {q:"Combien y a-t-il de minutes dans une journée ?",c:["1 240","1 440","1 400","2 400"],a:1},
+   {q:"Quel animal est l'emblème du WWF ?",c:["Le tigre","Le panda","Le koala","L'ours polaire"],a:1},
+   {q:"Quel est l'ingrédient de base du guacamole ?",c:["Le concombre","L'avocat","Le petit pois","La courgette"],a:1},
+   {q:"En quelle année la France a-t-elle gagné sa première Coupe du monde de football ?",c:["1986","1998","2002","2018"],a:1},
+   {q:"Combien de joueurs par équipe sur un terrain de volley ?",c:["4","5","6","7"],a:2}
+  ]},
+ {id:'prix',wheel:'Juste Prix',name:'Le Juste Prix',col:'--orange',pts:2,type:'qa',
+  how:"Ce soir, pas de prix mais des chiffres. Tout le monde écrit sa réponse en secret. Le plus proche gagne les points.",
+  items:[
+   {q:"Combien d'os compte le squelette d'un adulte ?",a:"206"},
+   {q:"Combien mesure la tour Eiffel, antenne comprise ?",a:"Environ 330 mètres"},
+   {q:"Combien de marches pour monter à pied au 2e étage de la tour Eiffel ?",a:"674"},
+   {q:"Combien de touches sur un piano classique ?",a:"88"},
+   {q:"Combien de fois le cœur bat-il environ en une journée ?",a:"Environ 100 000 fois"},
+   {q:"Quelle est la distance moyenne entre la Terre et la Lune ?",a:"Environ 384 000 km"},
+   {q:"Combien de départements compte la France ?",a:"101"},
+   {q:"Quelle est l'altitude du mont Blanc ?",a:"Environ 4 806 mètres"},
+   {q:"Combien de pays sont membres de l'ONU ?",a:"193"},
+   {q:"Combien pèse environ un éléphant d'Afrique adulte ?",a:"Environ 6 tonnes"}
+  ]},
+ {id:'noplp',wheel:'Paroles',name:"N'oubliez pas les paroles",col:'--violet',pts:3,type:'challenge',
+  how:"Les autres choisissent une chanson sur un téléphone et coupent le son sans prévenir. Tu continues à chanter, sans te tromper d'un mot.",
+  items:["Thème : un tube des années 2000","Thème : un générique de dessin animé","Thème : une chanson de la Star Academy","Thème : un tube de l'été","Thème : une chanson de Disney","Thème : un slow qui fait pleurer","Thème : une chanson qui rappelle un souvenir avec Cécile","Thème : une chanson de variété française des années 80"]},
+ {id:'boyard',wheel:'Fort Boyard',name:'Fort Boyard',col:'--teal',pts:2,type:'qa',
+  how:"L'énigme du Père Fouras ou une épreuve. Pour une énigme, tu as 30 secondes.",
+  items:[
+   {q:"Énigme : j'ai des dents mais je ne mords jamais. Qui suis-je ?",a:"Un peigne"},
+   {q:"Énigme : plus on m'enlève de terre, plus je grandis. Qui suis-je ?",a:"Un trou"},
+   {q:"Énigme : je monte et je descends sans jamais bouger. Qui suis-je ?",a:"Un escalier"},
+   {q:"Énigme : j'ai des villes sans maisons, des forêts sans arbres et des rivières sans eau. Qui suis-je ?",a:"Une carte"},
+   {q:"Énigme : je me mouille pendant que je sèche. Qui suis-je ?",a:"Une serviette"},
+   {q:"Énigme : je cours sans jambes et on ne me rattrape jamais. Qui suis-je ?",a:"Le temps"},
+   {q:"Épreuve : tiens 30 secondes sur un pied, les yeux fermés.",a:"Les adversaires chronomètrent et jugent"},
+   {q:"Épreuve : récite l'alphabet à l'envers de Z à M, sans erreur.",a:"Z Y X W V U T S R Q P O N M"},
+   {q:"Épreuve : garde une cuillère en équilibre sur ton nez pendant 10 secondes.",a:"Les adversaires chronomètrent et jugent"}
+  ]},
+ {id:'marche',wheel:'La Marche',name:'Attention à la marche !',col:'--gold',pts:3,type:'list',
+  how:"Trois marches, de plus en plus dures. Il faut tout bon pour les 3 points. Une erreur ? Donne 1 point par marche réussie avec les + du tableau.",
+  items:[
+   [{q:"Combien de jours en février pendant une année bissextile ?",a:"29"},{q:"Quel est le féminin de « canard » ?",a:"Cane"},{q:"Quelle est la capitale de la Norvège ?",a:"Oslo"}],
+   [{q:"Combien de côtés a un hexagone ?",a:"6"},{q:"Combien de cordes a un violon ?",a:"4"},{q:"Qui a composé Les Quatre Saisons ?",a:"Vivaldi"}],
+   [{q:"Quel est le plus petit pays du monde ?",a:"Le Vatican"},{q:"En quelle année la tour Eiffel a-t-elle été inaugurée ?",a:"1889"},{q:"Quel gaz respire-t-on en plus grande quantité ?",a:"L'azote (environ 78 %)"}],
+   [{q:"Combien dure un match de foot sans prolongations ?",a:"90 minutes"},{q:"Quel est l'os le plus long du corps humain ?",a:"Le fémur"},{q:"De quelle couleur est la « boîte noire » d'un avion ?",a:"Orange"}],
+   [{q:"Quel pays a la forme d'une botte ?",a:"L'Italie"},{q:"Combien de cases compte un échiquier ?",a:"64"},{q:"Quel est le symbole chimique du fer ?",a:"Fe"}]
+  ]},
+ {id:'zamours',wheel:"Z'amours",name:"Les Z'amours",col:'--pink',pts:2,type:'challenge',couple:true,
+  how:"En couples : chaque partenaire écrit sa réponse en secret, puis on compare. Même réponse = points. À 4 joueurs : réponds pour ton voisin de gauche, il dit si c'est juste.",
+  items:["Quel est son plat préféré ?","Qui s'endort en premier devant un film ?","Quelle chanson le ou la fait danser à coup sûr ?","Quel est le pire cadeau qu'on lui ait offert ?","Qui fait le plus la fête des deux ?","Quel est son dessert préféré ?","De quoi a-t-il ou elle le plus peur ?","Où partirait-il ou elle en vacances de rêve ?","Quel est son jeu de société préféré ?"]},
+ {id:'bigdil',wheel:'Bigdil',name:'Le Bigdil',col:'--violet',pts:0,type:'bigdil',
+  how:"Trois boîtes fermées. Choisis-en une : jackpot… ou pas."},
+ {id:'quiest',wheel:'Qui est qui',name:'Qui est qui ?',col:'--cyan',pts:2,type:'secret',
+  how:"Passe le téléphone à un adversaire : lui seul regarde la personne. Toi, tu poses des questions en oui ou non. 10 questions maximum.",
+  items:["Johnny Hallyday","Zinédine Zidane","Céline Dion","Omar Sy","Astérix","Jean Dujardin","Mylène Farmer","Kylian Mbappé","Marie Curie","Louis de Funès","Beyoncé","Harry Potter"]},
+ {id:'slam',wheel:'Slam',name:'Slam',col:'--orange',pts:1,type:'slam',
+  how:"Le voisin lit la définition. Tu connais la première lettre et le nombre de lettres. 10 secondes.",
+  items:[
+   {q:"Fête que l'on célèbre chaque année le jour de sa naissance.",a:"ANNIVERSAIRE"},
+   {q:"Vin pétillant de Champagne qu'on ouvre pour fêter quelque chose.",a:"CHAMPAGNE"},
+   {q:"Petits morceaux de papier coloré qu'on lance en l'air à une fête.",a:"CONFETTI"},
+   {q:"On la souffle sur le gâteau.",a:"BOUGIE"},
+   {q:"Moment où l'on boit un verre et grignote avant le repas.",a:"APERITIF"},
+   {q:"Jeu où il faut reconnaître une chanson en quelques notes.",a:"BLINDTEST"},
+   {q:"Professionnelle qui accompagne enfants ou adultes en difficulté, souvent dite « spé ».",a:"EDUCATRICE"},
+   {q:"Chanter sur une musique pendant que les paroles défilent à l'écran.",a:"KARAOKE"},
+   {q:"Dessert italien au mascarpone, au café et aux biscuits.",a:"TIRAMISU"}
+  ]},
+ {id:'sel',wheel:'Sel/Poivre',name:'Burger Quiz · Sel ou poivre',col:'--teal',pts:2,type:'list',
+  how:"Réponds le plus vite possible : sel, poivre ou les deux ? Au moins 4 bonnes réponses sur 5 pour gagner.",
+  items:[
+   [{q:"On le jette sur les routes verglacées.",a:"Sel"},{q:"Il fait éternuer quand on le respire.",a:"Poivre"},{q:"On le met dans un moulin sur la table.",a:"Les deux"},{q:"Sa « fleur » est chère aux chefs.",a:"Sel"},{q:"Il accompagne le steak dans une sauce crémeuse célèbre.",a:"Poivre"}],
+   [{q:"On le récolte dans des marais.",a:"Sel"},{q:"Il peut être vert, noir ou blanc selon la récolte.",a:"Poivre"},{q:"On en met dans l'eau des pâtes.",a:"Sel"},{q:"On le trouve sur toutes les tables de restaurant.",a:"Les deux"},{q:"Les vaches lèchent un gros bloc de celui-ci.",a:"Sel"}]
+  ]}
+];
+
+const BIGDIL=[
+ {t:"+3 points !",d:3},{t:"+1 point",d:1},{t:"Boîte vide : 0 point",d:0},
+ {t:"−1 point, aïe",d:-1},{t:"Vole 2 points à qui tu veux",steal:2},{t:"+2 et tu rejoues !",d:2,again:true}
+];
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+let S={mode:'solo',players:['Cécile','','',''],scores:[0,0,0,0],turn:0,started:false};
+try{const s=JSON.parse(localStorage.getItem('plateau-cecile')||'null');if(s&&s.players)S=Object.assign(S,s)}catch(e){}
+const save=()=>{try{localStorage.setItem('plateau-cecile',JSON.stringify(S))}catch(e){}};
+
+function comps(){
+  const p=S.players.map((n,i)=>(n||'').trim()||('Joueur '+(i+1)));
+  return S.mode==='solo'?p:[p[0]+' & '+p[1],p[2]+' & '+p[3]];
+}
+
+/* ---------- présentateur : Albatar l'avatar ---------- */
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function avatarSVG(){
+  return `<svg class="avatar" viewBox="0 0 100 130" aria-hidden="true">
+  <!-- pantalon de survêt -->
+  <path d="M28 86 L74 86 L72 113 L56 113 L51 97 L46 113 L30 113Z" fill="var(--teal)"/>
+  <path d="M30 88 L32 112 M72 88 L70 112" stroke="#fff" stroke-width="2.2"/>
+  <!-- chaussettes + claquettes -->
+  <rect x="32" y="111" width="11" height="10" rx="2" fill="#fff"/><rect x="32" y="114" width="11" height="2" fill="var(--pink)"/>
+  <rect x="59" y="111" width="11" height="10" rx="2" fill="#fff"/><rect x="59" y="114" width="11" height="2" fill="var(--pink)"/>
+  <ellipse cx="46" cy="121" rx="3" ry="2" fill="#f0a35a"/><ellipse cx="73" cy="121" rx="3" ry="2" fill="#f0a35a"/>
+  <rect x="28" y="122" width="22" height="4" rx="2" fill="#0b0b14" stroke="var(--muted)" stroke-width=".8"/>
+  <rect x="55" y="122" width="22" height="4" rx="2" fill="#0b0b14" stroke="var(--muted)" stroke-width=".8"/>
+  <rect x="31" y="117" width="15" height="5" rx="1.5" fill="var(--pink)"/><rect x="58" y="117" width="15" height="5" rx="1.5" fill="var(--pink)"/>
+  <!-- veste -->
+  <path d="M28 60 Q30 52 44 51 L58 51 Q72 52 74 60 L75 88 L27 88Z" fill="var(--teal)"/>
+  <path d="M51 56 L51 88" stroke="var(--dark)" stroke-width="1.4"/>
+  <path d="M43 51 L51 58 L59 51" stroke="#fff" stroke-width="2.4" fill="none" stroke-linejoin="round"/>
+  <path d="M44 55 Q51 65 58 55" stroke="var(--gold)" stroke-width="1.8" fill="none"/><circle cx="51" cy="62" r="2" fill="var(--gold)"/>
+  <!-- bras : un ballant, un qui tient le micro -->
+  <path d="M29 60 Q19 72 22 86" stroke="var(--teal)" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M26 60 Q17 72 19 84" stroke="#fff" stroke-width="1.8" fill="none"/>
+  <ellipse cx="22" cy="90" rx="4" ry="5" fill="#8d8aa8"/>
+  <path d="M73 60 Q86 66 82 52" stroke="var(--teal)" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M76 58 Q88 62 85 51" stroke="#fff" stroke-width="1.8" fill="none"/>
+  <!-- cou + tête -->
+  <path d="M42 42 Q43 48 44 52 L58 52 Q59 47 60 42Z" fill="#f4f1ff"/>
+  <ellipse cx="50" cy="32" rx="17" ry="15" fill="#f4f1ff"/>
+  <path d="M46 28 Q54 23 62 28" stroke="#6d6a86" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="55" cy="30.5" r="3" fill="var(--dark)"/><circle cx="56.1" cy="29.4" r="1" fill="#fff"/>
+  <path d="M62 33 Q82 30 95 36 Q98 41 93 42 Q90 39 84 39 L62 40Z" fill="#f6c453"/>
+  <path class="mouth" d="M62 40 L88 40 Q83 46 64 44Z" fill="#e0913a"/>
+  <!-- casquette visière de côté -->
+  <path d="M33 27 Q33 11 50 11 Q66 11 67 26 Q50 22 33 27Z" fill="var(--pink)"/>
+  <path d="M35 25 Q22 22 15 28 Q28 31 38 28Z" fill="#c9346a"/>
+  <circle cx="50" cy="11.5" r="2" fill="#c9346a"/>
+  <!-- micro -->
+  <g transform="rotate(-18 82 50)"><rect x="79.5" y="44" width="5" height="16" rx="2" fill="var(--muted)"/><circle cx="82" cy="42" r="5.5" fill="var(--gold)" stroke="var(--dark)" stroke-width="1.3"/></g>
+  <ellipse cx="82" cy="54" rx="4.5" ry="4" fill="#8d8aa8"/>
+  </svg>`;
+}
+const hostHTML=mini=>`<div class="host${mini?' mini':''}">${avatarSVG()}<div class="bubble"><span class="who">Albatar l'avatar</span><span class="bubbleText">${esc(lastLine)}</span><button type="button" class="replay" aria-label="Répéter">↻</button></div></div>`;
+
+let voiceOn=true;try{voiceOn=localStorage.getItem('plateau-voix')!=='0'}catch(e){}
+let frVoice=null,talkT,lastLine="Wesh la zone ! Tape les blazes des candidats et on envoie la sauce.";
+const hasTTS='speechSynthesis' in window;
+function pickVoice(){try{const v=speechSynthesis.getVoices().filter(x=>/^fr/i.test(x.lang));frVoice=v.find(x=>/Thomas|Paul|Henri|Mathieu|Nicolas|Google/i.test(x.name))||v[0]||null}catch(e){}}
+if(hasTTS){pickVoice();try{speechSynthesis.onvoiceschanged=pickVoice}catch(e){}}
+function talking(on){document.querySelectorAll('.avatar').forEach(a=>a.classList.toggle('talking',on))}
+function say(t){
+  lastLine=t;
+  document.querySelectorAll('.bubbleText').forEach(p=>p.textContent=t);
+  clearTimeout(talkT);
+  if(voiceOn&&hasTTS){
+    try{
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(t.replace(/−/g,'moins ').replace(/&/g,' et '));
+      u.lang='fr-FR';if(frVoice)u.voice=frVoice;u.rate=1.15;u.pitch=.85;
+      u.onstart=()=>talking(true);u.onend=u.onerror=()=>talking(false);
+      speechSynthesis.speak(u);talking(true);
+      talkT=setTimeout(()=>talking(false),Math.min(16000,t.length*70+600));return;
+    }catch(e){}
+  }
+  talking(true);talkT=setTimeout(()=>talking(false),Math.min(3500,t.length*35));
+}
+function renderVoiceBtn(){$('#voice').textContent='Voix off : '+(voiceOn?'oui':'non')}
+document.addEventListener('click',e=>{if(e.target.closest('.replay'))say(lastLine)});
+const WIN=["Oh fatche ! C'est validé, t'es un monstre !","Vé le cerveau ! Tarpin fort, j'te jure sur ma casquette.","Bien ouej ! Même ma daronne elle l'avait pas, et elle sait tout.","Oh con, t'es chaud comme la Canebière en août !","Carton plein ! On te fera une statue au Vieux-Port… à titre posthume, évidemment.","Ça c'est envoyé ! Le bijou, tu m'as mis en PLS."];
+const LOSE=["Oh fada ! C'est la hess totale. Paix à ton âme.","Raté ! On t'enterre sous les applaudissements, frérot.","Oh c'est mort… et je m'y connais, j'ai jamais été vivant.","Même un poisson du Vieux-Port il l'avait. R.I.P.","Oh le boulet ! T'as laissé ton cerveau au vestiaire ou quoi ?","Zéro pointé ! On dira que c'est la faute du pastis.","Perdu ! Tu viens de creuser ta tombe avec une petite cuillère, gros."];
+const SPIN=["Ça tourne comme ma tête un lendemain de pastis…","Roule ma poule, roule !","Suspense de fou, j'en perds mes plumes, vé !","Elle tourne, elle tourne… comme un goéland au-dessus d'un candidat mal barré.","Allez la roue, fais pas ta princesse !"];
+const QUIP={qpuc:"Top ! Sors tes neurones du formol, gros.",motus:"Motus et bouche cousue… comme au cimetière Saint-Pierre.",qvgdm:"Y a pas de million ce soir, mais ta dignité elle est en jeu.",prix:"Le Juste Prix sans les prix, parce que la vie elle est déjà tarpin chère.",noplp:"Chante, et si tu chantes faux, on te débranche.",boyard:"Le Père Fouras il est mort de vieillesse, c'est moi qu'ai récupéré la barbe.",marche:"Attention à la marche… la dernière, c'est celle de l'échafaud.",zamours:"On va voir si vous vous connaissez vraiment, ou si c'est juste pour les impôts.",bigdil:"Le Bigdil ! Trois boîtes, dont une avec peut-être ta belle-mère dedans.",quiest:"Qui est qui ? Moi je sais, mais je balance pas, j'suis pas une balance, vé.",slam:"Slam ! Pas celui des poètes, celui où tu te prends un mur.",sel:"Sel ou poivre ? Comme sur une plaie : choisis bien, mon con."};
+const TURN=n=>pick([`À toi, ${n} !`,`${n}, vas-y, fais péter !`,`${n}, c'est ton tour, fais pas le mort !`,`${n}, ramène ta fraise, gros !`]);
+const ptsTxt=n=>n+' point'+(Math.abs(n)>1?'s':'');
+function intro(cat,item,name){
+  let t=`${name} tombe sur… ${cat.name} ! ${QUIP[cat.id]||''} `;
+  if(cat.id==='prix')t+=`Tout le monde écrit sa réponse, le plus proche rafle la mise. ${item.q}`;
+  else if(cat.type==='qa')t+=item.q;
+  else if(cat.type==='qcm')t+=item.q+' '+item.c.map((x,i)=>'ABCD'[i]+' : '+x).join('. ')+'.';
+  else if(cat.type==='motus')t+=`Un mot de ${item.length} lettres qui commence par ${item[0]}.`;
+  else if(cat.type==='slam')t+=`${item.q} En ${item.a.length} lettres, ça commence par ${item.a[0]}.`;
+  else if(cat.type==='challenge')t+=item+'.';
+  else if(cat.type==='list')t+=cat.how;
+  else if(cat.type==='secret')t+="Passe le phone à un adversaire. Toi, pose tes questions en oui ou non, et magne-toi !";
+  else if(cat.type==='bigdil')t+="Laquelle tu choisis ?";
+  return t;
+}
+function answerLine(cat,item){
+  const d=pick(["Roulement de tambour…","Accrochez vos slips…","Et la réponse, gros, c'est…"])+' ';
+  if(cat.type==='qa')return d+item.a+'.';
+  if(cat.type==='qcm')return d+'la '+'ABCD'[item.a]+' : '+item.c[item.a]+'.';
+  if(cat.type==='motus')return d+'le mot, c\'était '+item+'.';
+  if(cat.type==='slam')return d+'le mot, c\'était '+item.a+'.';
+  if(cat.type==='list')return d+item.map(x=>x.a).join(', ')+'.';
+  return 'Alors, t\'as trouvé ou t\'es cuit ?';
+}
+
+/* ---------- réglages ---------- */
+function renderNames(){
+  const f=i=>`<div class="field"><label for="p${i}">${S.mode==='solo'?'Joueur '+(i+1):'Partenaire '+(i%2+1)}</label><input id="p${i}" data-i="${i}" autocomplete="off" maxlength="16" placeholder="Prénom" value="${esc(S.players[i]||'')}"></div>`;
+  $('#names').innerHTML=S.mode==='solo'
+    ?[0,1,2,3].map(f).join('')
+    :`<div class="team"><p class="label">Couple 1</p>${f(0)}${f(1)}</div><div class="team"><p class="label">Couple 2</p>${f(2)}${f(3)}</div>`;
+  $('#m-solo').setAttribute('aria-pressed',S.mode==='solo');
+  $('#m-couple').setAttribute('aria-pressed',S.mode==='couple');
+  $('#resume').hidden=!S.started;
+}
+$('#names').addEventListener('input',e=>{if(e.target.dataset.i){S.players[+e.target.dataset.i]=e.target.value;save()}});
+$('#m-solo').onclick=()=>{S.mode='solo';renderNames()};
+$('#m-couple').onclick=()=>{S.mode='couple';renderNames()};
+$('#start').onclick=()=>{S.scores=comps().map(()=>0);S.turn=0;S.started=true;save();show('game');
+  const c=comps();
+  say(`Wesh la zone ! C'est Albatar l'avatar, en direct des quartiers nord, le seul présentateur qui plane plus haut que vos notes au bac. Bienvenue sur le Plateau de Cécile, gros ! Ce soir, ${S.mode==='solo'?'quatre candidats':'deux couples'} vont se mettre sur la tronche sur douze jeux cultes. Le perdant, on le jette dans le Vieux-Port… non j'déconne. Quoique. ${c[0]}, t'as l'honneur : fais péter la roue !`)};
+$('#resume').onclick=()=>{if(S.scores.length!==comps().length)S.scores=comps().map(()=>0);show('game');say(`Oh fatche, on y retourne ! ${TURN(comps()[S.turn])}`)};
+
+function show(id){
+  ['setup','game','podium'].forEach(s=>$('#'+s).hidden=s!==id);
+  if(id==='game'){renderScores();sizeWheel()}
+  window.scrollTo(0,0);
+}
+
+/* ---------- scores ---------- */
+function renderScores(popI){
+  const c=comps();
+  $('#scores').style.setProperty('--n',c.length);
+  $('#scores').innerHTML=c.map((n,i)=>`<div class="chip${i===S.turn?' now':''}${i===popI?' pop':''}"><div class="nm">${esc(n)}</div><div class="pt">${S.scores[i]||0}</div><div class="adj"><button type="button" data-adj="${i}" data-d="-1" aria-label="Retirer un point à ${esc(n)}">−</button><button type="button" data-adj="${i}" data-d="1" aria-label="Ajouter un point à ${esc(n)}">+</button></div></div>`).join('');
+  $('#turnName').textContent=c[S.turn];
+}
+$('#scores').addEventListener('click',e=>{const b=e.target.closest('[data-adj]');if(b)award(+b.dataset.adj,+b.dataset.d)});
+function award(i,n){S.scores[i]=(S.scores[i]||0)+n;save();renderScores(i)}
+function nextTurn(prefix){S.turn=(S.turn+1)%comps().length;save();renderScores();if(prefix!==undefined)say(prefix+' '+TURN(comps()[S.turn]))}
+$('#skip').onclick=()=>nextTurn(`${comps()[S.turn]} se dégonfle et passe son tour. C'est la hess, frérot.`);
+$('#voice').onclick=()=>{voiceOn=!voiceOn;try{localStorage.setItem('plateau-voix',voiceOn?'1':'0')}catch(e){}renderVoiceBtn();if(!voiceOn&&hasTTS){try{speechSynthesis.cancel()}catch(e){}talking(false)}else say("Albatar il est de retour, gros ! Vous pensiez vous débarrasser de moi ? Même la mort elle a pas voulu de moi.")};
+$('#end').onclick=()=>{
+  const c=comps().map((n,i)=>({n,s:S.scores[i]||0})).sort((a,b)=>b.s-a.s);
+  $('#rank').innerHTML=c.map((x,i)=>`<li><span class="pos">${i+1}</span><span class="nm">${esc(x.n)}</span><span class="sc">${ptsTxt(x.s)}</span></li>`).join('');
+  show('podium');
+  const tie=c.length>1&&c[0].s===c[1].s;
+  const bday=" Et surtout, joyeux anniv' Cécile, la reine ! 37 piges… t'es presque à mi-chemin du cimetière, alors profite, et souffle tes bougies avant qu'elles deviennent des cierges !";
+  say((tie?`Oh la zone, et les fantômes au fond… égalité en tête à ${ptsTxt(c[0].s)} ! Faut un duel à mort… ou juste une manche de plus.`
+         :`Oh la zone, et les fantômes au fond… le grand gagnant de ce soir, c'est ${c[0].n}, avec ${ptsTxt(c[0].s)} ! Les autres, allez creuser vos tombes, fadas.`)+bday);
+};
+$('#continue').onclick=()=>{show('game');say(`Encore ? Vous êtes pires que des zombies, vé ! ${TURN(comps()[S.turn])}`)};
+$('#restart').onclick=()=>{S.started=false;save();renderNames();show('setup')};
+
+/* ---------- roue ---------- */
+const cv=$('#wheel'),ctx=cv.getContext('2d');
+const N=CATS.length,SEG=Math.PI*2/N;
+let rot=0,spinning=false,R=0;
+function sizeWheel(){
+  const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+  if(!r.width)return;
+  cv.width=r.width*dpr;cv.height=r.width*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);R=r.width/2;draw();
+}
+function draw(){
+  const w=R*2;ctx.clearRect(0,0,w,w);
+  ctx.save();ctx.translate(R,R);ctx.rotate(rot);
+  const dark=css('--dark');
+  for(let i=0;i<N;i++){
+    ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R-4,i*SEG,(i+1)*SEG);ctx.closePath();
+    ctx.fillStyle=css(CATS[i].col);ctx.fill();
+    ctx.lineWidth=3;ctx.strokeStyle=dark;ctx.stroke();
+    ctx.save();ctx.rotate((i+.5)*SEG);
+    ctx.fillStyle=dark;ctx.textAlign='right';ctx.textBaseline='middle';
+    let fs=R*.085;const avail=R*.62;
+    ctx.font=`${fs}px ${css('--display')}`;
+    const tw=ctx.measureText(CATS[i].wheel).width;
+    if(tw>avail){fs*=avail/tw;ctx.font=`${fs}px ${css('--display')}`}
+    ctx.fillText(CATS[i].wheel,R*.9,0);
+    ctx.restore();
+  }
+  ctx.beginPath();ctx.arc(0,0,R-4,0,Math.PI*2);ctx.lineWidth=6;ctx.strokeStyle=dark;ctx.stroke();
+  for(let i=0;i<N;i++){ctx.beginPath();ctx.arc(Math.cos(i*SEG)*(R-11),Math.sin(i*SEG)*(R-11),3.2,0,Math.PI*2);ctx.fillStyle=css('--ink');ctx.fill()}
+  ctx.restore();
+}
+const idxAt=r=>{let a=(-Math.PI/2-r)%(Math.PI*2);if(a<0)a+=Math.PI*2;return Math.floor(a/SEG)%N};
+window.addEventListener('resize',sizeWheel);
+if(document.fonts)document.fonts.ready.then(draw);
+
+let AC=null;
+function beep(f,t,dur,vol){
+  try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;
+    g.gain.setValueAtTime(vol,AC.currentTime+t);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+t+dur);
+    o.connect(g).connect(AC.destination);o.start(AC.currentTime+t);o.stop(AC.currentTime+t+dur+.02);
+  }catch(e){}
+}
+$('#spin').onclick=()=>{
+  if(spinning)return;spinning=true;$('#spin').disabled=true;
+  beep(1,0,.01,.0001);say(pick(SPIN));
+  const target=Math.floor(Math.random()*N),jit=(Math.random()-.5)*SEG*.7;
+  let end=-Math.PI/2-(target+.5)*SEG-jit;
+  const min=rot+Math.PI*2*5;
+  while(end<min)end+=Math.PI*2;
+  const start=rot,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,dur=reduce?900:4200,t0=performance.now();
+  let last=idxAt(rot);
+  (function f(now){
+    const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,4);
+    rot=start+(end-start)*e;draw();
+    const k=idxAt(rot);if(k!==last){last=k;beep(1100,0,.03,.04)}
+    if(p<1)requestAnimationFrame(f);
+    else{spinning=false;$('#spin').disabled=false;rot%=Math.PI*2;
+      beep(660,0,.12,.06);beep(880,.12,.12,.06);beep(1320,.24,.25,.06);
+      setTimeout(()=>openCat(CATS[idxAt(rot)]),350)}
+  })(t0);
+};
+
+/* ---------- fiche d'épreuve ---------- */
+const decks={};
+function draw1(cat){
+  if(!cat.items)return null;
+  if(!decks[cat.id]||!decks[cat.id].length)decks[cat.id]=shuffle(cat.items);
+  return decks[cat.id].pop();
+}
+let cur=null;
+function openCat(cat){cur={cat,item:draw1(cat)};renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;say(intro(cat,cur.item,comps()[S.turn]))}
+function closeSheet(){$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
+
+function renderSheet(){
+  const {cat,item}=cur,c=comps(),me=S.turn,name=c[me];
+  const color=css(cat.col);
+  $('#sheet').style.setProperty('--c',color);
+  let body='',reveal='';
+  if(cat.type==='qa'){body=`<p class="q">${esc(item.q)}</p><p class="ans" hidden>${esc(item.a)}</p>`;reveal='Voir la réponse'}
+  if(cat.type==='qcm'){body=`<p class="q">${esc(item.q)}</p><ol class="qcm">${item.c.map((x,i)=>`<li data-i="${i}"><b>${'ABCD'[i]}</b>${esc(x)}</li>`).join('')}</ol>`;reveal='Voir la bonne réponse'}
+  if(cat.type==='motus'){body=`<p class="q">Un mot de ${item.length} lettres</p><div class="letters">${[...item].map((l,i)=>`<span class="${i?'':'first'}">${i?'·':l}</span>`).join('')}</div><p class="ans huge" hidden>${esc(item)}</p>`;reveal='Voir le mot'}
+  if(cat.type==='slam'){body=`<p class="q">${esc(item.q)}</p><div class="letters">${[...item.a].map((l,i)=>`<span class="${i?'':'first'}">${i?'·':l}</span>`).join('')}</div><p class="ans huge" hidden>${esc(item.a)}</p>`;reveal='Voir le mot'}
+  if(cat.type==='list'){body=`<ol class="steps">${item.map(x=>`<li>${esc(x.q)}<span class="ans" hidden>${esc(x.a)}</span></li>`).join('')}</ol>`;reveal='Voir les réponses'}
+  if(cat.type==='challenge'){body=`<p class="q">${esc(item)}</p>`}
+  if(cat.type==='secret'){body=`<p class="q">Adversaire, toi seul regardes.</p><p class="ans huge" hidden>${esc(item)}</p>`;reveal='Montrer la personne'}
+
+  let actions='';
+  if(cat.type==='bigdil'){
+    body=`<div class="boxes">${[0,1,2].map(i=>`<button type="button" class="box" data-box="${i}">${i+1}</button>`).join('')}</div><div id="bigres"></div>`;
+  }else{
+    const others=c.map((n,i)=>i===me?'':`<button type="button" data-give="${i}">+${cat.pts} ${esc(n)}</button>`).join('');
+    actions=`<div class="actions"><button type="button" class="win" data-act="win">Gagné · +${cat.pts} ${esc(name)}</button><button type="button" class="lose" data-act="lose">Raté</button></div>
+      <p class="others-l">Les points vont à quelqu'un d'autre ?</p><div class="others">${others}</div>
+      ${cat.items?'<button type="button" class="redraw" data-act="redraw">Autre question</button>':''}`;
+  }
+  $('#sheetIn').innerHTML=`
+    ${hostHTML(true)}
+    <div class="cathead"><h2 class="cat">${esc(cat.name)}</h2>${cat.pts?`<span class="pts">${cat.pts} pt${cat.pts>1?'s':''}</span>`:''}</div>
+    <p class="how">${esc(name)}, à toi ! ${esc(cat.how)}</p>
+    <div class="card">${body}</div>
+    ${reveal?`<button type="button" class="reveal" data-act="reveal">${reveal}</button><div style="height:14px"></div>`:''}
+    ${actions}`;
+  $('#sheet').scrollTop=0;
+}
+
+$('#sheet').addEventListener('click',e=>{
+  if(!cur)return;
+  const b=e.target.closest('button');if(!b||b.classList.contains('replay'))return;
+  const {cat}=cur,me=S.turn,c0=comps();
+  if(b.dataset.act==='reveal'){
+    $('#sheetIn').querySelectorAll('.ans').forEach(x=>x.hidden=false);
+    if(cat.type==='qcm')$('#sheetIn').querySelector(`.qcm li[data-i="${cur.item.a}"]`).classList.add('ok');
+    b.remove();say(answerLine(cat,cur.item));return;
+  }
+  if(b.dataset.act==='redraw'){cur.item=draw1(cat);renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}
+  if(b.dataset.act==='win'){award(me,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[me]} empoche ${ptsTxt(cat.pts)}, ça lui fait ${ptsTxt(S.scores[me])} au compteur.`);return}
+  if(b.dataset.act==='lose'){closeSheet();nextTurn(pick(LOSE));return}
+  if(b.dataset.give){const g=+b.dataset.give;award(g,cat.pts);closeSheet();nextTurn(`Les points s'envolent chez ${c0[g]}… comme un albatros, vé !`);return}
+  if(b.dataset.box!==undefined&&!cur.opened){
+    cur.opened=true;
+    const picks=shuffle(BIGDIL).slice(0,3),mine=+b.dataset.box,o=picks[mine];
+    $('#sheetIn').querySelectorAll('.box').forEach((x,i)=>{x.classList.add('open');if(i===mine)x.classList.add('mine');x.textContent=picks[i].t});
+    const c=comps();let html=`<p class="result">${esc(o.t)}</p>`;
+    if(o.d)award(me,o.d);
+    say(`Boîte numéro ${mine+1}… ${o.t} ${o.d>0?'Oh le bol de cocu !':o.d<0?'Ça pique, hein ? Le Bigdil pardonne pas.':o.steal?'Choisis ta victime, sale rapace !':'Que dalle. Même pas un porte-clés.'}`);
+    if(o.steal){html+=`<p class="others-l">À qui tu voles 2 points ?</p><div class="others">${c.map((n,i)=>i===me?'':`<button type="button" data-steal="${i}">${esc(n)}</button>`).join('')}</div>`}
+    else html+=`<div style="height:14px"></div><button type="button" class="big" data-act="${o.again?'again':'next'}">${o.again?'Tu rejoues !':'Tour suivant'}</button>`;
+    $('#bigres').innerHTML=html;return;
+  }
+  if(b.dataset.steal){const v=+b.dataset.steal;award(v,-2);award(me,2);closeSheet();nextTurn(`${c0[me]} dépouille ${c0[v]} de deux points. Pire qu'un héritage, oh fatche !`);return}
+  if(b.dataset.act==='next'){closeSheet();nextTurn('Fin du Bigdil, on range les boîtes… et les cadavres.');return}
+  if(b.dataset.act==='again'){closeSheet();say(`${c0[me]}, tu rejoues ! La chance, c'est comme les zombies : ça revient toujours.`);return}
+});
+$('#backdrop').onclick=()=>{};
+
+document.querySelectorAll('[data-host]').forEach(h=>h.outerHTML=hostHTML(false));
+renderVoiceBtn();
+renderNames();
+</script>
+</body>
+</html>
