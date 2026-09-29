@@ -120,6 +120,22 @@ details li{margin:4px 0}
 @keyframes talk{from{transform:rotate(0)}to{transform:rotate(16deg)}}
 @keyframes bob{to{transform:translateY(-3px) rotate(-2deg)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== NEO SHOW 2.0 ===== */
+:root{--stage:#050914;--stage2:#0b1730;--panel:#0b1325;--line:#244568;--ink:#eefaff;--muted:#8aa7bf;--dark:#02060d;--gold:#ffd166;--pink:#ff4fa3;--cyan:#38e8ff;--violet:#9c7cff;--orange:#ff914d;--teal:#38f2ad}
+body{background:radial-gradient(circle at 50% -10%,rgba(56,232,255,.18),transparent 34%),radial-gradient(circle at 110% 30%,rgba(156,124,255,.13),transparent 30%),linear-gradient(180deg,#050914,#07101e 58%,#03070e) fixed;letter-spacing:.01em}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;background-image:linear-gradient(rgba(56,232,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(56,232,255,.08) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,#000,transparent 75%)}
+.app{max-width:720px;padding-top:26px}#setup,#podium{position:relative;padding:clamp(18px,5vw,34px);border:1px solid rgba(56,232,255,.22);border-radius:28px;background:linear-gradient(145deg,rgba(11,19,37,.92),rgba(5,9,20,.78));box-shadow:0 30px 80px #0009,inset 0 1px rgba(255,255,255,.05);backdrop-filter:blur(18px)}
+#setup:before,#podium:before{content:"LIVE // NEO GAME SYSTEM";display:inline-flex;padding:6px 10px;border:1px solid rgba(56,232,255,.35);border-radius:999px;color:var(--cyan);font:900 .65rem var(--body);letter-spacing:.16em}
+h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6rem,11vw,4.8rem)}h1 span{color:var(--cyan);text-shadow:0 0 24px rgba(56,232,255,.45)}
+.mode button,.team,.field input,details{border:1px solid rgba(138,167,191,.22);background:rgba(7,16,30,.8);box-shadow:inset 0 1px rgba(255,255,255,.04)}
+.mode button[aria-pressed="true"]{border-color:var(--cyan);background:rgba(56,232,255,.12);color:var(--cyan);box-shadow:0 0 25px rgba(56,232,255,.12)}
+.big{background:linear-gradient(100deg,var(--cyan),#77ffd6);color:#031018;box-shadow:0 0 30px rgba(56,232,255,.2),0 5px 0 #147e91;border:1px solid #b7f8ff}
+#game{padding:14px;border:1px solid rgba(56,232,255,.16);border-radius:28px;background:linear-gradient(180deg,rgba(8,18,34,.72),rgba(3,8,16,.45));box-shadow:0 25px 70px #0008}
+.scores{position:sticky;top:8px;z-index:3;padding:8px;border-radius:18px;background:rgba(3,8,16,.78);backdrop-filter:blur(14px);border:1px solid rgba(56,232,255,.14)}
+.chip{background:linear-gradient(180deg,#0d1b31,#08111f);border:1px solid #1d3b59}.chip.now{border-color:var(--cyan);box-shadow:0 0 24px rgba(56,232,255,.2)}.chip .pt{color:var(--cyan);text-shadow:0 0 14px rgba(56,232,255,.45)}
+.wheelwrap{width:min(88vw,470px)}.wheelwrap:before,.wheelwrap:after{content:"";position:absolute;inset:-12px;border:1px solid rgba(56,232,255,.22);border-radius:50%;pointer-events:none;box-shadow:0 0 40px rgba(56,232,255,.12)}.wheelwrap:after{inset:-23px;border-style:dashed;opacity:.45;animation:orbit 18s linear infinite}@keyframes orbit{to{transform:rotate(360deg)}}.pointer{border-top-color:var(--cyan);filter:drop-shadow(0 0 10px var(--cyan))}.hub{background:radial-gradient(circle,#132942,#06101e);color:var(--cyan);box-shadow:0 0 0 5px #06101e,0 0 0 7px var(--cyan),0 0 28px rgba(56,232,255,.45)}
+.backdrop{background:rgba(0,4,12,.78);backdrop-filter:blur(9px)}.sheet{background:linear-gradient(180deg,#091729,#040b15);border-top:1px solid var(--c,var(--cyan));border-radius:30px 30px 0 0;box-shadow:0 -20px 80px #000c}.sheet-in{max-width:680px}.card{background:linear-gradient(145deg,#0d1b30,#07101d);border:1px solid #1c3852;border-radius:20px}
 </style>
 </head>
 <body>
@@ -280,6 +296,20 @@ const CATS=[
    [{q:"On le récolte dans des marais.",a:"Sel"},{q:"Il peut être vert, noir ou blanc selon la récolte.",a:"Poivre"},{q:"On en met dans l'eau des pâtes.",a:"Sel"},{q:"On le trouve sur toutes les tables de restaurant.",a:"Les deux"},{q:"Les vaches lèchent un gros bloc de celui-ci.",a:"Sel"}]
   ]}
  ,
+ {id:'blindtest',wheel:'Blind Test',name:'Blind Test — Music Arena',col:'--violet',pts:2,type:'qa',
+ how:"Manche musicale adulte. Un adversaire lit l'indice sans révéler la réponse. 15 secondes maximum ; artiste + titre demandés quand c'est indiqué.",
+ items:[
+ {q:"ANNÉES 2000 — Groupe français. Le clip montre un homme traversant la ville tandis que le refrain répète une question sur le vent. Donnez le groupe et le titre.",a:"Louise Attaque — J't'emmène au vent"},
+ {q:"ROCK — Groupe britannique. Tube de 1995 devenu hymne de soirées, avec un titre contenant le mot « Wonder ». Artiste + titre ?",a:"Oasis — Wonderwall"},
+ {q:"POP — Chanteuse américaine. Tube de 2008 : elle explique qu'elle aurait dû recevoir une bague. Artiste + titre ?",a:"Beyoncé — Single Ladies (Put a Ring on It)"},
+ {q:"FRANCE — Tube de 1996 mêlant raï et pop française, adressé à une femme dont le prénom donne son titre à la chanson. Artiste + titre ?",a:"Khaled — Aïcha"},
+ {q:"DISCO — Groupe suédois, Eurovision 1974, chanson dont le titre est aussi le nom d'une bataille napoléonienne. Artiste + titre ?",a:"ABBA — Waterloo"},
+ {q:"GÉNÉRIQUE — Série : six amis à New York, fontaine dans le générique. Quel morceau accompagne l'ouverture ?",a:"The Rembrandts — I'll Be There for You"},
+ {q:"80s — Groupe britannique mené par Freddie Mercury. Morceau de 1984 dont le titre demande littéralement à être libéré. Artiste + titre ?",a:"Queen — I Want to Break Free"},
+ {q:"RAP FR — Duo marseillais. Tube de 1997 construit autour de l'idée d'une mauvaise réputation et d'un refrain devenu culte. Groupe + titre ?",a:"IAM — Je danse le mia"},
+ {q:"DANCE — Duo américain. Hit de 2011 associé au shuffle et aux soirées. Le titre annonce que la fête est rock chaque jour. Artiste + titre ?",a:"LMFAO — Party Rock Anthem"},
+ {q:"PIÈGE — Quel artiste interprète « Seven Nation Army », souvent chanté dans les stades ?",a:"The White Stripes (c'est un groupe, pas un artiste solo)"}
+ ]},
  {id:'dex',wheel:'Défis & Duels',name:'Défis & Duels',col:'--cyan',pts:2,type:'secondary',
   how:"La roue des défis prend le relais : adresse, dextérité, logique, rapidité, duels et bataille générale."}
 ];
@@ -579,7 +609,7 @@ function openDexWheel(){
   cur=null;$('#sheet').hidden=false;$('#backdrop').hidden=false;
   $('#sheetIn').innerHTML=hostHTML(true)+
     '<div class="cathead"><h2 class="cat">🎯 Défis & Duels</h2><span class="pts">2 pts</span></div>'+
-    '<p class="how">Niveau adulte : précision, cerveau, pression et face-à-face. La seconde roue choisit le format.</p>'+
+    '<p class="how">Niveau adulte ++ : précision, cerveau, pression, bluff, coordination et face-à-face. Certaines missions comportent plusieurs phases.</p>'+
     '<div style="position:relative;max-width:390px;margin:18px auto"><canvas id="dexCanvas" style="display:block;width:100%;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 10px 22px #0008)"></canvas><div style="position:absolute;left:50%;top:-8px;transform:translateX(-50%);font-size:34px;z-index:2">▼</div></div>'+
     '<button type="button" class="big" id="dexSpin">TOURNER LA ROUE DES DÉFIS</button>';
   drawDex();
