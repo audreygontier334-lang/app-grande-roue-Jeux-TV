@@ -136,6 +136,9 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 .chip{background:linear-gradient(180deg,#0d1b31,#08111f);border:1px solid #1d3b59}.chip.now{border-color:var(--cyan);box-shadow:0 0 24px rgba(56,232,255,.2)}.chip .pt{color:var(--cyan);text-shadow:0 0 14px rgba(56,232,255,.45)}
 .wheelwrap{width:min(88vw,470px)}.wheelwrap:before,.wheelwrap:after{content:"";position:absolute;inset:-12px;border:1px solid rgba(56,232,255,.22);border-radius:50%;pointer-events:none;box-shadow:0 0 40px rgba(56,232,255,.12)}.wheelwrap:after{inset:-23px;border-style:dashed;opacity:.45;animation:orbit 18s linear infinite}@keyframes orbit{to{transform:rotate(360deg)}}.pointer{border-top-color:var(--cyan);filter:drop-shadow(0 0 10px var(--cyan))}.hub{background:radial-gradient(circle,#132942,#06101e);color:var(--cyan);box-shadow:0 0 0 5px #06101e,0 0 0 7px var(--cyan),0 0 28px rgba(56,232,255,.45)}
 .backdrop{background:rgba(0,4,12,.78);backdrop-filter:blur(9px)}.sheet{background:linear-gradient(180deg,#091729,#040b15);border-top:1px solid var(--c,var(--cyan));border-radius:30px 30px 0 0;box-shadow:0 -20px 80px #000c}.sheet-in{max-width:680px}.card{background:linear-gradient(145deg,#0d1b30,#07101d);border:1px solid #1c3852;border-radius:20px}
+
+/* INTERACTIVE ARENA */
+.arena{display:grid;gap:14px}.arena-hud{display:flex;justify-content:space-between;padding:10px 12px;border:1px solid #244568;border-radius:14px;background:#030912}.arena-tag{font-size:.68rem;letter-spacing:.16em;color:var(--cyan);font-weight:900}.arena-time{font-family:var(--display);font-size:1.4rem;color:var(--gold)}.arena-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.arena-pad{min-height:72px;border-radius:14px;border:1px solid #31506d;background:#10233b;font-weight:900}.arena-pad.on{background:var(--cyan);color:#031018;box-shadow:0 0 24px rgba(56,232,255,.45)}.arena-pad.bad{background:#ff5577}.arena-start{width:100%;padding:15px;border-radius:14px;background:linear-gradient(100deg,var(--cyan),var(--teal));color:#031018;font-weight:900}.arena-status{text-align:center;font-weight:900;color:var(--muted);min-height:1.5em}.logic-code{display:flex;justify-content:center;gap:8px}.logic-code input{width:64px;text-align:center;font-family:var(--display);font-size:1.7rem;padding:12px 4px;border-radius:12px;border:1px solid #31506d;background:#030912;color:var(--cyan)}
 </style>
 </head>
 <body>
@@ -296,6 +299,7 @@ const CATS=[
    [{q:"On le récolte dans des marais.",a:"Sel"},{q:"Il peut être vert, noir ou blanc selon la récolte.",a:"Poivre"},{q:"On en met dans l'eau des pâtes.",a:"Sel"},{q:"On le trouve sur toutes les tables de restaurant.",a:"Les deux"},{q:"Les vaches lèchent un gros bloc de celui-ci.",a:"Sel"}]
   ]}
  ,
+ {id:'arena',wheel:'Neo Arena',name:'NEO ARENA',col:'--teal',pts:3,type:'interactive',how:"Mini-jeu auto-arbitré : réflexes, mémoire ou code logique.",items:['reflex','memory','logic']},
  {id:'blindtest',wheel:'Blind Test',name:'Blind Test — Music Arena',col:'--violet',pts:2,type:'qa',
  how:"Manche musicale adulte. Un adversaire lit l'indice sans révéler la réponse. 15 secondes maximum ; artiste + titre demandés quand c'est indiqué.",
  items:[
@@ -639,6 +643,28 @@ function spinDex(){
     }})(t0);
 }
 
+
+/* ---------- NEO ARENA ---------- */
+let arenaTimer=null,arenaState=null;
+function arenaHTML(type){
+ if(type==='reflex')return '<div class="arena" data-arena="reflex"><div class="arena-hud"><span class="arena-tag">REFLEX MATRIX</span><span class="arena-time">5 HITS</span></div><p class="q">Touchez uniquement la cible CYAN. Une erreur = élimination.</p><div class="arena-grid">'+[0,1,2,3,4,5,6,7,8].map(i=>'<button type="button" class="arena-pad" data-pad="'+i+'">●</button>').join('')+'</div><button class="arena-start" type="button" data-arena-start>START</button><div class="arena-status">5 cibles à verrouiller.</div></div>';
+ if(type==='memory')return '<div class="arena" data-arena="memory"><div class="arena-hud"><span class="arena-tag">MEMORY CORE</span><span class="arena-time">1 / 5</span></div><p class="q">Mémorisez puis reproduisez la séquence. Un signal s’ajoute à chaque niveau.</p><div class="arena-grid">'+[0,1,2,3,4,5].map(i=>'<button type="button" class="arena-pad" data-pad="'+i+'">'+(i+1)+'</button>').join('')+'</div><button class="arena-start" type="button" data-arena-start>START</button><div class="arena-status">5 niveaux pour gagner.</div></div>';
+ return '<div class="arena" data-arena="logic"><div class="arena-hud"><span class="arena-tag">CODE BREAKER</span><span class="arena-time">∞</span></div><p class="q">Code à 3 chiffres : A = 2×C ; B = C+1 ; A+B+C = 9.</p><div class="logic-code"><input inputmode="numeric" maxlength="1" data-code><input inputmode="numeric" maxlength="1" data-code><input inputmode="numeric" maxlength="1" data-code></div><button class="arena-start" type="button" data-code-submit>VALIDER</button><div class="arena-status">Un seul essai.</div></div>';
+}
+function arenaDone(ok,msg){
+ const me=S.turn,n=comps()[me],p=cur.cat.pts,st=$('#sheetIn .arena-status');if(st)st.textContent=msg;
+ $('#sheetIn').querySelectorAll('button,input').forEach(x=>{if(!x.classList.contains('replay'))x.disabled=true});
+ beep(ok?1200:180,0,.18,.08);
+ setTimeout(()=>{if(ok)award(me,p);closeSheet();nextTurn(ok?('MISSION VALIDÉE ! '+n+' prend '+ptsTxt(p)+'.'):('MISSION ÉCHOUÉE pour '+n+'.'))},850);
+}
+function reflexNext(){
+ const pads=[...$('#sheetIn').querySelectorAll('.arena-pad')];pads.forEach(p=>p.classList.remove('on','bad'));arenaState.hot=Math.floor(Math.random()*pads.length);pads[arenaState.hot].classList.add('on');clearTimeout(arenaState.to);arenaState.to=setTimeout(()=>arenaDone(false,'Trop lent.'),1500);
+}
+function memoryFlash(){
+ const pads=[...$('#sheetIn').querySelectorAll('.arena-pad')];arenaState.lock=true;arenaState.input=[];let i=0;
+ function step(){pads.forEach(p=>p.classList.remove('on'));if(i>=arenaState.seq.length){arenaState.lock=false;return}const p=pads[arenaState.seq[i++]];p.classList.add('on');beep(500+i*80,0,.1,.03);setTimeout(()=>{p.classList.remove('on');setTimeout(step,160)},360)}setTimeout(step,300);
+}
+
 /* ---------- fiche d'épreuve ---------- */
 const decks={};
 function draw1(cat){
@@ -648,7 +674,7 @@ function draw1(cat){
 }
 let cur=null;
 function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}cur={cat,item:draw1(cat)};renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;say(intro(cat,cur.item,comps()[S.turn]))}
-function closeSheet(){$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
+function closeSheet(){if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
 
 function renderSheet(){
   const {cat,item}=cur,c=comps(),me=S.turn,name=c[me];
@@ -661,10 +687,11 @@ function renderSheet(){
   if(cat.type==='slam'){body=`<p class="q">${esc(item.q)}</p><div class="letters">${[...item.a].map((l,i)=>`<span class="${i?'':'first'}">${i?'·':l}</span>`).join('')}</div><p class="ans huge" hidden>${esc(item.a)}</p>`;reveal='Voir le mot'}
   if(cat.type==='list'){body=`<ol class="steps">${item.map(x=>`<li>${esc(x.q)}<span class="ans" hidden>${esc(x.a)}</span></li>`).join('')}</ol>`;reveal='Voir les réponses'}
   if(cat.type==='challenge'){body=`<p class="q">${esc(item)}</p>`}
+  if(cat.type==='interactive'){body=arenaHTML(item);reveal=''}
   if(cat.type==='secret'){body=`<p class="q">Adversaire, toi seul regardes.</p><p class="ans huge" hidden>${esc(item)}</p>`;reveal='Montrer la personne'}
 
   let actions='';
-  if(cat.type==='bigdil'){
+  if(cat.type==='interactive'){actions=''}else if(cat.type==='bigdil'){
     body=`<div class="boxes">${[0,1,2].map(i=>`<button type="button" class="box" data-box="${i}">${i+1}</button>`).join('')}</div><div id="bigres"></div>`;
   }else{
     const others=c.map((n,i)=>i===me?'':`<button type="button" data-give="${i}">+${cat.pts} ${esc(n)}</button>`).join('');
@@ -685,6 +712,12 @@ function renderSheet(){
 $('#sheet').addEventListener('click',e=>{
   if(!cur)return;
   const b=e.target.closest('button');if(!b||b.classList.contains('replay'))return;
+  const ar=$('#sheetIn [data-arena]');
+  if(ar&&b.dataset.arenaStart!==undefined){if(ar.dataset.arena==='reflex'){arenaState={type:'reflex',hits:0,hot:-1};b.remove();reflexNext()}else{arenaState={type:'memory',level:1,seq:[Math.floor(Math.random()*6)],input:[],lock:true};b.remove();memoryFlash()}return}
+  if(ar&&ar.dataset.arena==='reflex'&&b.dataset.pad!==undefined){if(!arenaState)return;clearTimeout(arenaState.to);if(+b.dataset.pad!==arenaState.hot){b.classList.add('bad');arenaDone(false,'Mauvaise cible.');return}arenaState.hits++;beep(850+arenaState.hits*70,0,.07,.04);$('#sheetIn .arena-time').textContent=(5-arenaState.hits)+' HITS';if(arenaState.hits>=5){arenaDone(true,'5/5 — réflexes validés.')}else setTimeout(reflexNext,180);return}
+  if(ar&&ar.dataset.arena==='memory'&&b.dataset.pad!==undefined){if(!arenaState||arenaState.lock)return;const v=+b.dataset.pad,pos=arenaState.input.length;if(v!==arenaState.seq[pos]){arenaDone(false,'Séquence rompue.');return}arenaState.input.push(v);beep(700+v*50,0,.07,.03);if(arenaState.input.length===arenaState.seq.length){if(arenaState.level>=5){arenaDone(true,'MEMORY CORE 5/5.');return}arenaState.level++;arenaState.seq.push(Math.floor(Math.random()*6));$('#sheetIn .arena-time').textContent=arenaState.level+' / 5';setTimeout(memoryFlash,450)}return}
+  if(ar&&b.dataset.codeSubmit!==undefined){const v=[...$('#sheetIn').querySelectorAll('[data-code]')].map(x=>x.value).join('');arenaDone(v==='423',v==='423'?'Code 423 accepté.':'Code refusé.');return}
+
   const {cat}=cur,me=S.turn,c0=comps();
   if(b.dataset.act==='reveal'){
     $('#sheetIn').querySelectorAll('.ans').forEach(x=>x.hidden=false);
