@@ -279,6 +279,9 @@ const CATS=[
    [{q:"On le jette sur les routes verglacées.",a:"Sel"},{q:"Il fait éternuer quand on le respire.",a:"Poivre"},{q:"On le met dans un moulin sur la table.",a:"Les deux"},{q:"Sa « fleur » est chère aux chefs.",a:"Sel"},{q:"Il accompagne le steak dans une sauce crémeuse célèbre.",a:"Poivre"}],
    [{q:"On le récolte dans des marais.",a:"Sel"},{q:"Il peut être vert, noir ou blanc selon la récolte.",a:"Poivre"},{q:"On en met dans l'eau des pâtes.",a:"Sel"},{q:"On le trouve sur toutes les tables de restaurant.",a:"Les deux"},{q:"Les vaches lèchent un gros bloc de celui-ci.",a:"Sel"}]
   ]}
+ ,
+ {id:'dex',wheel:'Défis & Duels',name:'Défis & Duels',col:'--cyan',pts:2,type:'secondary',
+  how:"La roue des défis prend le relais : adresse, dextérité, logique, rapidité, duels et bataille générale."}
 ];
 
 const BIGDIL=[
@@ -507,6 +510,105 @@ $('#spin').onclick=()=>{
   })(t0);
 };
 
+
+/* ---------- seconde roue : défis & duels adultes ---------- */
+const DEX=[
+ {name:'Adresse & précision',emoji:'🎯',items:[
+  "Placez une tasse à environ 2,5 m. Chaque adversaire a 5 lancers avec une pièce ou une boule de papier. 1 point par réussite ; départage en mort subite.",
+  "Posez 3 verres ou gobelets à distances différentes : 1, 2 et 3 points. Chacun lance 4 boulettes de papier. Le meilleur total gagne.",
+  "Faites glisser une pièce sur une table pour qu'elle s'arrête au plus près du bord sans tomber. Deux essais chacun ; la meilleure tentative gagne."
+ ]},
+ {name:'Dextérité',emoji:'🖐️',items:[
+  "Construisez en 45 secondes la tour la plus haute possible avec 10 objets identiques ou similaires trouvés dans la pièce. Elle doit tenir seule 3 secondes.",
+  "Avec votre main non dominante uniquement, empilez 6 pièces puis redescendez la pile une pièce à la fois. Premier sans faire tomber gagne.",
+  "Transportez 5 petits objets d'un récipient à un autre avec deux cuillères tenues comme des pinces. Aucun contact direct avec les doigts."
+ ]},
+ {name:'Rapidité',emoji:'⚡',items:[
+  "Un arbitre annonce 8 commandes parmi : tête, épaules, genoux, table, verre. Quand il dit « VERRE », soyez le premier à saisir l'objet central. Faux départ = défaite.",
+  "Trouvez et rapportez avant l'adversaire : quelque chose de métallique, quelque chose avec une date et quelque chose de plus petit qu'une pièce de 2 €. Un objet à la fois.",
+  "Écrivez en 30 secondes le plus de mots français de 5 lettres exactement. Doublons et noms propres interdits. Le plus grand total valide gagne."
+ ]},
+ {name:'Adresse + rapidité',emoji:'🎯⚡',items:[
+  "En 45 secondes, réussissez 3 lancers de boulettes de papier dans un récipient à 2 m. Après chaque réussite, reculez d'un pas. Premier à 3 gagne.",
+  "Faites tenir une pièce sur le dos de votre main, lancez-la et rattrapez-la de la même main. Il faut réussir 3 fois ; premier à finir gagne.",
+  "Créez une ligne de 6 objets espacés. Avec une seule main, retournez-les puis remettez-les en place. Une chute impose de replacer l'objet avant de continuer."
+ ]},
+ {name:'Logique',emoji:'🧠',items:[
+  "Énigme : vous avez 8 boules identiques, une seule est plus lourde. Avec une balance à plateaux et seulement 2 pesées, expliquez comment l'identifier. Le premier raisonnement complet gagne.",
+  "Suite : 1, 11, 21, 1211, 111221… Quel est le terme suivant ? Expliquez la logique, pas seulement la réponse.",
+  "Trois interrupteurs sont dans une pièce et une ampoule dans une autre. Vous ne pouvez entrer qu'une fois dans la pièce de l'ampoule. Trouvez comment identifier le bon interrupteur."
+ ]},
+ {name:'Logique express',emoji:'🧠⚡',items:[
+  "Vous avez 30 secondes : un père et son fils ont 66 ans à eux deux. L'âge du père est celui du fils avec les chiffres inversés. Donnez une possibilité valide avec au moins 18 ans d'écart.",
+  "En 25 secondes : trouvez un nombre de 3 chiffres dont les chiffres totalisent 12 et qui reste divisible par 3. Chacun écrit une réponse ; premier valide gagne.",
+  "En 30 secondes, trouvez 5 usages différents d'une cuillère qui ne consistent pas à manger. Le groupe doit accepter les 5."
+ ]},
+ {name:'Duel 1 VS 1',emoji:'⚔️',items:[
+  "Duel de catégories : choisissez une lettre au hasard. À tour de rôle, dites un métier commençant par cette lettre. 3 secondes maximum pour répondre ; répétition ou blocage = défaite.",
+  "Face-à-face mémoire : observez 12 objets pendant 20 secondes, cachez-les, puis écrivez-en un maximum en 30 secondes. Le meilleur score gagne.",
+  "Pierre-feuille-ciseaux tactique : premier à 3 victoires, mais personne n'a le droit de jouer deux fois de suite le même signe."
+ ]},
+ {name:'Duel de couple',emoji:'❤️⚔️',items:[
+  "Chaque partenaire écrit secrètement les réponses à 5 choix : mer/montagne, matin/soir, sucré/salé, film/série, ville/campagne. Le couple qui obtient le plus de réponses identiques gagne.",
+  "Dos à dos : au signal, chacun montre de 0 à 5 doigts pour répondre à « qui est le plus… ? ». Faites 5 questions improvisées. Le couple avec le plus de réponses concordantes gagne.",
+  "Un membre de chaque couple décrit un objet de la pièce sans dire son nom, sa couleur ni son usage principal. Son partenaire doit le trouver. Chronométrez : meilleur temps gagnant."
+ ]},
+ {name:'Couple coopératif',emoji:'❤️🤝',items:[
+  "Sans parler, les deux partenaires doivent classer 6 objets du plus petit au plus grand en ne déplaçant qu'un objet chacun à tour de rôle. 60 secondes.",
+  "Un partenaire ferme les yeux ; l'autre le guide uniquement à la voix pour empiler 4 objets stables. Aucun contact entre partenaires. Meilleur temps gagnant.",
+  "Écrivez séparément 5 choses que vous emporteriez pour un week-end surprise. Vous marquez une réussite si au moins 3 éléments correspondent."
+ ]},
+ {name:'Duo imposé',emoji:'🤝',items:[
+  "Deux joueurs tirés au sort tiennent chacun une extrémité d'une serviette et doivent transporter 3 objets légers d'un point A à B sans les toucher avec les mains.",
+  "Le duo doit compter de 1 à 20 en alternant librement, sans ordre prévu et sans parler en même temps. Si deux parlent ensemble, retour à 1. Réussite en moins de 60 secondes.",
+  "Un joueur mime une action complexe pendant que l'autre doit la reproduire en miroir. Le groupe choisit 5 mouvements ; 4 correctement reproduits = victoire."
+ ]},
+ {name:'Bataille générale',emoji:'🔥',items:[
+  "Tout le monde debout. À tour de rôle, citez une capitale européenne en moins de 3 secondes. Répétition, erreur ou silence = élimination. Dernier en jeu gagne.",
+  "Chaque joueur pose une pièce sur son coude, la lance et tente de la rattraper de la même main. À chaque tour, ajoutez une pièce. Dernier joueur encore capable de réussir gagne.",
+  "Catégorie éclair : « choses qu'on trouve dans une cuisine ». Tour de table sans répétition, 2 secondes par réponse. Dernier survivant gagne."
+ ]},
+ {name:'Défi mystère',emoji:'🎁',items:[
+  "Double contrainte : faites deviner un film connu en 30 secondes sans prononcer de nom propre et sans utiliser vos mains.",
+  "Mémoire sous pression : un joueur énonce une suite de 6 mots sans lien. Après 20 secondes de distraction imposée par le groupe, restituez-les dans l'ordre.",
+  "Le groupe choisit 5 objets. Vous avez 20 secondes pour les mémoriser, puis fermez les yeux : quelqu'un en retire un et déplace les autres. Identifiez l'objet disparu en 10 secondes."
+ ]}
+];
+let dexRot=0,dexSpin=false;
+function openDexWheel(){
+  cur=null;$('#sheet').hidden=false;$('#backdrop').hidden=false;
+  $('#sheetIn').innerHTML=hostHTML(true)+
+    '<div class="cathead"><h2 class="cat">🎯 Défis & Duels</h2><span class="pts">2 pts</span></div>'+
+    '<p class="how">Niveau adulte : précision, cerveau, pression et face-à-face. La seconde roue choisit le format.</p>'+
+    '<div style="position:relative;max-width:390px;margin:18px auto"><canvas id="dexCanvas" style="display:block;width:100%;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 10px 22px #0008)"></canvas><div style="position:absolute;left:50%;top:-8px;transform:translateX(-50%);font-size:34px;z-index:2">▼</div></div>'+
+    '<button type="button" class="big" id="dexSpin">TOURNER LA ROUE DES DÉFIS</button>';
+  drawDex();
+  $('#dexSpin').onclick=spinDex;
+  say("Oh fatche ! Deuxième roue ! Là on quitte les questions pépères : adresse, logique, duels et bataille générale. Fais tourner !");
+}
+function drawDex(){
+  const cv=document.querySelector('#dexCanvas');if(!cv)return;
+  const box=cv.getBoundingClientRect(),dpr=devicePixelRatio||1,w=box.width||340;
+  cv.width=w*dpr;cv.height=w*dpr;const x=cv.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);
+  const r=w/2,seg=Math.PI*2/DEX.length,cols=['#ffc53d','#ff4f8b','#3fd2f5','#a07bff','#ff8a3d','#2fd6a3'];
+  x.clearRect(0,0,w,w);x.save();x.translate(r,r);x.rotate(dexRot);
+  DEX.forEach((d,i)=>{x.beginPath();x.moveTo(0,0);x.arc(0,0,r-5,i*seg,(i+1)*seg);x.closePath();x.fillStyle=cols[i%cols.length];x.fill();x.strokeStyle='#140f3a';x.lineWidth=3;x.stroke();
+    x.save();x.rotate((i+.5)*seg);x.textAlign='right';x.textBaseline='middle';x.fillStyle='#140f3a';x.font='900 '+Math.max(12,r*.075)+'px Nunito';x.fillText(d.emoji+' '+d.name.slice(0,13),r*.88,0);x.restore();});
+  x.beginPath();x.arc(0,0,r*.19,0,Math.PI*2);x.fillStyle='#140f3a';x.fill();x.strokeStyle='#fff6e4';x.lineWidth=4;x.stroke();x.fillStyle='#fff6e4';x.textAlign='center';x.textBaseline='middle';x.font='900 '+Math.max(11,r*.07)+'px Nunito';x.fillText('ADULTE',0,0);x.restore();
+}
+function dexIndex(r){let a=(-Math.PI/2-r)%(Math.PI*2);if(a<0)a+=Math.PI*2;return Math.floor(a/(Math.PI*2/DEX.length))%DEX.length}
+function spinDex(){
+  if(dexSpin)return;dexSpin=true;const b=$('#dexSpin');b.disabled=true;say("Accrochez-vous, la roue des défis choisit votre supplice !");
+  const seg=Math.PI*2/DEX.length,target=Math.floor(Math.random()*DEX.length),jit=(Math.random()-.5)*seg*.65;
+  let end=-Math.PI/2-(target+.5)*seg-jit,min=dexRot+Math.PI*2*5;while(end<min)end+=Math.PI*2;
+  const start=dexRot,t0=performance.now(),dur=3600;
+  (function go(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,4);dexRot=start+(end-start)*e;drawDex();
+    if(p<1)requestAnimationFrame(go);else{dexSpin=false;dexRot%=Math.PI*2;const d=DEX[dexIndex(dexRot)],item=pick(d.items);
+      cur={cat:{id:'dex-'+d.name,name:d.emoji+' '+d.name,col:'--cyan',pts:2,type:'challenge',how:"Défi adulte. Le groupe arbitre franchement ; égalité = mort subite."},item};
+      renderSheet();say(d.name+" ! "+item);
+    }})(t0);
+}
+
 /* ---------- fiche d'épreuve ---------- */
 const decks={};
 function draw1(cat){
@@ -515,7 +617,7 @@ function draw1(cat){
   return decks[cat.id].pop();
 }
 let cur=null;
-function openCat(cat){cur={cat,item:draw1(cat)};renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;say(intro(cat,cur.item,comps()[S.turn]))}
+function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}cur={cat,item:draw1(cat)};renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;say(intro(cat,cur.item,comps()[S.turn]))}
 function closeSheet(){$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
 
 function renderSheet(){
