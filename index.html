@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Le Plateau de Cécile</title>
+<title>La Grande Roue</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;700;900&display=swap">
 <style>
 /* Plateau télé de nuit : bandeau des scores en haut, la roue au centre, la fiche d'épreuve glisse du bas */
@@ -139,13 +139,40 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 
 /* INTERACTIVE ARENA */
 .arena{display:grid;gap:14px}.arena-hud{display:flex;justify-content:space-between;padding:10px 12px;border:1px solid #244568;border-radius:14px;background:#030912}.arena-tag{font-size:.68rem;letter-spacing:.16em;color:var(--cyan);font-weight:900}.arena-time{font-family:var(--display);font-size:1.4rem;color:var(--gold)}.arena-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.arena-pad{min-height:72px;border-radius:14px;border:1px solid #31506d;background:#10233b;font-weight:900}.arena-pad.on{background:var(--cyan);color:#031018;box-shadow:0 0 24px rgba(56,232,255,.45)}.arena-pad.bad{background:#ff5577}.arena-start{width:100%;padding:15px;border-radius:14px;background:linear-gradient(100deg,var(--cyan),var(--teal));color:#031018;font-weight:900}.arena-status{text-align:center;font-weight:900;color:var(--muted);min-height:1.5em}.logic-code{display:flex;justify-content:center;gap:8px}.logic-code input{width:64px;text-align:center;font-family:var(--display);font-size:1.7rem;padding:12px 4px;border-radius:12px;border:1px solid #31506d;background:#030912;color:var(--cyan)}
+
+/* ===== LA GRANDE ROUE : scores toujours visibles, chrono, durée ===== */
+.scores{padding-top:14px}
+.chip{position:relative;padding:12px 6px 6px}
+.chip .nm{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.15;min-height:2.3em;font-size:.8rem;overflow-wrap:anywhere}
+.chip .rk{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:.62rem;font-weight:900;letter-spacing:.08em;padding:2px 7px;border-radius:999px;background:#0b1325;border:1px solid #244568;color:var(--muted);white-space:nowrap}
+.chip.lead .rk{background:var(--gold);color:#140f3a;border-color:var(--gold)}
+.chip .fly{position:absolute;left:50%;top:38%;transform:translateX(-50%);font-family:var(--display);font-size:1.4rem;color:var(--gold);pointer-events:none;animation:fly 1.2s ease-out forwards}
+.chip .fly.neg{color:#ff5577}
+@keyframes fly{to{transform:translate(-50%,-40px);opacity:0}}
+.turn .round{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);font-weight:900;margin-bottom:2px}
+.mini-scores{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.mini-scores span{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:10px;background:#030912;border:1px solid #1c3852;font-weight:900;font-size:.8rem}
+.mini-scores span.now{border-color:var(--cyan);box-shadow:0 0 12px rgba(56,232,255,.18)}
+.mini-scores i{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.mini-scores b{color:var(--cyan);font-family:var(--display);font-weight:400;font-variant-numeric:tabular-nums}
+.timerbox{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.timerbox button{flex:none;padding:10px 12px;border-radius:12px;border:1px solid #244568;background:#030912;font-weight:900;color:var(--cyan)}
+.timerbox .tbar{flex:1;min-width:0;height:10px;border-radius:99px;background:#030912;overflow:hidden;border:1px solid #1c3852}
+.timerbox .tbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width 1s linear}
+.timerbox .tnum{flex:none;font-family:var(--display);font-size:1.9rem;color:var(--gold);min-width:2.2ch;text-align:right;font-variant-numeric:tabular-nums}
+.timerbox .tnum.low{color:#ff5577}
+.rounds{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.rounds button{padding:12px 4px;border-radius:12px;border:1px solid rgba(138,167,191,.22);background:rgba(7,16,30,.8);font-weight:900;line-height:1.15}
+.rounds button small{display:block;font-weight:700;color:var(--muted);font-size:.72rem}
+.rounds button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(56,232,255,.12)}
+.bubble .bubbleText{display:block;max-height:7.4em;overflow:auto}
 </style>
 </head>
 <body>
 <div class="app">
   <section id="setup">
-    <h1>Le Plateau<br><span>de Cécile</span></h1>
-    <p class="lead">12 jeux télé sur une roue. Un seul téléphone qu'on se passe : celui qui ne joue pas lit la question.</p>
+    <h1>La Grande<br><span>Roue</span></h1>
+    <p class="lead">15 jeux télé sur une roue, présentés par Albatar l'avatar. Un seul téléphone qu'on se passe : celui qui ne joue pas lit la question.</p>
 
     <p class="label">Formule</p>
     <div class="mode">
@@ -155,6 +182,14 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 
     <p class="label">Les candidats</p>
     <div class="names" id="names"></div>
+
+    <p class="label">Durée de la partie</p>
+    <div class="rounds" id="rounds">
+      <button type="button" data-max="12">Courte<small>12 tours</small></button>
+      <button type="button" data-max="20">Normale<small>20 tours</small></button>
+      <button type="button" data-max="32">Longue<small>32 tours</small></button>
+      <button type="button" data-max="0">Sans fin<small>on arrête quand on veut</small></button>
+    </div>
 
     <button type="button" class="big" id="start">C'est parti !</button>
     <button type="button" class="ghostbtn" id="resume" hidden>Reprendre la partie en cours</button>
@@ -167,19 +202,20 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
         <li>Il touche « Gagné » ou « Raté ». Les points s'ajoutent tout seuls.</li>
         <li>En couples, les deux partenaires jouent ensemble (sauf aux Z'amours, évidemment).</li>
         <li>Les petits + et − sous chaque score servent à corriger ou à donner un bonus.</li>
+        <li>Le bouton ⏱ lance le chrono du jeu. La partie s'arrête toute seule après le nombre de tours choisi.</li>
       </ul>
     </details>
   </section>
 
   <section id="game" hidden>
     <div class="scores" id="scores"></div>
-    <p class="turn">Au tour de <strong id="turnName"></strong></p>
-    <div class="host" data-host></div>
+    <p class="turn"><span class="round" id="roundLbl"></span>Au tour de <strong id="turnName"></strong></p>
     <div class="wheelwrap">
       <div class="pointer"></div>
       <canvas id="wheel" aria-label="Roue des jeux"></canvas>
       <button type="button" class="hub" id="spin">TOURNE</button>
     </div>
+    <div class="host" data-host></div>
     <div class="gamebar">
       <button type="button" id="voice">Voix off : oui</button>
       <button type="button" id="skip">Passer son tour</button>
@@ -191,7 +227,7 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
     <h1>Et le gagnant<br><span>est…</span></h1>
     <div class="host" data-host></div>
     <ol class="rank" id="rank"></ol>
-    <button type="button" class="big" id="continue">Encore une manche</button>
+    <button type="button" class="big" id="continue">Encore un tour chacun</button>
     <button type="button" class="ghostbtn" id="restart">Nouvelle partie (scores à zéro)</button>
   </section>
 </div>
@@ -248,7 +284,7 @@ const CATS=[
   ]},
  {id:'noplp',wheel:'Paroles',name:"N'oubliez pas les paroles",col:'--violet',pts:3,type:'challenge',
   how:"Les autres choisissent une chanson sur un téléphone et coupent le son sans prévenir. Tu continues à chanter, sans te tromper d'un mot.",
-  items:["Thème : un tube des années 2000","Thème : un générique de dessin animé","Thème : une chanson de la Star Academy","Thème : un tube de l'été","Thème : une chanson de Disney","Thème : un slow qui fait pleurer","Thème : une chanson qui rappelle un souvenir avec Cécile","Thème : une chanson de variété française des années 80"]},
+  items:["Thème : un tube des années 2000","Thème : un générique de dessin animé","Thème : une chanson de la Star Academy","Thème : un tube de l'été","Thème : une chanson de Disney","Thème : un slow qui fait pleurer","Thème : une chanson de variété française des années 80"]},
  {id:'boyard',wheel:'Fort Boyard',name:'Fort Boyard',col:'--teal',pts:2,type:'qa',
   how:"L'énigme du Père Fouras ou une épreuve. Pour une énigme, tu as 30 secondes.",
   items:[
@@ -299,18 +335,18 @@ const CATS=[
    [{q:"On le récolte dans des marais.",a:"Sel"},{q:"Il peut être vert, noir ou blanc selon la récolte.",a:"Poivre"},{q:"On en met dans l'eau des pâtes.",a:"Sel"},{q:"On le trouve sur toutes les tables de restaurant.",a:"Les deux"},{q:"Les vaches lèchent un gros bloc de celui-ci.",a:"Sel"}]
   ]}
  ,
- {id:'arena',wheel:'Neo Arena',name:'NEO ARENA',col:'--teal',pts:3,type:'interactive',how:"Mini-jeu auto-arbitré : réflexes, mémoire ou code logique.",items:['reflex','memory','logic']},
+ {id:'arena',wheel:'Neo Arena',name:'NEO ARENA',col:'--pink',pts:3,type:'interactive',how:"Mini-jeu auto-arbitré : réflexes, mémoire ou code logique.",items:['reflex','memory','logic']},
  {id:'blindtest',wheel:'Blind Test',name:'Blind Test — Music Arena',col:'--violet',pts:2,type:'qa',
- how:"Manche musicale adulte. Un adversaire lit l'indice sans révéler la réponse. 15 secondes maximum ; artiste + titre demandés quand c'est indiqué.",
+ how:"Un adversaire lit l'indice sans révéler la réponse. 15 secondes, artiste + titre. Une fois la réponse donnée, lancez le morceau sur un téléphone et tout le monde chante !",
  items:[
- {q:"ANNÉES 2000 — Groupe français. Le clip montre un homme traversant la ville tandis que le refrain répète une question sur le vent. Donnez le groupe et le titre.",a:"Louise Attaque — J't'emmène au vent"},
+ {q:"ANNÉES 90 — Groupe français avec un violon endiablé. Tube de 1997 où le chanteur propose d'emmener quelqu'un… au vent. Groupe + titre ?",a:"Louise Attaque — J't'emmène au vent"},
  {q:"ROCK — Groupe britannique. Tube de 1995 devenu hymne de soirées, avec un titre contenant le mot « Wonder ». Artiste + titre ?",a:"Oasis — Wonderwall"},
  {q:"POP — Chanteuse américaine. Tube de 2008 : elle explique qu'elle aurait dû recevoir une bague. Artiste + titre ?",a:"Beyoncé — Single Ladies (Put a Ring on It)"},
  {q:"FRANCE — Tube de 1996 mêlant raï et pop française, adressé à une femme dont le prénom donne son titre à la chanson. Artiste + titre ?",a:"Khaled — Aïcha"},
  {q:"DISCO — Groupe suédois, Eurovision 1974, chanson dont le titre est aussi le nom d'une bataille napoléonienne. Artiste + titre ?",a:"ABBA — Waterloo"},
  {q:"GÉNÉRIQUE — Série : six amis à New York, fontaine dans le générique. Quel morceau accompagne l'ouverture ?",a:"The Rembrandts — I'll Be There for You"},
  {q:"80s — Groupe britannique mené par Freddie Mercury. Morceau de 1984 dont le titre demande littéralement à être libéré. Artiste + titre ?",a:"Queen — I Want to Break Free"},
- {q:"RAP FR — Duo marseillais. Tube de 1997 construit autour de l'idée d'une mauvaise réputation et d'un refrain devenu culte. Groupe + titre ?",a:"IAM — Je danse le mia"},
+ {q:"RAP FR — Groupe marseillais. Tube de 1994 qui raconte les boîtes de nuit des années 80, avec une danse qui donne son nom au titre. Groupe + titre ?",a:"IAM — Je danse le Mia"},
  {q:"DANCE — Duo américain. Hit de 2011 associé au shuffle et aux soirées. Le titre annonce que la fête est rock chaque jour. Artiste + titre ?",a:"LMFAO — Party Rock Anthem"},
  {q:"PIÈGE — Quel artiste interprète « Seven Nation Army », souvent chanté dans les stades ?",a:"The White Stripes (c'est un groupe, pas un artiste solo)"}
  ]},
@@ -328,9 +364,20 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
-let S={mode:'solo',players:['Cécile','','',''],scores:[0,0,0,0],turn:0,started:false};
+let S={mode:'solo',players:['Cécile','','',''],scores:[0,0,0,0],turn:0,started:false,max:20,played:0};
 try{const s=JSON.parse(localStorage.getItem('plateau-cecile')||'null');if(s&&s.players)S=Object.assign(S,s)}catch(e){}
 const save=()=>{try{localStorage.setItem('plateau-cecile',JSON.stringify(S))}catch(e){}};
+const hasCecile=()=>S.players.some(n=>/^\s*c[ée]cile\s*$/i.test(n||''));
+/* cartes spéciales, ajoutées seulement si une Cécile joue */
+const CECILE={
+ motus:["CECILE"],
+ slam:[{q:"Prénom de la reine de la soirée. Interdit de la regarder pour tricher !",a:"CECILE"}],
+ zamours:["Quelle chanson ferait lever Cécile de sa chaise ?","Un seul mot pour décrire Cécile ?","Quel est le jeu préféré de Cécile ?"],
+ noplp:["Thème : une chanson qui rappelle un souvenir avec Cécile","Thème : la chanson préférée de Cécile (elle a le droit de choisir !)"],
+ boyard:[{q:"Épreuve du mot interdit : fais deviner « Cécile » à ton voisin sans dire son prénom, « anniversaire » ni « fête ».",a:"Les adversaires chronomètrent : 40 secondes maximum"}]
+};
+const TIMES={qpuc:10,motus:60,qvgdm:30,prix:30,noplp:45,boyard:30,marche:45,zamours:45,quiest:120,slam:10,sel:20,blindtest:15,dex:45};
+const TIMEUP=["Temps écoulé ! Pose ce cerveau, il fume.","Fini ! Le chrono est mort… comme tes espoirs.","Bip bip bip ! C'est terminé, gros.","Stop ! Même la Bonne Mère elle peut plus rien pour toi."];
 
 function comps(){
   const p=S.players.map((n,i)=>(n||'').trim()||('Joueur '+(i+1)));
@@ -442,13 +489,15 @@ function renderNames(){
   $('#m-solo').setAttribute('aria-pressed',S.mode==='solo');
   $('#m-couple').setAttribute('aria-pressed',S.mode==='couple');
   $('#resume').hidden=!S.started;
+  document.querySelectorAll('#rounds button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.max===(S.max||0)));
 }
+$('#rounds').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.max=+b.dataset.max;save();renderNames()});
 $('#names').addEventListener('input',e=>{if(e.target.dataset.i){S.players[+e.target.dataset.i]=e.target.value;save()}});
 $('#m-solo').onclick=()=>{S.mode='solo';renderNames()};
 $('#m-couple').onclick=()=>{S.mode='couple';renderNames()};
-$('#start').onclick=()=>{S.scores=comps().map(()=>0);S.turn=0;S.started=true;save();show('game');
+$('#start').onclick=()=>{S.scores=comps().map(()=>0);S.turn=0;S.played=0;S.started=true;save();show('game');
   const c=comps();
-  say(`Wesh la zone ! C'est Albatar l'avatar, en direct des quartiers nord, le seul présentateur qui plane plus haut que vos notes au bac. Bienvenue sur le Plateau de Cécile, gros ! Ce soir, ${S.mode==='solo'?'quatre candidats':'deux couples'} vont se mettre sur la tronche sur douze jeux cultes. Le perdant, on le jette dans le Vieux-Port… non j'déconne. Quoique. ${c[0]}, t'as l'honneur : fais péter la roue !`)};
+  say(`Wesh la zone ! C'est Albatar l'avatar, en direct des quartiers nord, le seul présentateur qui plane plus haut que vos notes au bac. Bienvenue sur LA GRANDE ROUE, gros ! Ce soir, ${S.mode==='solo'?'quatre candidats':'deux couples'} vont se mettre sur la tronche sur quinze jeux cultes. Le perdant, on le jette dans le Vieux-Port… non j'déconne. Quoique. ${c[0]}, t'as l'honneur : fais péter la roue !`)};
 $('#resume').onclick=()=>{if(S.scores.length!==comps().length)S.scores=comps().map(()=>0);show('game');say(`Oh fatche, on y retourne ! ${TURN(comps()[S.turn])}`)};
 
 function show(id){
@@ -458,27 +507,40 @@ function show(id){
 }
 
 /* ---------- scores ---------- */
-function renderScores(popI){
-  const c=comps();
+function ranks(){const sc=comps().map((_,i)=>S.scores[i]||0);return sc.map(v=>1+sc.filter(x=>x>v).length)}
+const rkTxt=r=>r===1?'1er':r+'e';
+function miniScores(){
+  const c=comps(),rk=ranks();
+  return `<div class="mini-scores" aria-label="Scores">${c.map((n,i)=>`<span class="${i===S.turn?'now':''}"><i>${rk[i]===1&&(S.scores[i]||0)>0?'👑 ':''}${esc(n)}</i><b>${S.scores[i]||0}</b></span>`).join('')}</div>`;
+}
+function renderScores(popI,delta){
+  const c=comps(),rk=ranks(),top=Math.max(...c.map((_,i)=>S.scores[i]||0));
   $('#scores').style.setProperty('--n',c.length);
-  $('#scores').innerHTML=c.map((n,i)=>`<div class="chip${i===S.turn?' now':''}${i===popI?' pop':''}"><div class="nm">${esc(n)}</div><div class="pt">${S.scores[i]||0}</div><div class="adj"><button type="button" data-adj="${i}" data-d="-1" aria-label="Retirer un point à ${esc(n)}">−</button><button type="button" data-adj="${i}" data-d="1" aria-label="Ajouter un point à ${esc(n)}">+</button></div></div>`).join('');
+  $('#scores').innerHTML=c.map((n,i)=>`<div class="chip${i===S.turn?' now':''}${i===popI?' pop':''}${rk[i]===1&&top>0?' lead':''}"><span class="rk">${rk[i]===1&&top>0?'👑 ':''}${rkTxt(rk[i])}</span><div class="nm">${esc(n)}</div><div class="pt">${S.scores[i]||0}</div><div class="adj"><button type="button" data-adj="${i}" data-d="-1" aria-label="Retirer un point à ${esc(n)}">−</button><button type="button" data-adj="${i}" data-d="1" aria-label="Ajouter un point à ${esc(n)}">+</button></div>${i===popI&&delta?`<span class="fly${delta<0?' neg':''}">${delta>0?'+':''}${delta}</span>`:''}</div>`).join('');
   $('#turnName').textContent=c[S.turn];
+  $('#roundLbl').textContent=S.max?`Tour ${Math.min(S.played+1,S.max)} / ${S.max}`:`Tour ${S.played+1}`;
+  document.querySelectorAll('.mini-scores').forEach(el=>el.outerHTML=miniScores());
 }
 $('#scores').addEventListener('click',e=>{const b=e.target.closest('[data-adj]');if(b)award(+b.dataset.adj,+b.dataset.d)});
-function award(i,n){S.scores[i]=(S.scores[i]||0)+n;save();renderScores(i)}
-function nextTurn(prefix){S.turn=(S.turn+1)%comps().length;save();renderScores();if(prefix!==undefined)say(prefix+' '+TURN(comps()[S.turn]))}
+function award(i,n){S.scores[i]=(S.scores[i]||0)+n;save();renderScores(i,n)}
+function nextTurn(prefix){
+  S.played=(S.played||0)+1;S.turn=(S.turn+1)%comps().length;save();renderScores();
+  if(S.max&&S.played>=S.max){endGame((prefix||'')+" Et c'était le dernier tour !");return}
+  if(prefix!==undefined)say(prefix+' '+TURN(comps()[S.turn]));
+}
 $('#skip').onclick=()=>nextTurn(`${comps()[S.turn]} se dégonfle et passe son tour. C'est la hess, frérot.`);
 $('#voice').onclick=()=>{voiceOn=!voiceOn;try{localStorage.setItem('plateau-voix',voiceOn?'1':'0')}catch(e){}renderVoiceBtn();if(!voiceOn&&hasTTS){try{speechSynthesis.cancel()}catch(e){}talking(false)}else say("Albatar il est de retour, gros ! Vous pensiez vous débarrasser de moi ? Même la mort elle a pas voulu de moi.")};
-$('#end').onclick=()=>{
+function endGame(pre){
   const c=comps().map((n,i)=>({n,s:S.scores[i]||0})).sort((a,b)=>b.s-a.s);
-  $('#rank').innerHTML=c.map((x,i)=>`<li><span class="pos">${i+1}</span><span class="nm">${esc(x.n)}</span><span class="sc">${ptsTxt(x.s)}</span></li>`).join('');
+  $('#rank').innerHTML=c.map((x,i)=>`<li><span class="pos">${1+c.filter(y=>y.s>x.s).length}</span><span class="nm">${esc(x.n)}</span><span class="sc">${ptsTxt(x.s)}</span></li>`).join('');
   show('podium');
   const tie=c.length>1&&c[0].s===c[1].s;
-  const bday=" Et surtout, joyeux anniv' Cécile, la reine ! 37 piges… t'es presque à mi-chemin du cimetière, alors profite, et souffle tes bougies avant qu'elles deviennent des cierges !";
-  say((tie?`Oh la zone, et les fantômes au fond… égalité en tête à ${ptsTxt(c[0].s)} ! Faut un duel à mort… ou juste une manche de plus.`
-         :`Oh la zone, et les fantômes au fond… le grand gagnant de ce soir, c'est ${c[0].n}, avec ${ptsTxt(c[0].s)} ! Les autres, allez creuser vos tombes, fadas.`)+bday);
-};
-$('#continue').onclick=()=>{show('game');say(`Encore ? Vous êtes pires que des zombies, vé ! ${TURN(comps()[S.turn])}`)};
+  const bday=hasCecile()?" Et surtout, joyeux anniv' Cécile, la reine ! Souffle tes bougies avant qu'elles deviennent des cierges !":"";
+  say((pre?pre+' ':'')+(tie?`Oh la zone, et les fantômes au fond… égalité en tête à ${ptsTxt(c[0].s)} ! Faut un duel à mort… ou juste un tour de plus.`
+         :`Oh la zone, et les fantômes au fond… le grand gagnant de LA GRANDE ROUE, c'est ${c[0].n}, avec ${ptsTxt(c[0].s)} ! Les autres, allez creuser vos tombes, fadas.`)+bday);
+}
+$('#end').onclick=()=>endGame();
+$('#continue').onclick=()=>{if(S.max)S.max=Math.max(S.max,S.played)+comps().length;save();show('game');say(`Encore ? Vous êtes pires que des zombies, vé ! ${TURN(comps()[S.turn])}`)};
 $('#restart').onclick=()=>{S.started=false;save();renderNames();show('setup')};
 
 /* ---------- roue ---------- */
@@ -492,6 +554,7 @@ function sizeWheel(){
   ctx.setTransform(dpr,0,0,dpr,0,0);R=r.width/2;draw();
 }
 function draw(){
+  if(!R)return;
   const w=R*2;ctx.clearRect(0,0,w,w);
   ctx.save();ctx.translate(R,R);ctx.rotate(rot);
   const dark=css('--dark');
@@ -574,7 +637,7 @@ const DEX=[
  ]},
  {name:'Logique express',emoji:'🧠⚡',items:[
   "Vous avez 30 secondes : un père et son fils ont 66 ans à eux deux. L'âge du père est celui du fils avec les chiffres inversés. Donnez une possibilité valide avec au moins 18 ans d'écart.",
-  "En 25 secondes : trouvez un nombre de 3 chiffres dont les chiffres totalisent 12 et qui reste divisible par 3. Chacun écrit une réponse ; premier valide gagne.",
+  "En 25 secondes : trouvez un nombre de 3 chiffres dont les chiffres totalisent 12 et qui est divisible par 4. Chacun écrit une réponse ; premier valide gagne.",
   "En 30 secondes, trouvez 5 usages différents d'une cuillère qui ne consistent pas à manger. Le groupe doit accepter les 5."
  ]},
  {name:'Duel 1 VS 1',emoji:'⚔️',items:[
@@ -611,7 +674,7 @@ const DEX=[
 let dexRot=0,dexSpin=false;
 function openDexWheel(){
   cur=null;$('#sheet').hidden=false;$('#backdrop').hidden=false;
-  $('#sheetIn').innerHTML=hostHTML(true)+
+  $('#sheetIn').innerHTML=miniScores()+hostHTML(true)+
     '<div class="cathead"><h2 class="cat">🎯 Défis & Duels</h2><span class="pts">2 pts</span></div>'+
     '<p class="how">Niveau adulte ++ : précision, cerveau, pression, bluff, coordination et face-à-face. Certaines missions comportent plusieurs phases.</p>'+
     '<div style="position:relative;max-width:390px;margin:18px auto"><canvas id="dexCanvas" style="display:block;width:100%;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 10px 22px #0008)"></canvas><div style="position:absolute;left:50%;top:-8px;transform:translateX(-50%);font-size:34px;z-index:2">▼</div></div>'+
@@ -669,15 +732,31 @@ function memoryFlash(){
 const decks={};
 function draw1(cat){
   if(!cat.items)return null;
-  if(!decks[cat.id]||!decks[cat.id].length)decks[cat.id]=shuffle(cat.items);
+  if(!decks[cat.id]||!decks[cat.id].length)decks[cat.id]=shuffle(cat.items.concat(hasCecile()&&CECILE[cat.id]||[]));
   return decks[cat.id].pop();
 }
 let cur=null;
 function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}cur={cat,item:draw1(cat)};renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;say(intro(cat,cur.item,comps()[S.turn]))}
-function closeSheet(){if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
+let tm=null;
+function stopTimer(){if(tm){clearInterval(tm.id);tm=null}}
+function startTimer(){
+  const box=$('#sheetIn .timerbox');if(!box)return;
+  if(tm){stopTimer();box.querySelector('button').textContent='⏱ Relancer';return}
+  const total=+box.dataset.time;let left=total;
+  const num=box.querySelector('.tnum'),bar=box.querySelector('.tbar i');
+  box.querySelector('button').textContent='⏸ Stop';beep(880,0,.1,.05);
+  tm={id:setInterval(()=>{
+    left--;num.textContent=left;bar.style.width=(left/total*100)+'%';num.classList.toggle('low',left<=3);
+    if(left>0&&left<=3)beep(660,0,.08,.05);
+    if(left<=0){stopTimer();beep(220,0,.6,.08);box.querySelector('button').textContent='⏱ Relancer';say(pick(TIMEUP))}
+  },1000)};
+}
+function closeSheet(){stopTimer();if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
 
 function renderSheet(){
+  stopTimer();
   const {cat,item}=cur,c=comps(),me=S.turn,name=c[me];
+  const tsec=TIMES[cat.id]||(String(cat.id).startsWith('dex')?TIMES.dex:0);
   const color=css(cat.col);
   $('#sheet').style.setProperty('--c',color);
   let body='',reveal='';
@@ -700,9 +779,11 @@ function renderSheet(){
       ${cat.items?'<button type="button" class="redraw" data-act="redraw">Autre question</button>':''}`;
   }
   $('#sheetIn').innerHTML=`
+    ${miniScores()}
     ${hostHTML(true)}
     <div class="cathead"><h2 class="cat">${esc(cat.name)}</h2>${cat.pts?`<span class="pts">${cat.pts} pt${cat.pts>1?'s':''}</span>`:''}</div>
     <p class="how">${esc(name)}, à toi ! ${esc(cat.how)}</p>
+    ${tsec&&cat.type!=='interactive'&&cat.type!=='bigdil'?`<div class="timerbox" data-time="${tsec}"><button type="button" data-act="timer">⏱ Chrono ${tsec} s</button><div class="tbar"><i></i></div><span class="tnum">${tsec}</span></div>`:''}
     <div class="card">${body}</div>
     ${reveal?`<button type="button" class="reveal" data-act="reveal">${reveal}</button><div style="height:14px"></div>`:''}
     ${actions}`;
@@ -716,9 +797,10 @@ $('#sheet').addEventListener('click',e=>{
   if(ar&&b.dataset.arenaStart!==undefined){if(ar.dataset.arena==='reflex'){arenaState={type:'reflex',hits:0,hot:-1};b.remove();reflexNext()}else{arenaState={type:'memory',level:1,seq:[Math.floor(Math.random()*6)],input:[],lock:true};b.remove();memoryFlash()}return}
   if(ar&&ar.dataset.arena==='reflex'&&b.dataset.pad!==undefined){if(!arenaState)return;clearTimeout(arenaState.to);if(+b.dataset.pad!==arenaState.hot){b.classList.add('bad');arenaDone(false,'Mauvaise cible.');return}arenaState.hits++;beep(850+arenaState.hits*70,0,.07,.04);$('#sheetIn .arena-time').textContent=(5-arenaState.hits)+' HITS';if(arenaState.hits>=5){arenaDone(true,'5/5 — réflexes validés.')}else setTimeout(reflexNext,180);return}
   if(ar&&ar.dataset.arena==='memory'&&b.dataset.pad!==undefined){if(!arenaState||arenaState.lock)return;const v=+b.dataset.pad,pos=arenaState.input.length;if(v!==arenaState.seq[pos]){arenaDone(false,'Séquence rompue.');return}arenaState.input.push(v);beep(700+v*50,0,.07,.03);if(arenaState.input.length===arenaState.seq.length){if(arenaState.level>=5){arenaDone(true,'MEMORY CORE 5/5.');return}arenaState.level++;arenaState.seq.push(Math.floor(Math.random()*6));$('#sheetIn .arena-time').textContent=arenaState.level+' / 5';setTimeout(memoryFlash,450)}return}
-  if(ar&&b.dataset.codeSubmit!==undefined){const v=[...$('#sheetIn').querySelectorAll('[data-code]')].map(x=>x.value).join('');arenaDone(v==='423',v==='423'?'Code 423 accepté.':'Code refusé.');return}
+  if(ar&&b.dataset.codeSubmit!==undefined){const v=[...$('#sheetIn').querySelectorAll('[data-code]')].map(x=>x.value).join('');arenaDone(v==='432',v==='432'?'Code 432 accepté.':'Code refusé. La bonne réponse était 432.');return}
 
   const {cat}=cur,me=S.turn,c0=comps();
+  if(b.dataset.act==='timer'){startTimer();return}
   if(b.dataset.act==='reveal'){
     $('#sheetIn').querySelectorAll('.ans').forEach(x=>x.hidden=false);
     if(cat.type==='qcm')$('#sheetIn').querySelector(`.qcm li[data-i="${cur.item.a}"]`).classList.add('ok');
