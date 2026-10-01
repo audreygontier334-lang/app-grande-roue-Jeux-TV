@@ -167,6 +167,25 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 .rounds button small{display:block;font-weight:700;color:var(--muted);font-size:.72rem}
 .rounds button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(56,232,255,.12)}
 .bubble .bubbleText{display:block;max-height:7.4em;overflow:auto}
+/* blind test & duels */
+.music{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:10px}
+.music .play{min-width:240px;padding:16px 22px;border-radius:999px;background:linear-gradient(100deg,var(--violet),var(--pink));color:#fff;font-family:var(--display);font-size:1.25rem;box-shadow:0 0 26px rgba(160,123,255,.35)}
+.music .play:disabled{opacity:.55;box-shadow:none}
+.music[data-state="playing"] .play{animation:pulse 1s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.04)}}
+.mstate{margin:0;color:var(--muted);font-size:.85rem;min-height:1.2em;text-align:center}
+.hintbtn{display:block;margin:4px auto 0;color:var(--muted);font-weight:700;font-size:.85rem;text-decoration:underline}
+.trackcard{display:flex;align-items:center;gap:14px;margin-top:12px;padding:10px;border-radius:14px;background:var(--dark)}
+.trackcard img{width:96px;height:96px;border-radius:10px;object-fit:cover;flex:none}
+.trackcard b{display:block;font-size:1.1rem;color:var(--gold)}.trackcard span{color:var(--muted);font-weight:700}
+.duel{margin-top:14px}
+.duel-pick{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end;margin-bottom:12px}
+.duel-pick label{display:flex;flex-direction:column;gap:6px;font-size:.8rem;font-weight:900;color:var(--muted);min-width:0}
+.duel-pick select{width:100%;padding:10px;border-radius:10px;background:var(--dark);color:inherit;border:1px solid #1c3852;font:inherit;font-weight:700}
+.duel-pick .vs{font-family:var(--display);color:var(--pink);padding-bottom:10px}
+.duel-msg{margin:8px 0 0;color:var(--pink);font-weight:700;min-height:1em}
+.duel-all{color:var(--muted);font-weight:700}
+.winners button{font-size:1rem;padding:10px 14px}
 </style>
 </head>
 <body>
@@ -338,18 +357,18 @@ const CATS=[
  ,
  {id:'arena',wheel:'Neo Arena',name:'NEO ARENA',col:'--pink',pts:3,type:'interactive',how:"Mini-jeu auto-arbitré : réflexes, mémoire ou code logique.",items:['reflex','memory','logic']},
  {id:'blindtest',wheel:'Blind Test',name:'Blind Test — Music Arena',col:'--violet',pts:2,type:'qa',
- how:"Un adversaire lit l'indice sans révéler la réponse. 15 secondes, artiste + titre. Une fois la réponse donnée, lancez le morceau sur un téléphone et tout le monde chante !",
+ how:"Appuie sur ▶ : un vrai extrait de 30 secondes (Apple Music). 15 secondes pour donner artiste + titre. Pas de réseau ? Un adversaire lit l'indice écrit à la place.",
  items:[
- {q:"ANNÉES 90 — Groupe français avec un violon endiablé. Tube de 1997 où le chanteur propose d'emmener quelqu'un… au vent. Groupe + titre ?",a:"Louise Attaque — J't'emmène au vent"},
- {q:"ROCK — Groupe britannique. Tube de 1995 devenu hymne de soirées, avec un titre contenant le mot « Wonder ». Artiste + titre ?",a:"Oasis — Wonderwall"},
- {q:"POP — Chanteuse américaine. Tube de 2008 : elle explique qu'elle aurait dû recevoir une bague. Artiste + titre ?",a:"Beyoncé — Single Ladies (Put a Ring on It)"},
- {q:"FRANCE — Tube de 1996 mêlant raï et pop française, adressé à une femme dont le prénom donne son titre à la chanson. Artiste + titre ?",a:"Khaled — Aïcha"},
- {q:"DISCO — Groupe suédois, Eurovision 1974, chanson dont le titre est aussi le nom d'une bataille napoléonienne. Artiste + titre ?",a:"ABBA — Waterloo"},
- {q:"GÉNÉRIQUE — Série : six amis à New York, fontaine dans le générique. Quel morceau accompagne l'ouverture ?",a:"The Rembrandts — I'll Be There for You"},
- {q:"80s — Groupe britannique mené par Freddie Mercury. Morceau de 1984 dont le titre demande littéralement à être libéré. Artiste + titre ?",a:"Queen — I Want to Break Free"},
- {q:"RAP FR — Groupe marseillais. Tube de 1994 qui raconte les boîtes de nuit des années 80, avec une danse qui donne son nom au titre. Groupe + titre ?",a:"IAM — Je danse le Mia"},
- {q:"DANCE — Duo américain. Hit de 2011 associé au shuffle et aux soirées. Le titre annonce que la fête est rock chaque jour. Artiste + titre ?",a:"LMFAO — Party Rock Anthem"},
- {q:"PIÈGE — Quel artiste interprète « Seven Nation Army », souvent chanté dans les stades ?",a:"The White Stripes (c'est un groupe, pas un artiste solo)"}
+ {q:"ANNÉES 90 — Groupe français avec un violon endiablé. Tube de 1997 où le chanteur propose d'emmener quelqu'un… au vent. Groupe + titre ?",a:"Louise Attaque — J't'emmène au vent",s:"Louise Attaque J'emmène au vent"},
+ {q:"ROCK — Groupe britannique. Tube de 1995 devenu hymne de soirées, avec un titre contenant le mot « Wonder ». Artiste + titre ?",a:"Oasis — Wonderwall",s:"Oasis Wonderwall"},
+ {q:"POP — Chanteuse américaine. Tube de 2008 : elle explique qu'elle aurait dû recevoir une bague. Artiste + titre ?",a:"Beyoncé — Single Ladies (Put a Ring on It)",s:"Beyonce Single Ladies"},
+ {q:"FRANCE — Tube de 1996 mêlant raï et pop française, adressé à une femme dont le prénom donne son titre à la chanson. Artiste + titre ?",a:"Khaled — Aïcha",s:"Khaled Aicha"},
+ {q:"DISCO — Groupe suédois, Eurovision 1974, chanson dont le titre est aussi le nom d'une bataille napoléonienne. Artiste + titre ?",a:"ABBA — Waterloo",s:"ABBA Waterloo"},
+ {q:"GÉNÉRIQUE — Série : six amis à New York, fontaine dans le générique. Quel morceau accompagne l'ouverture ?",a:"The Rembrandts — I'll Be There for You",s:"The Rembrandts I'll Be There for You"},
+ {q:"80s — Groupe britannique mené par Freddie Mercury. Morceau de 1984 dont le titre demande littéralement à être libéré. Artiste + titre ?",a:"Queen — I Want to Break Free",s:"Queen I Want to Break Free"},
+ {q:"RAP FR — Groupe marseillais. Tube de 1994 qui raconte les boîtes de nuit des années 80, avec une danse qui donne son nom au titre. Groupe + titre ?",a:"IAM — Je danse le Mia",s:"IAM Je danse le Mia"},
+ {q:"DANCE — Duo américain. Hit de 2011 associé au shuffle et aux soirées. Le titre annonce que la fête est rock chaque jour. Artiste + titre ?",a:"LMFAO — Party Rock Anthem",s:"LMFAO Party Rock Anthem"},
+ {q:"PIÈGE — Quel artiste interprète « Seven Nation Army », souvent chanté dans les stades ?",a:"The White Stripes (c'est un groupe, pas un artiste solo)",s:"The White Stripes Seven Nation Army"}
  ]},
  {id:'dex',wheel:'Défis & Duels',name:'Défis & Duels',col:'--cyan',pts:2,type:'secondary',
   how:"La roue des défis prend le relais : adresse, dextérité, logique, rapidité, duels et bataille générale."}
@@ -461,6 +480,7 @@ const ptsTxt=n=>n+' point'+(Math.abs(n)>1?'s':'');
 function intro(cat,item,name){
   let t=`${name} tombe sur… ${cat.name} ! ${QUIP[cat.id]||''} `;
   if(cat.id==='prix')t+=`Tout le monde écrit sa réponse, le plus proche rafle la mise. ${item.q}`;
+  else if(cat.id==='blindtest')t+="Appuie sur play, ouvre grand tes esgourdes : artiste et titre !";
   else if(cat.type==='qa')t+=item.q;
   else if(cat.type==='qcm')t+=item.q+' '+item.c.map((x,i)=>'ABCD'[i]+' : '+x).join('. ')+'.';
   else if(cat.type==='motus')t+=`Un mot de ${item.length} lettres qui commence par ${item[0]}.`;
@@ -673,12 +693,12 @@ const DEX=[
   "En 25 secondes : trouvez un nombre de 3 chiffres dont les chiffres totalisent 12 et qui est divisible par 4. Chacun écrit une réponse ; premier valide gagne.",
   "En 30 secondes, trouvez 5 usages différents d'une cuillère qui ne consistent pas à manger. Le groupe doit accepter les 5."
  ]},
- {name:'Duel 1 VS 1',emoji:'⚔️',items:[
+ {name:'Duel 1 VS 1',duel:'duel',emoji:'⚔️',items:[
   "Duel de catégories : choisissez une lettre au hasard. À tour de rôle, dites un métier commençant par cette lettre. 3 secondes maximum pour répondre ; répétition ou blocage = défaite.",
   "Face-à-face mémoire : observez 12 objets pendant 20 secondes, cachez-les, puis écrivez-en un maximum en 30 secondes. Le meilleur score gagne.",
   "Pierre-feuille-ciseaux tactique : premier à 3 victoires, mais personne n'a le droit de jouer deux fois de suite le même signe."
  ]},
- {name:'Duel de couple',emoji:'❤️⚔️',items:[
+ {name:'Duel de couple',duel:'couple',emoji:'❤️⚔️',items:[
   "Chaque partenaire écrit secrètement les réponses à 5 choix : mer/montagne, matin/soir, sucré/salé, film/série, ville/campagne. Le couple qui obtient le plus de réponses identiques gagne.",
   "Dos à dos : au signal, chacun montre de 0 à 5 doigts pour répondre à « qui est le plus… ? ». Faites 5 questions improvisées. Le couple avec le plus de réponses concordantes gagne.",
   "Un membre de chaque couple décrit un objet de la pièce sans dire son nom, sa couleur ni son usage principal. Son partenaire doit le trouver. Chronométrez : meilleur temps gagnant."
@@ -693,7 +713,7 @@ const DEX=[
   "Le duo doit compter de 1 à 20 en alternant librement, sans ordre prévu et sans parler en même temps. Si deux parlent ensemble, retour à 1. Réussite en moins de 60 secondes.",
   "Un joueur mime une action complexe pendant que l'autre doit la reproduire en miroir. Le groupe choisit 5 mouvements ; 4 correctement reproduits = victoire."
  ]},
- {name:'Bataille générale',emoji:'🔥',items:[
+ {name:'Bataille générale',duel:'battle',emoji:'🔥',items:[
   "Tout le monde debout. À tour de rôle, citez une capitale européenne en moins de 3 secondes. Répétition, erreur ou silence = élimination. Dernier en jeu gagne.",
   "Chaque joueur pose une pièce sur son coude, la lance et tente de la rattraper de la même main. À chaque tour, ajoutez une pièce. Dernier joueur encore capable de réussir gagne.",
   "Catégorie éclair : « choses qu'on trouve dans une cuisine ». Tour de table sans répétition, 2 secondes par réponse. Dernier survivant gagne."
@@ -734,7 +754,7 @@ function spinDex(){
   const start=dexRot,t0=performance.now(),dur=3600;
   (function go(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,4);dexRot=start+(end-start)*e;drawDex();
     if(p<1)requestAnimationFrame(go);else{dexSpin=false;dexRot%=Math.PI*2;const d=DEX[dexIndex(dexRot)],item=pick(d.items);
-      cur={cat:{id:'dex-'+d.name,name:d.emoji+' '+d.name,col:'--cyan',pts:2,type:'challenge',how:"Défi adulte. Le groupe arbitre franchement ; égalité = mort subite."},item};
+      cur={cat:{id:'dex-'+d.name,name:d.emoji+' '+d.name,col:'--cyan',pts:2,type:'challenge',duel:d.duel,how:"Défi adulte. Le groupe arbitre franchement ; égalité = mort subite."},item};
       renderSheet();say(d.name+" ! "+item);
     }})(t0);
 }
@@ -761,6 +781,94 @@ function memoryFlash(){
  function step(){pads.forEach(p=>p.classList.remove('on'));if(i>=arenaState.seq.length){arenaState.lock=false;return}const p=pads[arenaState.seq[i++]];p.classList.add('on');beep(500+i*80,0,.1,.03);setTimeout(()=>{p.classList.remove('on');setTimeout(step,160)},360)}setTimeout(step,300);
 }
 
+/* ---------- Blind test : vrais extraits de 30 s (recherche iTunes / Apple Music) ---------- */
+const tracks={};let player=null,jsonpN=0;
+function jsonp(url,ms){
+  return new Promise((ok,ko)=>{
+    const cb='__itunes'+(++jsonpN),s=document.createElement('script');
+    const end=()=>{clearTimeout(to);delete window[cb];s.remove()};
+    const to=setTimeout(()=>{end();ko(new Error('timeout'))},ms);
+    window[cb]=d=>{end();ok(d)};s.onerror=()=>{end();ko(new Error('jsonp'))};
+    s.src=url+'&callback='+cb;document.head.appendChild(s);
+  });
+}
+function findTrack(term){
+  if(tracks[term])return tracks[term];
+  const url='https://itunes.apple.com/search?term='+encodeURIComponent(term)+'&country=FR&entity=song&limit=1';
+  const ctl='AbortController' in window?new AbortController():null,to=setTimeout(()=>ctl&&ctl.abort(),5000);
+  const viaFetch=fetch(url,ctl?{signal:ctl.signal}:{}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).finally(()=>clearTimeout(to));
+  const p=viaFetch.catch(()=>jsonp(url,6000)).then(d=>{
+    const r=d&&d.results&&d.results.find(x=>x.previewUrl);if(!r)throw new Error('introuvable');
+    return {url:r.previewUrl,title:r.trackName,artist:r.artistName,art:(r.artworkUrl100||'').replace(/100x100bb/,'300x300bb')};
+  });
+  tracks[term]=p;p.catch(()=>{delete tracks[term]});return p;
+}
+function stopMusic(){if(player){player.pause();player=null}}
+function musicUI(state,msg){
+  const m=$('#sheetIn .music');if(!m)return;
+  const b=m.querySelector('[data-act="play"]'),st=m.querySelector('.mstate');
+  m.dataset.state=state;st.textContent=msg||'';
+  b.disabled=state==='loading'||state==='off';
+  b.textContent=state==='playing'?'⏸ Pause':state==='loading'?'… Recherche de l\'extrait':state==='off'?'Extrait indisponible':'▶ Écouter l\'extrait';
+  const hint=$('#sheetIn .bt-hint'),hb=$('#sheetIn [data-act="hint"]');
+  if(state==='off'){if(hint)hint.hidden=false;if(hb)hb.remove()}
+}
+function loadMusic(){
+  const item=cur&&cur.item;if(!item||!item.s)return;
+  musicUI('loading','');
+  findTrack(item.s).then(tr=>{
+    if(!cur||cur.item!==item)return;cur.track=tr;
+    musicUI('ready','Extrait de 30 secondes prêt.');
+  },()=>{if(cur&&cur.item===item)musicUI('off','Le réseau ne répond pas : on joue avec l\'indice écrit.')});
+}
+function toggleMusic(){
+  if(!cur||!cur.track)return;
+  if(player&&!player.paused){player.pause();musicUI('ready','En pause.');return}
+  if(!player){player=new Audio(cur.track.url);player.onended=()=>{player=null;musicUI('ready','Extrait terminé. On peut le réécouter.')}}
+  try{speechSynthesis.cancel()}catch(e){}talking(false);
+  const pr=player.play();musicUI('playing','Ça joue…');
+  if(pr&&pr.catch)pr.catch(()=>{player=null;musicUI('off','Lecture impossible : on joue avec l\'indice écrit.')});
+  if(!tm&&!cur.timed){cur.timed=true;startTimer()}
+}
+function revealTrack(){
+  const tr=cur&&cur.track,box=$('#sheetIn .trackcard');if(!tr||!box)return;
+  box.innerHTML=`${tr.art?`<img src="${esc(tr.art)}" alt="Pochette de ${esc(tr.title)}">`:''}<div><b>${esc(tr.title)}</b><span>${esc(tr.artist)}</span></div>`;box.hidden=false;
+}
+
+/* duels : on choisit les adversaires, le chrono part, le gagnant prend les points */
+const indiv=()=>S.players.map((n,i)=>(n||'').trim()||('Joueur '+(i+1)));
+const compOf=i=>S.mode==='solo'?i:i>>1;
+function duelHTML(kind){
+  const P=indiv(),me=S.turn,mine=S.mode==='solo'?me:me*2;
+  const sel=(k,v)=>`<select data-pick="${k}">${P.map((n,i)=>`<option value="${i}"${i===v?' selected':''}>${esc(n)}</option>`).join('')}</select>`;
+  let pick='';
+  if(kind==='duel'){const opp=S.mode==='solo'?(mine+1)%P.length:(mine+2)%P.length;
+    pick=`<div class="duel-pick"><label>Adversaire 1${sel(0,mine)}</label><span class="vs">VS</span><label>Adversaire 2${sel(1,opp)}</label></div>`}
+  if(kind==='couple')pick=`<div class="duel-pick"><label>Couple A${sel(0,0)}${sel(1,1)}</label><span class="vs">VS</span><label>Couple B${sel(2,2)}${sel(3,3)}</label></div>`;
+  if(kind==='battle')pick=`<p class="duel-all">Tout le monde se bat : ${P.map(esc).join(', ')}.</p>`;
+  return `<div class="duel" data-duel="${kind}">${pick}<button type="button" class="big" data-act="duel-go">${kind==='battle'?'🔥 Lancer la bataille':'⚔️ Lancer le duel'} · chrono</button><p class="duel-msg" role="status"></p>
+    <div class="duel-win" hidden><p class="others-l">${kind==='battle'?'Qui est le dernier survivant ?':'Qui gagne ?'}</p><div class="others winners"></div><button type="button" class="redraw" data-act="lose">Personne ne gagne</button></div></div>`;
+}
+function duelGo(){
+  const box=$('#sheetIn .duel'),kind=box.dataset.duel,P=indiv(),msg=box.querySelector('.duel-msg');
+  const v=[...box.querySelectorAll('[data-pick]')].map(s=>+s.value);
+  if(new Set(v).size!==v.length){msg.textContent=kind==='couple'?'Il faut quatre joueurs différents pour former les deux couples.':'Choisis deux adversaires différents.';return}
+  const sides=kind==='duel'?[[v[0]],[v[1]]]:kind==='couple'?[[v[0],v[1]],[v[2],v[3]]]:P.map((_,i)=>[i]);
+  cur.sides=sides;msg.textContent='';
+  box.querySelectorAll('select').forEach(s=>s.disabled=true);box.querySelector('[data-act="duel-go"]').remove();
+  box.querySelector('.winners').innerHTML=sides.map((s,i)=>`<button type="button" data-duel-win="${i}">🏆 ${s.map(j=>esc(P[j])).join(' & ')}</button>`).join('');
+  box.querySelector('.duel-win').hidden=false;
+  if(!tm)startTimer();
+  const names=sides.map(s=>s.map(j=>P[j]).join(' et '));
+  say(kind==='battle'?'Bataille générale ! Chrono lancé, que le meilleur survive !':`${names[0]} contre ${names[1]} ! Chrono lancé, fight !`);
+}
+function duelWin(i){
+  const P=indiv(),side=cur.sides[i],pts=cur.cat.pts;
+  [...new Set(side.map(compOf))].forEach(c=>award(c,pts));
+  const who=side.map(j=>P[j]).join(' et ');closeSheet();
+  nextTurn(`${pick(WIN)} ${who} ${side.length>1?'remportent':'remporte'} le duel : ${ptsTxt(pts)}${side.length>1&&S.mode==='solo'?' chacun':''} !`);
+}
+
 /* ---------- fiche d'épreuve ---------- */
 const decks={};
 function draw1(cat){
@@ -784,7 +892,7 @@ function startTimer(){
     if(left<=0){stopTimer();beep(220,0,.6,.08);box.querySelector('button').textContent='⏱ Relancer';say(pick(TIMEUP))}
   },1000)};
 }
-function closeSheet(){stopTimer();if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
+function closeSheet(){stopTimer();stopMusic();if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
 
 function renderSheet(){
   stopTimer();
@@ -794,16 +902,21 @@ function renderSheet(){
   $('#sheet').style.setProperty('--c',color);
   let body='',reveal='';
   if(cat.type==='qa'){body=`<p class="q">${esc(item.q)}</p><p class="ans" hidden>${esc(item.a)}</p>`;reveal='Voir la réponse'}
+  if(cat.id==='blindtest'){
+    stopMusic();cur.track=null;cur.timed=false;
+    body=`<div class="music" data-state="loading"><button type="button" class="play" data-act="play" disabled>… Recherche de l'extrait</button><p class="mstate"></p></div>
+      <p class="q bt-hint" hidden>${esc(item.q)}</p><button type="button" class="hintbtn" data-act="hint">Besoin d'un indice ? Lire l'indice écrit</button>
+      <div class="trackcard" hidden></div><p class="ans" hidden>${esc(item.a)}</p>`}
   if(cat.type==='qcm'){body=`<p class="q">${esc(item.q)}</p><ol class="qcm">${item.c.map((x,i)=>`<li data-i="${i}"><b>${'ABCD'[i]}</b>${esc(x)}</li>`).join('')}</ol>`;reveal='Voir la bonne réponse'}
   if(cat.type==='motus'){body=`<p class="q">Un mot de ${item.length} lettres</p><div class="letters">${[...item].map((l,i)=>`<span class="${i?'':'first'}">${i?'·':l}</span>`).join('')}</div><p class="ans huge" hidden>${esc(item)}</p>`;reveal='Voir le mot'}
   if(cat.type==='slam'){body=`<p class="q">${esc(item.q)}</p><div class="letters">${[...item.a].map((l,i)=>`<span class="${i?'':'first'}">${i?'·':l}</span>`).join('')}</div><p class="ans huge" hidden>${esc(item.a)}</p>`;reveal='Voir le mot'}
   if(cat.type==='list'){body=`<ol class="steps">${item.map(x=>`<li>${esc(x.q)}<span class="ans" hidden>${esc(x.a)}</span></li>`).join('')}</ol>`;reveal='Voir les réponses'}
-  if(cat.type==='challenge'){body=`<p class="q">${esc(item)}</p>`}
+  if(cat.type==='challenge'){body=`<p class="q">${esc(item)}</p>`+(cat.duel?duelHTML(cat.duel):'')}
   if(cat.type==='interactive'){body=arenaHTML(item);reveal=''}
   if(cat.type==='secret'){body=`<p class="q">Adversaire, toi seul regardes.</p><p class="ans huge" hidden>${esc(item)}</p>`;reveal='Montrer la personne'}
 
   let actions='';
-  if(cat.type==='interactive'){actions=''}else if(cat.type==='bigdil'){
+  if(cat.type==='interactive'||cat.duel){actions=''}else if(cat.type==='bigdil'){
     body=`<div class="boxes">${[0,1,2].map(i=>`<button type="button" class="box" data-box="${i}">${i+1}</button>`).join('')}</div><div id="bigres"></div>`;
   }else{
     const others=c.map((n,i)=>i===me?'':`<button type="button" data-give="${i}">+${cat.pts} ${esc(n)}</button>`).join('');
@@ -821,6 +934,7 @@ function renderSheet(){
     ${reveal?`<button type="button" class="reveal" data-act="reveal">${reveal}</button><div style="height:14px"></div>`:''}
     ${actions}`;
   $('#sheet').scrollTop=0;
+  if(cat.id==='blindtest')loadMusic();
 }
 
 $('#sheet').addEventListener('click',e=>{
@@ -834,9 +948,14 @@ $('#sheet').addEventListener('click',e=>{
 
   const {cat}=cur,me=S.turn,c0=comps();
   if(b.dataset.act==='timer'){startTimer();return}
+  if(b.dataset.act==='play'){toggleMusic();return}
+  if(b.dataset.act==='duel-go'){duelGo();return}
+  if(b.dataset.duelWin!==undefined){duelWin(+b.dataset.duelWin);return}
+  if(b.dataset.act==='hint'){const h=$('#sheetIn .bt-hint');if(h)h.hidden=false;b.remove();say(cur.item.q);return}
   if(b.dataset.act==='reveal'){
     $('#sheetIn').querySelectorAll('.ans').forEach(x=>x.hidden=false);
     if(cat.type==='qcm')$('#sheetIn').querySelector(`.qcm li[data-i="${cur.item.a}"]`).classList.add('ok');
+    if(cat.id==='blindtest'){revealTrack();const h=$('#sheetIn .bt-hint');if(h)h.hidden=false;const hb=$('#sheetIn [data-act="hint"]');if(hb)hb.remove()}
     b.remove();say(answerLine(cat,cur.item));return;
   }
   if(b.dataset.act==='redraw'){cur.item=draw1(cat);renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}

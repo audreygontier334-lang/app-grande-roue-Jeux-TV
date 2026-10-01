@@ -13,7 +13,7 @@ Un jeu de soirée sur téléphone : on fait tourner une roue de 15 jeux télé c
 
 ## Les 15 jeux
 
-Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix (version chiffres), N'oubliez pas les paroles, Fort Boyard, Attention à la marche !, Les Z'amours, Le Bigdil, Qui est qui ?, Slam, Burger Quiz (Sel ou poivre), Blind Test, NEO ARENA (mini-jeux réflexes, mémoire et code) et Défis & Duels (une deuxième roue de défis physiques).
+Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix (version chiffres), N'oubliez pas les paroles, Fort Boyard, Attention à la marche !, Les Z'amours, Le Bigdil, Qui est qui ?, Slam, Burger Quiz (Sel ou poivre), Blind Test (vrais extraits de 30 s via la recherche Apple Music, indices écrits si pas de réseau), NEO ARENA (mini-jeux réflexes, mémoire et code) et Défis & Duels (une deuxième roue de défis physiques ; pour les duels on choisit les adversaires ou les couples, le chrono part et le gagnant reçoit ses points automatiquement).
 
 Si une joueuse s'appelle Cécile, des cartes spéciales à son sujet s'ajoutent automatiquement.
 
