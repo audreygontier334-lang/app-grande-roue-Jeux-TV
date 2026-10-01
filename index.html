@@ -6,6 +6,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>La Grande Roue</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700&family=Archivo+Black&family=Cinzel:wght@900&family=Titan+One&family=Pacifico&family=Pirata+One&family=Bangers&family=Lobster&family=Luckiest+Guy&family=Special+Elite&family=Anton&family=Shrikhand&family=Orbitron:wght@900&family=Audiowide&family=Black+Ops+One&display=swap">
 <style>
 /* Plateau télé de nuit : bandeau des scores en haut, la roue au centre, la fiche d'épreuve glisse du bas */
 :root{
@@ -543,6 +544,27 @@ $('#end').onclick=()=>endGame();
 $('#continue').onclick=()=>{if(S.max)S.max=Math.max(S.max,S.played)+comps().length;save();show('game');say(`Encore ? Vous êtes pires que des zombies, vé ! ${TURN(comps()[S.turn])}`)};
 $('#restart').onclick=()=>{S.started=false;save();renderNames();show('setup')};
 
+/* ---------- typographie de chaque jeu ---------- */
+const TYPO={
+ qpuc:{f:'Passion One',w:700,size:1.2},
+ motus:{f:'Archivo Black',tiles:true},
+ qvgdm:{f:'Cinzel',w:900,up:true,size:.95},
+ prix:{f:'Titan One',it:true},
+ noplp:{f:'Pacifico',size:1.35},
+ boyard:{f:'Pirata One',size:1.25},
+ marche:{f:'Bangers',up:true,size:1.15,ls:1},
+ zamours:{f:'Lobster',size:1.15},
+ bigdil:{f:'Luckiest Guy',up:true,size:1.2},
+ quiest:{f:'Special Elite',size:1.05},
+ slam:{f:'Anton',up:true,size:1.2,ls:2},
+ sel:{f:'Shrikhand',size:.95},
+ arena:{f:'Orbitron',w:900,up:true,size:.85},
+ blindtest:{f:'Audiowide'},
+ dex:{f:'Black Ops One',size:.95}
+};
+const typoFont=(t,px)=>`${t.it?'italic ':''}${t.w||400} ${px}px "${t.f}", ${css('--display')}`;
+if(document.fonts){Promise.all(Object.values(TYPO).map(t=>document.fonts.load(typoFont(t,40)).catch(()=>{}))).then(()=>{draw();if(typeof drawDex==='function')drawDex()})}
+
 /* ---------- roue ---------- */
 const cv=$('#wheel'),ctx=cv.getContext('2d');
 const N=CATS.length,SEG=Math.PI*2/N;
@@ -563,12 +585,23 @@ function draw(){
     ctx.fillStyle=css(CATS[i].col);ctx.fill();
     ctx.lineWidth=3;ctx.strokeStyle=dark;ctx.stroke();
     ctx.save();ctx.rotate((i+.5)*SEG);
-    ctx.fillStyle=dark;ctx.textAlign='right';ctx.textBaseline='middle';
-    let fs=R*.085;const avail=R*.62;
-    ctx.font=`${fs}px ${css('--display')}`;
-    const tw=ctx.measureText(CATS[i].wheel).width;
-    if(tw>avail){fs*=avail/tw;ctx.font=`${fs}px ${css('--display')}`}
-    ctx.fillText(CATS[i].wheel,R*.9,0);
+    const t=TYPO[CATS[i].id]||{f:'Bungee'},avail=R*.62;
+    let label=t.up?CATS[i].wheel.toUpperCase():CATS[i].wheel;
+    if(t.tiles){
+      /* Motus : les lettres dans leurs cases, la première en rouge */
+      const L=[...label.toUpperCase()],sz=Math.min(avail/L.length,R*.12),x0=R*.9-L.length*sz;
+      ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=typoFont(t,sz*.62);
+      L.forEach((ch,k)=>{const x=x0+k*sz;ctx.fillStyle=k?'#1f5fd6':'#d8322e';ctx.fillRect(x+1,-sz/2+1,sz-2,sz-2);ctx.fillStyle='#fff';ctx.fillText(ch,x+sz/2,1)});
+    }else{
+      ctx.fillStyle=dark;ctx.textAlign='right';ctx.textBaseline='middle';
+      let fs=R*.085*(t.size||1);
+      if('letterSpacing' in ctx)ctx.letterSpacing=(t.ls||0)+'px';
+      ctx.font=typoFont(t,fs);
+      const tw=ctx.measureText(label).width;
+      if(tw>avail){fs*=avail/tw;ctx.font=typoFont(t,fs)}
+      ctx.fillText(label,R*.9,0);
+      if('letterSpacing' in ctx)ctx.letterSpacing='0px';
+    }
     ctx.restore();
   }
   ctx.beginPath();ctx.arc(0,0,R-4,0,Math.PI*2);ctx.lineWidth=6;ctx.strokeStyle=dark;ctx.stroke();
@@ -675,7 +708,7 @@ let dexRot=0,dexSpin=false;
 function openDexWheel(){
   cur=null;$('#sheet').hidden=false;$('#backdrop').hidden=false;
   $('#sheetIn').innerHTML=miniScores()+hostHTML(true)+
-    '<div class="cathead"><h2 class="cat">🎯 Défis & Duels</h2><span class="pts">2 pts</span></div>'+
+    '<div class="cathead"><h2 class="cat" style="font-family:\'Black Ops One\',var(--display)">🎯 Défis & Duels</h2><span class="pts">2 pts</span></div>'+
     '<p class="how">Niveau adulte ++ : précision, cerveau, pression, bluff, coordination et face-à-face. Certaines missions comportent plusieurs phases.</p>'+
     '<div style="position:relative;max-width:390px;margin:18px auto"><canvas id="dexCanvas" style="display:block;width:100%;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 10px 22px #0008)"></canvas><div style="position:absolute;left:50%;top:-8px;transform:translateX(-50%);font-size:34px;z-index:2">▼</div></div>'+
     '<button type="button" class="big" id="dexSpin">TOURNER LA ROUE DES DÉFIS</button>';
@@ -781,7 +814,7 @@ function renderSheet(){
   $('#sheetIn').innerHTML=`
     ${miniScores()}
     ${hostHTML(true)}
-    <div class="cathead"><h2 class="cat">${esc(cat.name)}</h2>${cat.pts?`<span class="pts">${cat.pts} pt${cat.pts>1?'s':''}</span>`:''}</div>
+    <div class="cathead"><h2 class="cat" style="${TYPO[cat.id]?`font-family:'${TYPO[cat.id].f}',var(--display);font-weight:${TYPO[cat.id].w||400};font-style:${TYPO[cat.id].it?'italic':'normal'}`:''}">${esc(cat.name)}</h2>${cat.pts?`<span class="pts">${cat.pts} pt${cat.pts>1?'s':''}</span>`:''}</div>
     <p class="how">${esc(name)}, à toi ! ${esc(cat.how)}</p>
     ${tsec&&cat.type!=='interactive'&&cat.type!=='bigdil'?`<div class="timerbox" data-time="${tsec}"><button type="button" data-act="timer">⏱ Chrono ${tsec} s</button><div class="tbar"><i></i></div><span class="tnum">${tsec}</span></div>`:''}
     <div class="card">${body}</div>
