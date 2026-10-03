@@ -107,19 +107,6 @@ details li{margin:4px 0}
 .rank li:first-child .pos{color:var(--dark)}
 .rank .nm{flex:1;font-weight:900;min-width:0;overflow-wrap:anywhere}
 .rank .sc{font-family:var(--display);font-size:1.3rem;font-variant-numeric:tabular-nums}
-/* présentateur */
-.host{display:flex;align-items:flex-end;gap:10px;margin:14px 0 4px}
-.host .avatar{width:80px;height:auto;aspect-ratio:100/130;flex:none;overflow:visible}
-.host.mini{margin:0 0 14px}
-.host.mini .avatar{width:56px}
-.bubble{position:relative;flex:1;min-width:0;background:var(--ink);color:var(--dark);border-radius:16px 16px 16px 4px;padding:10px 40px 10px 12px;font-weight:700;font-size:.95rem;min-height:2.4em;overflow-wrap:anywhere}
-.bubble .who{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#6b3fd1;font-weight:900}
-.replay{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:var(--dark);color:var(--ink);font-weight:900;font-size:.95rem;line-height:1}
-.mouth{transform-box:fill-box;transform-origin:0 0}
-.avatar.talking .mouth{animation:talk .15s infinite alternate}
-.avatar.talking{animation:bob .45s infinite alternate}
-@keyframes talk{from{transform:rotate(0)}to{transform:rotate(16deg)}}
-@keyframes bob{to{transform:translateY(-3px) rotate(-2deg)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* ===== NEO SHOW 2.0 ===== */
@@ -183,7 +170,6 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 .rounds button{padding:12px 4px;border-radius:12px;border:1px solid rgba(138,167,191,.22);background:rgba(7,16,30,.8);font-weight:900;line-height:1.15}
 .rounds button small{display:block;font-weight:700;color:var(--muted);font-size:.72rem}
 .rounds button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(56,232,255,.12)}
-.bubble .bubbleText{display:block;max-height:7.4em;overflow:auto}
 #game{overflow-x:clip}
 /* ===== BONUS QUITTE OU DOUBLE ===== */
 .gamebar #bonusBtn{border-color:var(--gold);color:#140f3a;background:linear-gradient(100deg,var(--gold),#ffb36b);font-weight:900;box-shadow:0 0 18px rgba(255,209,102,.3)}
@@ -250,9 +236,7 @@ body.tv .app{max-width:1280px}
 .ph-wait b{display:block;font-family:var(--display);font-weight:400;color:var(--ink);font-size:2rem;margin-top:6px;overflow-wrap:anywhere}
 .ph-spin{display:block;margin:24px auto;width:min(78vw,320px);aspect-ratio:1;border-radius:50%;font-family:var(--display);font-size:1.7rem;line-height:1.1;color:#031018;background:radial-gradient(circle at 45% 35%,#fff3c4,var(--gold));box-shadow:0 0 0 10px rgba(255,209,102,.18),0 0 50px rgba(255,209,102,.45);animation:breathe 1.6s ease-in-out infinite alternate}
 @keyframes breathe{to{transform:scale(1.04)}}
-.ph-line{margin:14px 0 0;padding:10px 12px;border-radius:14px;background:var(--ink);color:var(--dark);font-weight:700;font-size:.9rem}
-.ph-line b{display:block;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:#6b3fd1}
-.ph-panel .host,.ph-panel .mini-scores{display:none}
+.ph-panel .mini-scores{display:none}
 .ph-panel .buzzers{grid-template-columns:1fr}
 .ph-panel .buzz,.ph-panel .buzzers.many .buzz{min-height:34vh;font-size:1.6rem}
 .ph-form{display:flex;gap:8px;margin-top:12px}
@@ -320,7 +304,7 @@ button.bt-ch:active{transform:scale(.97)}
 .bt-note{margin:0;text-align:center;color:var(--muted);font-weight:700;font-size:.9rem}
 .bt-res{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 .bt-res li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:#0b1325;border:1px solid #1c3852;font-weight:900}
-.bt-res li.win{border-color:var(--gold);background:linear-gradient(90deg,rgba(255,209,102,.18),#0b1325)}
+.bt-res li.top{border-color:var(--gold);background:linear-gradient(90deg,rgba(255,209,102,.18),#0b1325)}
 .bt-res .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bt-res .tm{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
 .bt-res .pp{min-width:3ch;text-align:right;font-family:var(--display);font-weight:400;color:var(--gold)}
@@ -349,6 +333,53 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
 .ph-panel .qz-ico{width:56px;font-size:1.8rem}
 .ph-panel .qz-q{font-size:1.05rem}
 .bt-song small+b{margin-top:4px;color:var(--teal)}
+.card-ov{position:fixed;inset:0;z-index:25;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--cc,#38e8ff) 22%,transparent),transparent 62%),rgba(2,6,13,.9);backdrop-filter:blur(10px);cursor:pointer;animation:cdin .25s ease-out}
+.card-ov[hidden]{display:none}
+@keyframes cdin{from{opacity:0}}
+.card-box{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;box-sizing:border-box;text-align:center;padding:clamp(22px,5vw,38px) clamp(18px,4vw,34px) 30px;border-radius:30px;background:linear-gradient(160deg,#0d1b30,#050b16);border:2px solid var(--cc,#38e8ff);box-shadow:0 0 70px rgba(0,0,0,.6),0 0 50px color-mix(in srgb,var(--cc,#38e8ff) 35%,transparent);animation:cdpop .45s cubic-bezier(.2,1.5,.4,1)}
+@keyframes cdpop{from{transform:scale(.7) rotate(-3deg);opacity:0}}
+.card-ov.v-win{--cc:#ffd166}.card-ov.v-lose{--cc:#ff5577}.card-ov.v-clash{--cc:#ff914d}
+.cd-tag{display:inline-block;padding:7px 16px;border-radius:99px;background:var(--cc,#38e8ff);color:#031018;font-weight:900;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase}
+.cd-title{margin:14px 0 10px;font-family:var(--display);font-weight:400;font-size:clamp(2rem,9vw,3.8rem);line-height:1;color:var(--cc,var(--ink));text-wrap:balance;overflow-wrap:anywhere;text-shadow:0 0 30px color-mix(in srgb,var(--cc,#38e8ff) 50%,transparent)}
+.card-ov.res .cd-title{font-size:clamp(1.7rem,7vw,2.8rem)}
+.cd-rule{margin:0 auto;max-width:26ch;font-weight:900;font-size:clamp(1.15rem,4.6vw,1.6rem);line-height:1.3;text-wrap:balance}
+.cd-emoji{font-size:clamp(3rem,15vw,5.2rem);line-height:1;display:inline-block;animation:cdwob .7s ease-in-out}
+@keyframes cdwob{30%{transform:scale(1.3) rotate(-12deg)}60%{transform:scale(.95) rotate(8deg)}}
+.cd-line{margin:0 auto 16px;max-width:30ch;font-weight:900;font-size:clamp(1.05rem,4.2vw,1.4rem);line-height:1.3;text-wrap:balance}
+.cd-board{list-style:none;padding:0;margin:0 auto;max-width:380px;display:grid;gap:5px;text-align:left}
+.cd-board li{display:grid;grid-template-columns:2ch minmax(0,1fr) auto 3ch;gap:10px;align-items:center;padding:7px 12px;border-radius:12px;background:#0b1325;border:1px solid #1c3852;font-weight:900}
+.cd-board .rk{color:var(--muted)}.cd-board .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cd-board b{font-family:var(--display);font-weight:400;color:var(--cyan);text-align:right}
+.cd-board .dl{font-size:.8rem;padding:2px 8px;border-radius:99px;background:var(--teal);color:#031018;animation:cdwob .6s .3s}
+.cd-board li.down .dl{background:#ff5577;color:#fff}
+.cd-board li.up{border-color:var(--teal);box-shadow:0 0 14px rgba(56,242,173,.2)}
+.cd-tease{margin:12px auto 0;max-width:32ch;color:var(--pink);font-weight:900;font-style:italic}
+.cd-next{margin:14px 0 0;color:var(--muted);font-weight:700}.cd-next b{color:var(--ink)}
+.cd-bar{position:absolute;left:0;bottom:0;height:5px;width:100%;background:var(--cc,#38e8ff);transform-origin:left;animation:cdbar var(--t) linear forwards}
+@keyframes cdbar{to{transform:scaleX(0)}}
+.card-ov.go{background:rgba(2,6,13,.75)}
+.card-ov.go .card-box{background:none;border:0;box-shadow:none}.card-ov.go .cd-bar{display:none}
+.cd-go{font-family:var(--display);font-size:clamp(5rem,32vw,12rem);line-height:1;color:var(--gold);text-shadow:0 0 60px rgba(255,209,102,.8),0 6px 0 var(--pink);animation:gozoom .85s ease-out}
+@keyframes gozoom{from{transform:scale(.2) rotate(-10deg);opacity:0}55%{transform:scale(1.2);opacity:1}}
+body.tv .card-box{width:min(860px,92vw)}
+body.tv .cd-rule{font-size:2.1rem}body.tv .cd-line{font-size:1.8rem}body.tv .cd-board{max-width:520px;font-size:1.2rem}
+.pod-line{margin:4px 0 18px;font-weight:900;font-size:1.15rem;line-height:1.35;color:var(--ink);text-wrap:balance}
+.bt-quip{margin:0;padding:10px 14px;border-radius:14px;background:rgba(255,79,163,.1);border:1px dashed var(--pink);text-align:center;font-weight:900;font-style:italic;color:#ffc2dd}
+.bt-note.bad{color:#ff8aa5}
+.bt-type{display:flex;gap:8px}
+.bt-type input{flex:1;min-width:0;padding:14px;border-radius:14px;border:2px solid var(--violet);background:#02060d;color:var(--ink);font-family:var(--display);font-size:1.4rem;letter-spacing:.12em;text-transform:uppercase}
+.bt-type button{padding:0 18px;border-radius:14px;background:var(--teal);color:#031018;font-weight:900}
+#phBt{text-transform:uppercase;letter-spacing:.12em;font-family:var(--display)}
+.mgrid{display:grid;gap:5px;justify-content:center}
+.mrow{display:flex;gap:4px;align-items:center}
+.mrow span{width:clamp(20px,7.2vw,40px);aspect-ratio:1;display:grid;place-items:center;border-radius:6px;background:#1f5fd6;font-family:var(--display);font-size:clamp(.95rem,4vw,1.35rem);color:#fff}
+.mrow span.ok{background:#d8322e}
+.mrow span.mis{background:radial-gradient(circle,#f2c12e 0 58%,#1f5fd6 60%);color:#140f3a}
+.mrow em{font-style:normal;font-size:.75rem;color:var(--muted);font-weight:900;margin-left:6px}
+.bt-side .letters{margin-top:0;gap:3px;flex-wrap:nowrap}
+.bt-side .letters span{flex:1 1 0;min-width:0;max-width:36px;width:auto;height:clamp(26px,8vw,42px);font-size:clamp(.75rem,3.4vw,1.25rem)}
+.letters span.kn{background:#d8322e}
+.bt-type input::placeholder,#phBt::placeholder{text-transform:none;letter-spacing:0;font-family:var(--body);font-size:1rem}
 .confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
 </style>
 </head>
@@ -356,7 +387,7 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
 <div class="app">
   <section id="setup">
     <h1>La Grande<br><span>Roue</span></h1>
-    <p class="lead">15 jeux télé sur une roue, présentés par Albatar l'avatar. Un seul téléphone qu'on se passe : celui qui ne joue pas lit la question.</p>
+    <p class="lead">16 jeux télé sur une roue, des écrans qui annoncent la règle et des commentaires qui piquent. Un seul téléphone qu'on se passe : celui qui ne joue pas lit la question.</p>
 
     <p class="label">Comment vous jouez ?</p>
     <div class="mode" id="netMode">
@@ -452,7 +483,7 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
             <li>Ordi avec Chrome : menu ⋮ puis « Caster… » vers une télé Chromecast ou Google TV.</li>
             <li>Mac, iPhone ou iPad : « Recopie de l'écran » (AirPlay) vers une Apple TV ou une télé compatible.</li>
             <li>Ou tout simplement un câble HDMI entre l'ordi et la télé.</li>
-            <li>Le son d'Albatar et des blind tests sort de l'écran principal : monte le volume de la télé !</li>
+            <li>L'ambiance, les effets sonores et les blind tests sortent de l'écran principal : monte le volume de la télé !</li>
           </ul>
         </details>
       </div>
@@ -474,7 +505,6 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
       <div id="phRole"></div>
       <div id="phPanel" class="ph-panel"></div>
       <div id="phInput"></div>
-      <div id="phLine"></div>
     </div>
   </section>
 
@@ -486,10 +516,9 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
       <canvas id="wheel" aria-label="Roue des jeux"></canvas>
       <button type="button" class="hub" id="spin">TOURNE</button>
     </div>
-    <div class="host" data-host></div>
     <div class="gamebar">
       <button type="button" id="bonusBtn" hidden>🎲 Quitte ou Double</button>
-      <button type="button" id="voice">Voix off : oui</button>
+      <button type="button" id="amb">🔊 Ambiance : oui</button>
       <button type="button" id="skip">Passer son tour</button>
       <button type="button" id="end">Fin de partie</button>
     </div>
@@ -497,7 +526,7 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
 
   <section id="podium" hidden>
     <h1>Et le gagnant<br><span>est…</span></h1>
-    <div class="host" data-host></div>
+    <p class="pod-line" id="podLine"></p>
     <ol class="rank" id="rank"></ol>
     <button type="button" class="big" id="continue">Encore un tour chacun</button>
     <button type="button" class="ghostbtn" id="restart">Nouvelle partie (scores à zéro)</button>
@@ -505,12 +534,13 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
 </div>
 
 <div class="backdrop" id="backdrop" hidden></div>
+<div class="card-ov" id="cardOv" hidden></div>
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true"><div class="sheet-in" id="sheetIn"></div></div>
 
 <script>
 const CATS=[
  {id:'qpuc',wheel:'Champion',name:'Questions pour un champion',col:'--gold',pts:1,type:'qa',all:{sec:12,pts:[2,1],ico:'🏆'},
-  how:"Tout le monde joue ! Albatar lit la question, puis chacun choisit parmi 4 réponses. Le plus rapide prend 2 points, les autres bonnes réponses 1 point.",
+  how:"Tout le monde joue ! Une question, puis chacun choisit parmi 4 réponses. Le plus rapide prend 2 points, les autres bonnes réponses 1 point.",
   items:[
    {q:"Top ! Je suis un pays d'Afrique de l'Ouest, sans accès à la mer. Ma capitale s'appelle Ouagadougou. Je suis…",a:"Le Burkina Faso",w:["Le Mali","Le Niger","Le Tchad"]},
    {q:"Quel physicien allemand a formulé le principe d'incertitude en 1927 ?",a:"Werner Heisenberg",w:["Max Planck","Albert Einstein","Erwin Schrödinger"]},
@@ -534,7 +564,7 @@ const CATS=[
    {q:"Dans quel pays se trouve le désert d'Atacama, l'un des plus arides du monde ?",a:"Au Chili",w:["Au Pérou","En Bolivie","En Argentine"]}
   ]},
  {id:'motus',wheel:'Motus',name:'Motus',col:'--pink',pts:2,type:'motus',
-  how:"Tu as la première lettre et le nombre de lettres. Propose des mots : l'arbitre te dit quelles lettres sont bien placées. 5 essais.",
+  how:"Tout le monde joue ! Trouve le mot : 1re lettre et longueur données. Rouge = bien placé, jaune = mal placé.",
   items:["XYLOPHONE","LABYRINTHE","ASTRONAUTE","HELICOPTERE","DIPLODOCUS","SAXOPHONE","KANGOUROU","BOOMERANG","MARMELADE","ORCHESTRE","CROCODILE","TOURNESOL","PARAPLUIE","ESCARGOT","PYRAMIDE","CATAMARAN","HIPPOCAMPE","TROMBONE"]},
  {id:'qvgdm',wheel:'Millions',name:'Qui veut gagner des millions ?',col:'--cyan',pts:1,type:'qcm',all:{sec:20,pts:[2,1],ico:'💰'},
   how:"Tout le monde joue ! Quatre réponses, une seule bonne. Le plus rapide prend 2 points, les autres bonnes réponses 1 point.",
@@ -612,7 +642,7 @@ const CATS=[
   how:"Passe le téléphone à un adversaire : lui seul regarde la personne. Toi, tu poses des questions en oui ou non. 10 questions maximum.",
   items:["Johnny Hallyday","Zinédine Zidane","Céline Dion","Omar Sy","Astérix","Jean Dujardin","Mylène Farmer","Kylian Mbappé","Marie Curie","Louis de Funès","Beyoncé","Harry Potter"]},
  {id:'slam',wheel:'Slam',name:'Slam',col:'--orange',pts:1,type:'slam',
-  how:"L'arbitre lit la définition. Tu connais la première lettre et le nombre de lettres. 10 secondes.",
+  how:"Tout le monde joue ! Une définition, la 1re lettre et la longueur : tape le mot, le plus rapide gagne.",
   items:[
    {q:"Science qui étudie les champignons.",a:"MYCOLOGIE"},
    {q:"Peur maladive des araignées.",a:"ARACHNOPHOBIE"},
@@ -745,6 +775,8 @@ const CATS=[
  {a:"Dua Lipa",t:"Don't Start Now",y:2019},
  {a:"The Weeknd",t:"Blinding Lights",y:2019}
  ]},
+ {id:'duel',wheel:'Duel',name:'Le Duel',col:'--orange',pts:2,type:'duel',all:{sec:15,pts:[2,0],ico:'⚔️'},
+  how:"Case spéciale : face-à-face contre un adversaire tiré au sort. 4 réponses, le plus rapide des deux rafle 2 points."},
  {id:'dex',wheel:'Défis & Duels',name:'Défis & Duels',col:'--cyan',pts:2,type:'secondary',
   how:"La roue des défis prend le relais : adresse, dextérité, logique, rapidité, duels et bataille générale."}
 ];
@@ -772,7 +804,6 @@ const CECILE={
  boyard:[{q:"Épreuve du mot interdit : fais deviner « Cécile » à ton voisin sans dire son prénom, « anniversaire » ni « fête ».",a:"Les adversaires chronomètrent : 40 secondes maximum"}]
 };
 const TIMES={qpuc:10,motus:60,qvgdm:30,prix:30,noplp:45,boyard:30,marche:45,zamours:45,quiest:120,slam:10,sel:20,dex:45};
-const TIMEUP=["Temps écoulé ! Pose ce cerveau, il fume.","Fini ! Le chrono est mort… comme tes espoirs.","Bip bip bip ! C'est terminé, gros.","Stop ! Même la Bonne Mère elle peut plus rien pour toi."];
 
 function comps(){
   const count=S.mode==='solo'?Math.max(2,Math.min(8,S.playerCount||4)):Math.max(1,Math.min(4,S.coupleCount||2))*2;
@@ -781,81 +812,159 @@ function comps(){
   return Array.from({length:count/2},(_,i)=>p[i*2]+' & '+p[i*2+1]);
 }
 
-/* ---------- présentateur : Albatar l'avatar ---------- */
+/* ---------- sons : tout est synthétisé, rien à télécharger ---------- */
 const pick=a=>a[Math.floor(Math.random()*a.length)];
-function avatarSVG(){
-  return `<svg class="avatar" viewBox="0 0 100 130" aria-hidden="true">
-  <!-- pantalon de survêt -->
-  <path d="M28 86 L74 86 L72 113 L56 113 L51 97 L46 113 L30 113Z" fill="var(--teal)"/>
-  <path d="M30 88 L32 112 M72 88 L70 112" stroke="#fff" stroke-width="2.2"/>
-  <!-- chaussettes + claquettes -->
-  <rect x="32" y="111" width="11" height="10" rx="2" fill="#fff"/><rect x="32" y="114" width="11" height="2" fill="var(--pink)"/>
-  <rect x="59" y="111" width="11" height="10" rx="2" fill="#fff"/><rect x="59" y="114" width="11" height="2" fill="var(--pink)"/>
-  <ellipse cx="46" cy="121" rx="3" ry="2" fill="#f0a35a"/><ellipse cx="73" cy="121" rx="3" ry="2" fill="#f0a35a"/>
-  <rect x="28" y="122" width="22" height="4" rx="2" fill="#0b0b14" stroke="var(--muted)" stroke-width=".8"/>
-  <rect x="55" y="122" width="22" height="4" rx="2" fill="#0b0b14" stroke="var(--muted)" stroke-width=".8"/>
-  <rect x="31" y="117" width="15" height="5" rx="1.5" fill="var(--pink)"/><rect x="58" y="117" width="15" height="5" rx="1.5" fill="var(--pink)"/>
-  <!-- veste -->
-  <path d="M28 60 Q30 52 44 51 L58 51 Q72 52 74 60 L75 88 L27 88Z" fill="var(--teal)"/>
-  <path d="M51 56 L51 88" stroke="var(--dark)" stroke-width="1.4"/>
-  <path d="M43 51 L51 58 L59 51" stroke="#fff" stroke-width="2.4" fill="none" stroke-linejoin="round"/>
-  <path d="M44 55 Q51 65 58 55" stroke="var(--gold)" stroke-width="1.8" fill="none"/><circle cx="51" cy="62" r="2" fill="var(--gold)"/>
-  <!-- bras : un ballant, un qui tient le micro -->
-  <path d="M29 60 Q19 72 22 86" stroke="var(--teal)" stroke-width="9" fill="none" stroke-linecap="round"/>
-  <path d="M26 60 Q17 72 19 84" stroke="#fff" stroke-width="1.8" fill="none"/>
-  <ellipse cx="22" cy="90" rx="4" ry="5" fill="#8d8aa8"/>
-  <path d="M73 60 Q86 66 82 52" stroke="var(--teal)" stroke-width="9" fill="none" stroke-linecap="round"/>
-  <path d="M76 58 Q88 62 85 51" stroke="#fff" stroke-width="1.8" fill="none"/>
-  <!-- cou + tête -->
-  <path d="M42 42 Q43 48 44 52 L58 52 Q59 47 60 42Z" fill="#f4f1ff"/>
-  <ellipse cx="50" cy="32" rx="17" ry="15" fill="#f4f1ff"/>
-  <path d="M46 28 Q54 23 62 28" stroke="#6d6a86" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <circle cx="55" cy="30.5" r="3" fill="var(--dark)"/><circle cx="56.1" cy="29.4" r="1" fill="#fff"/>
-  <path d="M62 33 Q82 30 95 36 Q98 41 93 42 Q90 39 84 39 L62 40Z" fill="#f6c453"/>
-  <path class="mouth" d="M62 40 L88 40 Q83 46 64 44Z" fill="#e0913a"/>
-  <!-- casquette visière de côté -->
-  <path d="M33 27 Q33 11 50 11 Q66 11 67 26 Q50 22 33 27Z" fill="var(--pink)"/>
-  <path d="M35 25 Q22 22 15 28 Q28 31 38 28Z" fill="#c9346a"/>
-  <circle cx="50" cy="11.5" r="2" fill="#c9346a"/>
-  <!-- micro -->
-  <g transform="rotate(-18 82 50)"><rect x="79.5" y="44" width="5" height="16" rx="2" fill="var(--muted)"/><circle cx="82" cy="42" r="5.5" fill="var(--gold)" stroke="var(--dark)" stroke-width="1.3"/></g>
-  <ellipse cx="82" cy="54" rx="4.5" ry="4" fill="#8d8aa8"/>
-  </svg>`;
-}
-const hostHTML=mini=>`<div class="host${mini?' mini':''}">${avatarSVG()}<div class="bubble"><span class="who">Albatar l'avatar</span><span class="bubbleText">${esc(lastLine)}</span><button type="button" class="replay" aria-label="Répéter">↻</button></div></div>`;
-
-let voiceOn=true;try{voiceOn=localStorage.getItem('plateau-voix')!=='0'}catch(e){}
-let frVoice=null,talkT,lastLine="Wesh la zone ! Tape les blazes des candidats et on envoie la sauce.";
-const hasTTS='speechSynthesis' in window;
-function pickVoice(){try{const v=speechSynthesis.getVoices().filter(x=>/^fr/i.test(x.lang));frVoice=v.find(x=>/Thomas|Paul|Henri|Mathieu|Nicolas|Google/i.test(x.name))||v[0]||null}catch(e){}}
-if(hasTTS){pickVoice();try{speechSynthesis.onvoiceschanged=pickVoice}catch(e){}}
-function talking(on){document.querySelectorAll('.avatar').forEach(a=>a.classList.toggle('talking',on))}
-function say(t){
-  lastLine=t;
-  document.querySelectorAll('.bubbleText').forEach(p=>p.textContent=t);
-  clearTimeout(talkT);
-  if(voiceOn&&hasTTS){
-    try{
-      speechSynthesis.cancel();
-      const u=new SpeechSynthesisUtterance(t.replace(/−/g,'moins ').replace(/&/g,' et '));
-      u.lang='fr-FR';if(frVoice)u.voice=frVoice;u.rate=1.15;u.pitch=.85;
-      u.onstart=()=>talking(true);u.onend=u.onerror=()=>talking(false);
-      speechSynthesis.speak(u);talking(true);
-      talkT=setTimeout(()=>talking(false),Math.min(16000,t.length*70+600));return;
-    }catch(e){}
-  }
-  talking(true);talkT=setTimeout(()=>talking(false),Math.min(3500,t.length*35));
-}
-function renderVoiceBtn(){$('#voice').textContent='Voix off : '+(voiceOn?'oui':'non')}
-document.addEventListener('click',e=>{if(e.target.closest('.replay'))say(lastLine)});
-const WIN=["Oh fatche ! C'est validé, t'es un monstre !","Vé le cerveau ! Tarpin fort, j'te jure sur ma casquette.","Bien ouej ! Même ma daronne elle l'avait pas, et elle sait tout.","Oh con, t'es chaud comme la Canebière en août !","Carton plein ! On te fera une statue au Vieux-Port… à titre posthume, évidemment.","Ça c'est envoyé ! Le bijou, tu m'as mis en PLS."];
-const LOSE=["Oh fada ! C'est la hess totale. Paix à ton âme.","Raté ! On t'enterre sous les applaudissements, frérot.","Oh c'est mort… et je m'y connais, j'ai jamais été vivant.","Même un poisson du Vieux-Port il l'avait. R.I.P.","Oh le boulet ! T'as laissé ton cerveau au vestiaire ou quoi ?","Zéro pointé ! On dira que c'est la faute du pastis.","Perdu ! Tu viens de creuser ta tombe avec une petite cuillère, gros."];
-const SPIN=["Ça tourne comme ma tête un lendemain de pastis…","Roule ma poule, roule !","Suspense de fou, j'en perds mes plumes, vé !","Elle tourne, elle tourne… comme un goéland au-dessus d'un candidat mal barré.","Allez la roue, fais pas ta princesse !"];
-const QUIP={qpuc:"Top ! Sors tes neurones du formol, gros.",motus:"Motus et bouche cousue… comme au cimetière Saint-Pierre.",qvgdm:"Y a pas de million ce soir, mais ta dignité elle est en jeu.",prix:"Le Juste Prix sans les prix, parce que la vie elle est déjà tarpin chère.",noplp:"Chante, et si tu chantes faux, on te débranche.",boyard:"Le Père Fouras il est mort de vieillesse, c'est moi qu'ai récupéré la barbe.",marche:"Attention à la marche… la dernière, c'est celle de l'échafaud.",zamours:"On va voir si vous vous connaissez vraiment, ou si c'est juste pour les impôts.",bigdil:"Le Bigdil ! Trois boîtes, dont une avec peut-être ta belle-mère dedans.",quiest:"Qui est qui ? Moi je sais, mais je balance pas, j'suis pas une balance, vé.",slam:"Slam ! Pas celui des poètes, celui où tu te prends un mur.",sel:"Sel ou poivre ? Comme sur une plaie : choisis bien, mon con."};
-const TURN=n=>pick([`À toi, ${n} !`,`${n}, vas-y, fais péter !`,`${n}, c'est ton tour, fais pas le mort !`,`${n}, ramène ta fraise, gros !`]);
 const ptsTxt=n=>n+' point'+(Math.abs(n)>1?'s':'');
+let AC=null,MASTER=null,NB=null;
+function ac(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}return AC}
+function out(){const a=ac();if(!a)return null;if(!MASTER){MASTER=a.createGain();MASTER.gain.value=.9;MASTER.connect(a.destination)}return MASTER}
+document.addEventListener('pointerdown',()=>ac(),{capture:true});
+function tone(f,t,d,v,type,f2,dest){
+  try{const a=ac(),o=dest||out();if(!a||!o)return;const n=a.currentTime+t,os=a.createOscillator(),g=a.createGain();
+    os.type=type||'square';os.frequency.setValueAtTime(f,n);if(f2)os.frequency.exponentialRampToValueAtTime(f2,n+d);
+    g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(v,n+.01);g.gain.exponentialRampToValueAtTime(.0001,n+d);
+    os.connect(g).connect(o);os.start(n);os.stop(n+d+.03)}catch(e){}
+}
+function noise(t,d,v,ft,ff,q,dest){
+  try{const a=ac(),o=dest||out();if(!a||!o)return;
+    if(!NB){NB=a.createBuffer(1,a.sampleRate,a.sampleRate);const x=NB.getChannelData(0);for(let i=0;i<x.length;i++)x[i]=Math.random()*2-1}
+    const n=a.currentTime+t,s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain();
+    s.buffer=NB;s.loop=true;f.type=ft||'bandpass';f.frequency.value=ff||1000;f.Q.value=q||1;
+    g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(v,n+.008);g.gain.exponentialRampToValueAtTime(.0001,n+d);
+    s.connect(f).connect(g).connect(o);s.start(n);s.stop(n+d+.05)}catch(e){}
+}
+function beep(f,t,dur,vol){tone(f,t,dur,vol,'square')}
+const SFX={
+  jingle(){[523,659,784,1047,1319].forEach((f,i)=>{tone(f,i*.08,.2,.07,'triangle');tone(f*2,i*.08,.08,.02,'square')})},
+  go(){noise(0,.4,.12,'highpass',1800);tone(220,0,.38,.07,'sawtooth',880);tone(1047,.34,.25,.09,'square');tone(1568,.34,.4,.06,'triangle')},
+  applause(t,d){for(let i=0;i<Math.round(d*45);i++)noise(t+Math.random()*d,.04+Math.random()*.05,.04+Math.random()*.05,'bandpass',1400+Math.random()*2600,1.4)},
+  win(){[523,659,784,1047].forEach((f,i)=>tone(f,i*.11,.16,.08,'square'));tone(1047,.44,.55,.08,'square');tone(1319,.44,.55,.06,'triangle');tone(1568,.44,.65,.05,'triangle');SFX.applause(.5,1.8)},
+  lose(){[392,370,349].forEach((f,i)=>{tone(f,i*.32,.3,.08,'sawtooth');tone(f*1.006,i*.32,.3,.04,'triangle')});tone(330,.96,.9,.09,'sawtooth',300);tone(332,.96,.9,.04,'triangle',301)},
+  none(){for(let i=0;i<4;i++)[0,.05,.1].forEach(o=>tone(4300,i*.38+o,.035,.03,'sine'))},
+  clash(){tone(95,0,.55,.2,'sine',40);noise(0,.3,.15,'lowpass',900);noise(.05,.5,.05,'highpass',3500);tone(1400,.06,.14,.05,'square',500)},
+  chicken(){[0,.17,.3,.55].forEach((t,i)=>tone(i===3?700:950+i*90,t,i===3?.25:.09,.05,'square',i===3?1300:520))},
+  buzz(){tone(150,0,.35,.12,'sawtooth');tone(153,0,.35,.07,'square')},
+  ding(){tone(1319,0,.25,.07,'triangle');tone(1760,.08,.35,.06,'triangle')},
+  bad(){tone(185,0,.32,.08,'square',120)},
+  tick(){tone(660,0,.1,.06,'square')},
+  drum(){for(let i=0;i<16;i++)noise(i*.045,.05,.03+i*.004,'bandpass',1800,.8)},
+  podium(){SFX.drum();[523,523,523,659,784,659,784,1047].forEach((f,i)=>tone(f,.8+i*.14,i===7?.9:.13,.08,'square'));SFX.applause(1.6,3)}
+};
+
+/* ---------- ambiance : petite boucle de plateau télé, sous les jeux ---------- */
+const AMB={on:true,g:null,step:0,next:0};
+try{AMB.on=localStorage.getItem('lgr-amb')!=='0'}catch(e){}
+const AMB_ROOT=[110,87.31,130.81,98],AMB_CH=[[440,523,659],[349,440,523],[523,659,784],[392,494,587]];
+function ambWanted(){
+  return AMB.on&&S.started&&NET.role!=='phone'&&(!$('#game').hidden||!$('#podium').hidden)&&!(typeof BT!=='undefined'&&BT&&BT.kind==='music');
+}
+function ambTick(){
+  const a=AC;if(!a||a.state!=='running')return;
+  if(!AMB.g){AMB.g=a.createGain();AMB.g.gain.value=0;AMB.g.connect(out())}
+  const want=ambWanted();AMB.g.gain.setTargetAtTime(want?.55:0,a.currentTime,.5);
+  if(!want&&AMB.g.gain.value<.01){AMB.next=0;return}
+  const st=60/100/2;if(AMB.next<a.currentTime)AMB.next=a.currentTime+.05;
+  while(AMB.next<a.currentTime+.35){
+    const s=AMB.step%8,bar=Math.floor(AMB.step/8)%4,t=AMB.next-a.currentTime,d=AMB.g;
+    if(s===0||s===4)tone(130,t,.22,.22,'sine',42,d);
+    if(s%2)noise(t,.03,.025,'highpass',7500,1,d);
+    if(s===2||s===6)noise(t,.12,.05,'bandpass',1600,.9,d);
+    if(s===0||s===3||s===6)tone(AMB_ROOT[bar],t,.24,.09,'triangle',null,d);
+    if(s%2===0)tone(AMB_CH[bar][(s/2)%3]*(s===4?2:1),t,.16,.02,'triangle',null,d);
+    AMB.step++;AMB.next+=st;
+  }
+}
+setInterval(ambTick,100);
+function renderAmbBtn(){const b=$('#amb');if(b)b.textContent='🔊 Ambiance : '+(AMB.on?'oui':'non')}
+
+/* ---------- écrans d'annonce : la règle + GO, puis le verdict et le score ---------- */
+let cardT=null,cardDone=null,cardNow=null;
+function showCard(html,ms,cls,style){
+  return new Promise(res=>{
+    if(cardDone)cardDone();
+    const ov=$('#cardOv');cardNow={h:html+`<i class="cd-bar" style="--t:${ms}ms"></i>`,cls:cls||'',st:style||''};
+    ov.className='card-ov '+(cls||'');ov.style.cssText=style||'';ov.innerHTML=`<div class="card-box">${html}<i class="cd-bar" style="--t:${ms}ms"></i></div>`;ov.hidden=false;
+    const done=()=>{if(cardDone!==done)return;cardDone=null;cardNow=null;clearTimeout(cardT);ov.hidden=true;ov.innerHTML='';res()};
+    cardDone=done;cardT=setTimeout(done,ms);
+  });
+}
+const cardOn=()=>!!cardDone;
+$('#cardOv').addEventListener('click',()=>{if(cardDone)cardDone()});
+const RULES={
+ qpuc:"Une question, 4 réponses. Le plus rapide prend 2 points, les autres bons 1.",
+ qvgdm:"4 réponses, une seule bonne. Le plus rapide prend 2 points, les autres bons 1.",
+ motus:"Trouve le mot ! Rouge : bien placé. Jaune : mal placé. Le plus rapide gagne.",
+ slam:"Une définition, la 1re lettre et la longueur. Tape le mot, le plus rapide gagne !",
+ prix:"Chacun écrit son chiffre en secret. Le plus proche rafle 2 points.",
+ noplp:"On coupe la musique, tu continues à chanter. Sans te tromper d'un mot !",
+ boyard:"Énigme ou épreuve du Père Fouras : 30 secondes pour réussir.",
+ marche:"3 questions de plus en plus dures. Tout bon = 3 points.",
+ zamours:"Les partenaires répondent en secret : même réponse = points !",
+ bigdil:"3 boîtes, 1 choix : jackpot ou boîte à chaussures.",
+ quiest:"Questions en oui ou non pour trouver qui c'est. 10 maximum !",
+ sel:"Sel, poivre ou les deux ? 4 bonnes réponses sur 5 pour gagner.",
+ arena:"Mini-jeu réflexe, mémoire ou code. Réussis la mission !",
+ blindtest:"L'extrait part tout seul : trouve le titre parmi 4. Le plus rapide prend 3 points !",
+ dex:"La roue des défis choisit l'épreuve : adresse, logique ou face-à-face.",
+ duel:"Face-à-face : 4 réponses, le plus rapide des deux rafle 2 points !",
+ party:"{n} titres, tout le monde joue : le plus rapide prend 3 points à chaque titre !"
+};
+function ruleCard(cat,who,rule){
+  const t=TYPO[cat.id]||{f:'Bungee'},col=css(cat.col)||css('--cyan');
+  SFX.jingle();
+  const h=`<span class="cd-tag">${esc(who)}</span><h2 class="cd-title" style="font-family:'${t.f}',var(--display);font-weight:${t.w||400};${t.it?'font-style:italic;':''}">${esc(cat.name)}</h2><p class="cd-rule">${esc(rule||RULES[cat.id]||cat.how||'')}</p>`;
+  return showCard(h,3800,'rule','--cc:'+col).then(()=>{SFX.go();return showCard('<div class="cd-go">GO !</div>',850,'go')});
+}
+
+/* ---------- les répliques : brèves, piquantes, avec rimes et jeux de mots ---------- */
+const LINES={
+ win:["{n} empoche la mise : quelle maîtrise !","Un sans-faute pour {n} : la classe, la grâce, la place !","{n}, t'es pas une flèche, t'es un missile !","Validé ! {n} brille plus qu'une boule à facettes.","{n} : génie, génial, génialissime !","{n} marque des points, les autres marquent le pas.","Neurones au taquet pour {n}, adversaires à la buvette.","{n} gagne, et ça se fête : bravo la tête !","Ding ding ! {n} sonne la cloche, les autres sonnent creux.","{n} a tout bon : on applaudit, ou on jalouse en silence."],
+ lose:["{n}, pas de panique : même Einstein a eu des jours sans.","Zéro pour {n}, mais 20 sur 20 en bonne humeur !","{n} a visé la lune… et raté le plafond.","{n}, t'as perdu la manche ? Garde le moral et la revanche !","Pas de point pour {n}. La roue tourne, la chance aussi.","{n} a eu un trou… de la taille d'un cratère.","{n}, c'est pas une défaite : c'est une victoire qui s'est trompée d'adresse.","Dommage {n} ! On a dit « pas de bol », pas « pas de cerveau »."],
+ none:["Personne ? Bravo l'équipe : le néant en version collective.","Silence radio : même les grillons sont gênés.","Zéro trouvaille, zéro médaille !","Personne n'a trouvé. La question repart invaincue.","Aucun gagnant : l'esprit d'équipe… dans la défaite."],
+ multi:["{n} dégaine le premier, {o} juste derrière !","{n} plus vif que l'éclair, {o} dans la foulée.","Course gagnée par {n} ! Bravo aussi à {o}.","{n} en tête de la meute, {o} sur ses talons."],
+ duel:["{n} bat {m} : fin du western, rangez les santiags.","{n} 1, {m} 0. {m}, reviens avec des renforts !","{n} dégaine, {m} s'incline. Pas de quartier !","Duel plié : {n} a le buzzer facile, {m} le réveil difficile."],
+ give:["Les points filent chez {m} sous le nez de {n}. Hold-up !","{m} rafle la mise, {n} reste sur le quai : le train est passé.","{n} sème, {m} récolte. C'est ça, l'agriculture moderne."],
+ steal:["{n} dévalise {m} : pas de masque, pas de remords.","{m} se fait plumer par {n}. Ça pique, mais ça rapporte.","Braquage en direct ! {m}, porte plainte auprès de la roue."],
+ skip:["{n} passe son tour. Poule mouillée, mais au sec !","{n} se défile : stratégie ou trouille ? Un peu des deux.","{n} préfère passer. Prudence est mère de… zéro point."],
+ bigwin:["Jackpot pour {n} ! Le Bigdil, c'est Noël avant l'heure.","{n} ouvre la bonne boîte : la chance sourit aux audacieux.","{n} tire le gros lot. Les autres tirent la tête."],
+ biglose:["{n} ouvre la boîte… et la boîte mord. Aïe !","Mauvaise pioche pour {n} : la boîte de Pandore version soldes.","{n} voulait un trésor, {n} a eu un trou."],
+ bigzero:["Boîte vide pour {n} : zéro point, mais un joli carton.","{n} gagne… de l'air. C'est léger, c'est frais, c'est rien.","Rien pour {n} : le Bigdil, c'est du vent, et ça décoiffe."],
+ tease:["{l} ferme la marche… mais marche bien, c'est déjà ça.","{l} dernier : pas à la traîne, carrément la traîne.","{f} caracole en tête. {l}, accroche-toi au wagon !","{f} en haut, {l} en bas : le classement ne ment pas, il pique.","{f} mène la danse, {l} cherche encore la musique.","{l}, on t'envoie une carte postale depuis le haut du classement."],
+ champ:["{n} l'emporte : la couronne lui va comme un gant !","{n} sur le trône, les autres sur le banc.","Victoire de {n} ! Pas de justesse : de la noblesse.","{n} gagne tout. Les autres gagnent… le droit de revenir."],
+ tie:["Égalité en tête ! Il faudra un tour de plus… ou un pierre-feuille-ciseaux.","Ex aequo au sommet : deux têtes pour une seule couronne !"]
+};
+const fill=(s,o)=>s.replace(/\{(\w)\}/g,(_,k)=>o[k]!==undefined?o[k]:'');
+const nameList=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' et '+a[a.length-1];
+function verdict(res){
+  const c=comps(),N=i=>c[i];
+  switch(res.k){
+   case 'win':return {e:'🎉',t:`Bravo ${N(res.w)} !`,l:fill(pick(LINES.win),{n:N(res.w)}),cls:'win',s:'win'};
+   case 'multi':return {e:'⚡',t:`${N(res.w)}, le plus rapide !`,l:fill(pick(LINES.multi),{n:N(res.w),o:nameList(res.o.map(N))}),cls:'win',s:'win'};
+   case 'lose':return {e:'🫠',t:'Raté…',l:fill(pick(LINES.lose),{n:N(res.l)}),cls:'lose',s:'lose'};
+   case 'none':return {e:'🦗',t:'Personne ?',l:pick(LINES.none),cls:'lose',s:'none'};
+   case 'duel':return {e:'⚔️',t:`${N(res.w)} gagne le duel !`,l:fill(pick(LINES.duel),{n:N(res.w),m:N(res.l)}),cls:'win',s:'clash'};
+   case 'give':return {e:'🎁',t:`Pour ${N(res.w)} !`,l:fill(pick(LINES.give),{n:N(res.l),m:N(res.w)}),cls:'clash',s:'clash'};
+   case 'steal':return {e:'🦹',t:'Braquage !',l:fill(pick(LINES.steal),{n:N(res.w),m:N(res.l)}),cls:'clash',s:'clash'};
+   case 'skip':return {e:'🐔',t:'Courage, fuyons !',l:fill(pick(LINES.skip),{n:N(res.l)}),cls:'lose',s:'chicken'};
+   case 'big':{const k=res.d>0?'bigwin':res.d<0?'biglose':'bigzero';return {e:res.d>0?'🎁':res.d<0?'📦':'🫙',t:res.t,l:fill(pick(LINES[k]),{n:N(res.w)}),cls:res.d>0?'win':'lose',s:res.d>0?'win':res.d<0?'lose':'none'}}
+   default:return {e:res.e||'🎲',t:res.t||'',l:res.l||'',cls:'',s:'ding'};
+  }
+}
+let snap=null;
+function resultCard(res,again){
+  const v=verdict(res),c=comps();
+  const sc=c.map((n,i)=>({n,i,s:S.scores[i]||0,d:snap?(S.scores[i]||0)-(snap[i]||0):0})).sort((a,b)=>b.s-a.s);
+  const rows=sc.map(x=>`<li class="${x.d>0?'up':x.d<0?'down':''}"><span class="rk">${1+sc.filter(y=>y.s>x.s).length}</span><span class="nm">${esc(x.n)}</span>${x.d?`<span class="dl">${x.d>0?'+':''}${x.d}</span>`:'<span></span>'}<b>${x.s}</b></li>`).join('');
+  const last=sc[sc.length-1];
+  const tease=sc.length>2&&sc[0].s>last.s&&sc[sc.length-2].s>last.s&&Math.random()<.6?fill(pick(LINES.tease),{f:sc[0].n,l:last.n}):'';
+  const next=again>=0?`🔁 <b>${esc(c[again])}</b> rejoue grâce au bonus !`:`Au tour de <b>${esc(c[S.turn])}</b> →`;
+  (SFX[v.s]||SFX.ding)();
+  if(v.cls==='win')setTimeout(()=>confetti(110),150);
+  return showCard(`<div class="cd-emoji">${v.e}</div><h2 class="cd-title">${esc(v.t)}</h2><p class="cd-line">${esc(v.l)}</p><ol class="cd-board">${rows}</ol>${tease?`<p class="cd-tease">${esc(tease)}</p>`:''}<p class="cd-next">${next}</p>`,6000,'res v-'+v.cls);
+}
+
 /* jeux de quiz joués en duel au buzzer */
-const DUEL=new Set(['motus','slam']);
+const DUEL=new Set();
 const isDuel=cat=>DUEL.has(cat.id)&&comps().length>1;
 function pickOpp(prev){const n=comps().length,me=S.turn;const o=[...Array(n).keys()].filter(i=>i!==me&&i!==prev);return o.length?pick(o):prev}
 
@@ -884,29 +993,6 @@ async function findPreview(song){
 }
 const player=new Audio();player.preload='auto';
 function stopMusic(){try{player.pause()}catch(e){}}
-function intro(cat,item,name){
-  let t=`${name} tombe sur… ${cat.name} ! ${QUIP[cat.id]||''} `;
-  if(cat.id==='prix')t+=`Tout le monde écrit sa réponse, le plus proche rafle la mise. ${item.q}`;
-  else if(cat.type==='qa')t+=item.q;
-  else if(cat.type==='qcm')t+=item.q+' '+item.c.map((x,i)=>'ABCD'[i]+' : '+x).join('. ')+'.';
-  else if(cat.type==='motus')t+=`Un mot de ${item.length} lettres qui commence par ${item[0]}.`;
-  else if(cat.type==='slam')t+=`${item.q} En ${item.a.length} lettres, ça commence par ${item.a[0]}.`;
-  else if(cat.type==='challenge')t+=item+'.';
-  else if(cat.type==='list')t+=cat.how;
-  else if(cat.type==='secret')t+="Passe le phone à un adversaire. Toi, pose tes questions en oui ou non, et magne-toi !";
-  else if(cat.type==='bigdil')t+="Laquelle tu choisis ?";
-  return t;
-}
-function answerLine(cat,item){
-  const d=pick(["Roulement de tambour…","Accrochez vos slips…","Et la réponse, gros, c'est…"])+' ';
-  if(cat.type==='qa')return d+item.a+'.';
-  if(cat.type==='qcm')return d+'la '+'ABCD'[item.a]+' : '+item.c[item.a]+'.';
-  if(cat.type==='motus')return d+'le mot, c\'était '+item+'.';
-  if(cat.type==='slam')return d+'le mot, c\'était '+item.a+'.';
-  if(cat.type==='list')return d+item.map(x=>x.a).join(', ')+'.';
-  return 'Alors, t\'as trouvé ou t\'es cuit ?';
-}
-
 /* ---------- réglages ---------- */
 function renderNames(){
   if(!Array.isArray(S.players))S.players=[];
@@ -931,9 +1017,9 @@ $('#names').addEventListener('change',e=>{if(e.target.id!=='participantCount')re
 $('#m-solo').onclick=()=>{S.mode='solo';S.started=false;save();renderNames()};
 $('#m-couple').onclick=()=>{S.mode='couple';S.started=false;save();renderNames()};
 $('#start').onclick=()=>{S.scores=comps().map(()=>0);S.turn=0;S.played=0;S.bonus=comps().map(()=>bonusCount());S.fx=comps().map(()=>({}));S.started=true;save();show('game');
-  const c=comps();
-  say(`Wesh la zone ! C'est Albatar l'avatar, en direct des quartiers nord, le seul présentateur qui plane plus haut que vos notes au bac. Bienvenue sur LA GRANDE ROUE, gros ! Ce soir, ${S.mode==='solo'?c.length+' candidats':c.length+' couples'} vont se mettre sur la tronche sur quinze jeux cultes. Le perdant, on le jette dans le Vieux-Port… non j'déconne. Quoique. ${c[0]}, t'as l'honneur : fais péter la roue !`)};
-$('#resume').onclick=()=>{if(S.scores.length!==comps().length)S.scores=comps().map(()=>0);show('game');say(`Oh fatche, on y retourne ! ${TURN(comps()[S.turn])}`)};
+  const c=comps();if(S.game==='party')return;SFX.podium();
+  showCard(`<div class="cd-emoji">🎡</div><h2 class="cd-title">C'est parti !</h2><p class="cd-line">${c.length} ${S.mode==='solo'?'candidats':'couples'}, 16 jeux, une seule couronne. Que le meilleur gagne… et que les autres rigolent !</p><p class="cd-next"><b>${esc(c[0])}</b>, à toi de tourner la roue →</p>`,5000,'v-win')};
+$('#resume').onclick=()=>{if(S.scores.length!==comps().length)S.scores=comps().map(()=>0);show('game');SFX.jingle();showCard(`<div class="cd-emoji">🔁</div><h2 class="cd-title">On reprend !</h2><p class="cd-line">Les scores n'ont pas bougé. Les rancunes non plus.</p><p class="cd-next">Au tour de <b>${esc(comps()[S.turn])}</b> →</p>`,4000,'')};
 
 function show(id){
   ['setup','game','podium'].forEach(s=>$('#'+s).hidden=s!==id);
@@ -960,29 +1046,32 @@ function renderScores(popI,delta){
 }
 $('#scores').addEventListener('click',e=>{const b=e.target.closest('[data-adj]');if(b)award(+b.dataset.adj,+b.dataset.d)});
 function award(i,n){S.scores[i]=(S.scores[i]||0)+n;save();renderScores(i,n)}
-function nextTurn(prefix){
+function nextTurn(res){
   ensureFx();const prev=S.turn,f=S.fx[prev]||{};
   if(f.stylo>0)f.stylo--;if(f.shield>0)f.shield--;
   const again=f.again;f.again=false;
   S.played=(S.played||0)+1;S.turn=again?prev:(prev+1)%comps().length;save();renderScores();
-  if(again&&!(S.max&&S.played>=S.max)&&prefix!==undefined){say(prefix+` Et ${comps()[prev]} rejoue grâce à son bonus !`);return}
-  if(S.max&&S.played>=S.max){endGame((prefix||'')+" Et c'était le dernier tour !");return}
-  if(prefix!==undefined)say(prefix+' '+TURN(comps()[S.turn]));
+  const last=S.max&&S.played>=S.max;
+  const p=res?resultCard(res,again&&!last?prev:-1):Promise.resolve();
+  snap=null;
+  if(last)p.then(()=>endGame());
 }
-$('#skip').onclick=()=>nextTurn(`${comps()[S.turn]} se dégonfle et passe son tour. C'est la hess, frérot.`);
-$('#voice').onclick=()=>{voiceOn=!voiceOn;try{localStorage.setItem('plateau-voix',voiceOn?'1':'0')}catch(e){}renderVoiceBtn();if(!voiceOn&&hasTTS){try{speechSynthesis.cancel()}catch(e){}talking(false)}else say("Albatar il est de retour, gros ! Vous pensiez vous débarrasser de moi ? Même la mort elle a pas voulu de moi.")};
+$('#skip').onclick=()=>{if(!$('#sheet').hidden||cardOn())return;snap=S.scores.slice();nextTurn({k:'skip',l:S.turn})};
+$('#amb').onclick=()=>{AMB.on=!AMB.on;try{localStorage.setItem('lgr-amb',AMB.on?'1':'0')}catch(e){}renderAmbBtn();ac()};
 function endGame(pre){
   const c=comps().map((n,i)=>({n,s:S.scores[i]||0})).sort((a,b)=>b.s-a.s);
   $('#rank').innerHTML=c.map((x,i)=>`<li><span class="pos">${1+c.filter(y=>y.s>x.s).length}</span><span class="nm">${esc(x.n)}</span><span class="sc">${ptsTxt(x.s)}</span></li>`).join('');
   show('podium');
-  const tie=c.length>1&&c[0].s===c[1].s;
-  const bday=hasCecile()?" Et surtout, joyeux anniv' Cécile, la reine ! Souffle tes bougies avant qu'elles deviennent des cierges !":"";
-  say((pre?pre+' ':'')+(tie?`Oh la zone, et les fantômes au fond… égalité en tête à ${ptsTxt(c[0].s)} ! Faut un duel à mort… ou juste un tour de plus.`
-         :`Oh la zone, et les fantômes au fond… le grand gagnant de ${S.game==='party'?'ce BLIND TEST':'LA GRANDE ROUE'}, c'est ${c[0].n}, avec ${ptsTxt(c[0].s)} ! Les autres, allez creuser vos tombes, fadas.`)+bday);
+  const tie=c.length>1&&c[0].s===c[1].s,lastP=c[c.length-1];
+  let line=tie?pick(LINES.tie):fill(pick(LINES.champ),{n:c[0].n});
+  if(c.length>2&&!tie&&lastP.s<c[c.length-2].s)line+=' '+fill(pick(["Mention spéciale à {l} : la lanterne rouge éclaire le chemin des autres.","{l} finit dernier, mais premier au classement de la bonne humeur.","{l}, la prochaine fois, ce sera la bonne. Ou pas."]),{l:lastP.n});
+  if(hasCecile())line+=" Et joyeux anniversaire Cécile ! 🎂";
+  $('#podLine').textContent=line;
+  SFX.podium();
   setTimeout(()=>confetti(180),300);
 }
 $('#end').onclick=()=>{closeSheet();endGame()};
-$('#continue').onclick=()=>{if(S.max)S.max=Math.max(S.max,S.played)+comps().length;save();show('game');say(`Encore ? Vous êtes pires que des zombies, vé ! ${TURN(comps()[S.turn])}`)};
+$('#continue').onclick=()=>{if(S.max)S.max=Math.max(S.max,S.played)+comps().length;save();show('game');SFX.jingle();showCard(`<div class="cd-emoji">🔥</div><h2 class="cd-title">Encore un tour !</h2><p class="cd-line">Qui perd gagne… le droit de rejouer.</p><p class="cd-next">Au tour de <b>${esc(comps()[S.turn])}</b> →</p>`,4000,'')};
 $('#restart').onclick=()=>{S.started=false;save();renderNames();show('setup')};
 
 /* ---------- typographie de chaque jeu ---------- */
@@ -1001,7 +1090,8 @@ const TYPO={
  sel:{f:'Shrikhand',size:.95},
  arena:{f:'Orbitron',w:900,up:true,size:.85},
  blindtest:{f:'Audiowide'},
- dex:{f:'Black Ops One',size:.95}
+ dex:{f:'Black Ops One',size:.95},
+ duel:{f:'Bangers',up:true,size:1.15,ls:1}
 };
 const typoFont=(t,px)=>`${t.it?'italic ':''}${t.w||400} ${px}px "${t.f}", ${css('--display')}`;
 if(document.fonts){Promise.all(Object.values(TYPO).map(t=>document.fonts.load(typoFont(t,40)).catch(()=>{}))).then(()=>{draw();if(typeof drawDex==='function')drawDex()})}
@@ -1054,17 +1144,8 @@ const idxAt=r=>{let a=(-Math.PI/2-r)%(Math.PI*2);if(a<0)a+=Math.PI*2;return Math
 window.addEventListener('resize',sizeWheel);
 if(document.fonts)document.fonts.ready.then(draw);
 
-let AC=null;
-function beep(f,t,dur,vol){
-  try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();
-    const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f;
-    g.gain.setValueAtTime(vol,AC.currentTime+t);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+t+dur);
-    o.connect(g).connect(AC.destination);o.start(AC.currentTime+t);o.stop(AC.currentTime+t+dur+.02);
-  }catch(e){}
-}
 $('#spin').onclick=()=>{
-  if(spinning)return;spinning=true;$('#spin').disabled=true;hl=-1;btUnlock();
-  beep(1,0,.01,.0001);say(pick(SPIN));
+  if(spinning||cardOn()||!$('#sheet').hidden)return;spinning=true;$('#spin').disabled=true;hl=-1;btUnlock();ac();
   const target=pickWheelTarget(),jit=(Math.random()-.5)*SEG*.7;
   let end=-Math.PI/2-(target+.5)*SEG-jit;
   const min=rot+Math.PI*2*5;
@@ -1149,14 +1230,13 @@ const DEX=[
 let dexRot=0,dexSpin=false;
 function openDexWheel(){
   cur=null;$('#sheet').hidden=false;$('#backdrop').hidden=false;
-  $('#sheetIn').innerHTML=miniScores()+hostHTML(true)+
+  $('#sheetIn').innerHTML=miniScores()+
     '<div class="cathead"><h2 class="cat" style="font-family:\'Black Ops One\',var(--display)">🎯 Défis & Duels</h2><span class="pts">2 pts</span></div>'+
     '<p class="how">Niveau adulte ++ : précision, cerveau, pression, bluff, coordination et face-à-face. Certaines missions comportent plusieurs phases.</p>'+
     '<div style="position:relative;max-width:390px;margin:18px auto"><canvas id="dexCanvas" style="display:block;width:100%;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 10px 22px #0008)"></canvas><div style="position:absolute;left:50%;top:-8px;transform:translateX(-50%);font-size:34px;z-index:2">▼</div></div>'+
     '<button type="button" class="big" id="dexSpin">TOURNER LA ROUE DES DÉFIS</button>';
   drawDex();
   $('#dexSpin').onclick=spinDex;
-  say("Oh fatche ! Deuxième roue ! Là on quitte les questions pépères : adresse, logique, duels et bataille générale. Fais tourner !");
 }
 function drawDex(){
   const cv=document.querySelector('#dexCanvas');if(!cv)return;
@@ -1170,14 +1250,14 @@ function drawDex(){
 }
 function dexIndex(r){let a=(-Math.PI/2-r)%(Math.PI*2);if(a<0)a+=Math.PI*2;return Math.floor(a/(Math.PI*2/DEX.length))%DEX.length}
 function spinDex(){
-  if(dexSpin)return;dexSpin=true;const b=$('#dexSpin');b.disabled=true;say("Accrochez-vous, la roue des défis choisit votre supplice !");
+  if(dexSpin)return;dexSpin=true;const b=$('#dexSpin');b.disabled=true;
   const seg=Math.PI*2/DEX.length,target=Math.floor(Math.random()*DEX.length),jit=(Math.random()-.5)*seg*.65;
   let end=-Math.PI/2-(target+.5)*seg-jit,min=dexRot+Math.PI*2*5;while(end<min)end+=Math.PI*2;
   const start=dexRot,t0=performance.now(),dur=3600;
   (function go(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,4);dexRot=start+(end-start)*e;drawDex();
     if(p<1)requestAnimationFrame(go);else{dexSpin=false;dexRot%=Math.PI*2;const d=DEX[dexIndex(dexRot)],item=pick(d.items);
       cur={cat:{id:'dex-'+d.name,name:d.emoji+' '+d.name,col:'--cyan',pts:2,type:'challenge',how:"Défi adulte. Le groupe arbitre franchement ; égalité = mort subite."},item};
-      renderSheet();say(d.name+" ! "+item);
+      renderSheet();
     }})(t0);
 }
 
@@ -1193,7 +1273,7 @@ function arenaDone(ok,msg){
  const me=S.turn,n=comps()[me],p=cur.cat.pts,st=$('#sheetIn .arena-status');if(st)st.textContent=msg;
  $('#sheetIn').querySelectorAll('button,input').forEach(x=>{if(!x.classList.contains('replay'))x.disabled=true});
  beep(ok?1200:180,0,.18,.08);
- setTimeout(()=>{if(ok)gameAward(me,p);closeSheet();nextTurn(ok?('MISSION VALIDÉE ! '+n+' prend '+ptsTxt(p)+'.'):('MISSION ÉCHOUÉE pour '+n+'.'))},850);
+ setTimeout(()=>{if(ok)gameAward(me,p);closeSheet();nextTurn(ok?{k:'win',w:me}:{k:'lose',l:me})},850);
 }
 function reflexNext(){
  const pads=[...$('#sheetIn').querySelectorAll('.arena-pad')];pads.forEach(p=>p.classList.remove('on','bad'));arenaState.hot=Math.floor(Math.random()*pads.length);pads[arenaState.hot].classList.add('on');clearTimeout(arenaState.to);arenaState.to=setTimeout(()=>arenaDone(false,'Trop lent.'),1500);
@@ -1211,14 +1291,14 @@ function draw1(cat){
   return decks[cat.id].pop();
 }
 let cur=null;
-function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}if(cat.type==='bt'||cat.all){btOpen(false,cat);return}cur={cat,item:draw1(cat)};
-  if(isDuel(cat)){
-    if(NET.role==='host'&&NET.inGame){const n=comps().length,arb=n>=3?(S.turn+1)%n:-1;cur.all=true;cur.arb=arb;cur.buzzers=[...Array(n).keys()].filter(i=>i!==arb)}
-    else{cur.opp=pickOpp();cur.buzzers=[S.turn,cur.opp]}
-    cur.out=[];
-  }
-  renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;
-  const c=comps();say((cur.all?'Tout le monde à son buzzer ! ':cur.opp!==undefined?`Duel ! ${c[S.turn]} contre ${c[cur.opp]} ! `:'')+intro(cat,cur.item,c[S.turn]))}
+function openCat(cat){
+  snap=S.scores.slice();const c=comps(),me=c[S.turn];
+  if(cat.type==='secondary'){ruleCard(cat,`À toi, ${me} !`).then(openDexWheel);return}
+  if(cat.type==='duel'){const opp=pickOpp(),ps=[S.turn,opp];ruleCard(cat,`${me} contre ${c[opp]}`).then(()=>btOpen(false,cat,ps));return}
+  if(cat.type==='bt'||cat.all||BT_WORD[cat.id]){ruleCard(cat,'⚡ Tout le monde joue').then(()=>btOpen(false,cat));return}
+  cur={cat,item:draw1(cat)};
+  ruleCard(cat,cat.couple?'En couple !':`À toi, ${me} !`).then(()=>{if(!cur||cur.cat!==cat)return;renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false});
+}
 let tm=null;
 function stopTimer(){if(tm){clearInterval(tm.id);tm=null}}
 function startTimer(){
@@ -1230,7 +1310,7 @@ function startTimer(){
   tm={id:setInterval(()=>{
     left--;num.textContent=left;bar.style.width=(left/total*100)+'%';num.classList.toggle('low',left<=3);
     if(left>0&&left<=3)beep(660,0,.08,.05);
-    if(left<=0){stopTimer();beep(220,0,.6,.08);box.querySelector('button').textContent='⏱ Relancer';say(pick(TIMEUP))}
+    if(left<=0){stopTimer();beep(220,0,.6,.08);box.querySelector('button').textContent='⏱ Relancer'}
   },1000)};
 }
 function duelRes(){
@@ -1274,7 +1354,6 @@ function renderSheet(){
   }
   $('#sheetIn').innerHTML=`
     ${miniScores()}
-    ${hostHTML(true)}
     <div class="cathead"><h2 class="cat" style="${TYPO[cat.id]?`font-family:'${TYPO[cat.id].f}',var(--display);font-weight:${TYPO[cat.id].w||400};font-style:${TYPO[cat.id].it?'italic':'normal'}`:''}">${esc(cat.name)}</h2>${cat.pts?`<span class="pts">${cat.pts} pt${cat.pts>1?'s':''}</span>`:''}</div>
     <p class="how">${duel?'':esc(name)+', à toi ! '}${esc(cat.how)}</p>
     ${tsec&&cat.type!=='interactive'&&cat.type!=='bigdil'?`<div class="timerbox" data-time="${tsec}"><button type="button" data-act="timer">⏱ Chrono ${tsec} s</button><div class="tbar"><i></i></div><span class="tnum">${tsec}</span></div>`:''}
@@ -1295,52 +1374,50 @@ $('#sheet').addEventListener('click',e=>{
 
   const {cat}=cur,me=S.turn,c0=comps();
   if(b.dataset.act==='timer'){startTimer();return}
-  if(b.dataset.act==='opp'){if(cur.all)return;cur.opp=pickOpp(cur.opp);cur.buzzers=[S.turn,cur.opp];renderSheet();say(`Changement ! Ce sera ${c0[me]} contre ${c0[cur.opp]}.`);return}
+  if(b.dataset.act==='opp'){if(cur.all)return;cur.opp=pickOpp(cur.opp);cur.buzzers=[S.turn,cur.opp];renderSheet();return}
   if(b.dataset.buzz!==undefined){
     if(cur.buzz!==undefined)return;
     const who=+b.dataset.buzz;if(!cur.buzzers||!cur.buzzers.includes(who)||cur.out.includes(who))return;cur.buzz=who;stopMusic();stopTimer();beep(1500,0,.25,.09);
     $('#sheetIn').querySelectorAll('.buzz').forEach(x=>x.classList.add(+x.dataset.buzz===who?'won':'lost'));
-    duelRes();say(pick([`${c0[who]} a buzzé !`,`Buzz ! ${c0[who]}, on t'écoute.`,`${c0[who]} dégaine en premier !`]));return}
-  if(b.dataset.act==='duelok'){const w=cur.buzz;gameAward(w,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[w]} remporte le duel et ${ptsTxt(cat.pts)}.`);return}
+    duelRes();return}
+  if(b.dataset.act==='duelok'){const w=cur.buzz;gameAward(w,cat.pts);closeSheet();nextTurn({k:'win',w});return}
   if(b.dataset.act==='duelko'){
     cur.out.push(cur.buzz);const left=cur.buzzers.filter(x=>!cur.out.includes(x));
-    if(!left.length){closeSheet();nextTurn((cur.buzzers.length>2?"Personne n'a trouvé ! ":'Raté des deux côtés ! ')+pick(LOSE));return}
+    if(!left.length){closeSheet();nextTurn({k:'none'});return}
     if(left.length===1){const other=left[0];cur.buzz=other;
       $('#sheetIn').querySelectorAll('.buzz').forEach(x=>{x.classList.remove('won','lost');x.classList.add(+x.dataset.buzz===other?'won':'lost')});
-      duelRes();say(`Raté ! ${c0[other]}, à toi de répondre, c'est ta chance !`);return}
+      duelRes();return}
     cur.buzz=undefined;
     $('#sheetIn').querySelectorAll('.buzz').forEach(x=>{x.classList.remove('won','lost');if(cur.out.includes(+x.dataset.buzz))x.classList.add('lost')});
-    $('#duelRes').innerHTML='<p>Raté ! Les autres, à vos buzzers !</p><button type="button" class="redraw" data-act="duelnone">Personne ne trouve</button>';
-    say('Raté ! Les autres, à vos buzzers, vite !');return}
-  if(b.dataset.act==='duelnone'){closeSheet();nextTurn("Personne ? Bande de fadas, même ma grand-mère l'avait !");return}
+    $('#duelRes').innerHTML='<p>Raté ! Les autres, à vos buzzers !</p><button type="button" class="redraw" data-act="duelnone">Personne ne trouve</button>';return}
+  if(b.dataset.act==='duelnone'){closeSheet();nextTurn({k:'none'});return}
   if(b.dataset.act==='reveal'){
     $('#sheetIn').querySelectorAll('.ans').forEach(x=>x.hidden=false);
     if(cat.type==='qcm')$('#sheetIn').querySelector(`.qcm li[data-i="${cur.item.a}"]`).classList.add('ok');
-    b.remove();say(answerLine(cat,cur.item));return;
+    b.remove();return;
   }
-  if(b.dataset.act==='redraw'){stopMusic();cur.item=draw1(cat);cur.buzz=undefined;cur.out=[];renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}
-  if(b.dataset.act==='win'){gameAward(me,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[me]} empoche ${ptsTxt(cat.pts)}, ça lui fait ${ptsTxt(S.scores[me])} au compteur.`);return}
-  if(b.dataset.act==='lose'){closeSheet();nextTurn(pick(LOSE));return}
-  if(b.dataset.give){const g=+b.dataset.give;gameAward(g,cat.pts);closeSheet();nextTurn(`Les points s'envolent chez ${c0[g]}… comme un albatros, vé !`);return}
+  if(b.dataset.act==='redraw'){stopMusic();cur.item=draw1(cat);cur.buzz=undefined;cur.out=[];renderSheet();return}
+  if(b.dataset.act==='win'){gameAward(me,cat.pts);closeSheet();nextTurn({k:'win',w:me});return}
+  if(b.dataset.act==='lose'){closeSheet();nextTurn({k:'lose',l:me});return}
+  if(b.dataset.give){const g=+b.dataset.give;gameAward(g,cat.pts);closeSheet();nextTurn({k:'give',w:g,l:me});return}
   if(b.dataset.box!==undefined&&!cur.opened){
     cur.opened=true;
-    const picks=shuffle(BIGDIL).slice(0,3),mine=+b.dataset.box,o=picks[mine];
+    const picks=shuffle(BIGDIL).slice(0,3),mine=+b.dataset.box,o=picks[mine];cur.big=o;
     $('#sheetIn').querySelectorAll('.box').forEach((x,i)=>{x.classList.add('open');if(i===mine)x.classList.add('mine');x.textContent=picks[i].t});
     const c=comps();let html=`<p class="result">${esc(o.t)}</p>`;
     if(o.d)award(me,o.d);
-    say(`Boîte numéro ${mine+1}… ${o.t} ${o.d>0?'Oh le bol de cocu !':o.d<0?'Ça pique, hein ? Le Bigdil pardonne pas.':o.steal?'Choisis ta victime, sale rapace !':'Que dalle. Même pas un porte-clés.'}`);
+    (o.d>0?SFX.ding:o.d<0?SFX.bad:o.steal?SFX.clash:SFX.none)();
     if(o.steal){html+=`<p class="others-l">À qui tu voles 2 points ?</p><div class="others">${c.map((n,i)=>i===me?'':`<button type="button" data-steal="${i}">${esc(n)}</button>`).join('')}</div>`}
     else html+=`<div style="height:14px"></div><button type="button" class="big" data-act="${o.again?'again':'next'}">${o.again?'Tu rejoues !':'Tour suivant'}</button>`;
     $('#bigres').innerHTML=html;return;
   }
-  if(b.dataset.steal){const v=+b.dataset.steal;award(v,-2);award(me,2);closeSheet();nextTurn(`${c0[me]} dépouille ${c0[v]} de deux points. Pire qu'un héritage, oh fatche !`);return}
-  if(b.dataset.act==='next'){closeSheet();nextTurn('Fin du Bigdil, on range les boîtes… et les cadavres.');return}
-  if(b.dataset.act==='again'){closeSheet();say(`${c0[me]}, tu rejoues ! La chance, c'est comme les zombies : ça revient toujours.`);return}
+  if(b.dataset.steal){const v=+b.dataset.steal;award(v,-2);award(me,2);closeSheet();nextTurn({k:'steal',w:me,l:v});return}
+  if(b.dataset.act==='next'){const o=cur.big||{};closeSheet();nextTurn({k:'big',w:me,d:o.d||0,t:o.t||'Bigdil'});return}
+  if(b.dataset.act==='again'){const o=cur.big||{};closeSheet();resultCard({k:'big',w:me,d:o.d||2,t:o.t||'Tu rejoues !'},me);snap=null;return}
 });
 $('#backdrop').onclick=()=>{};
 
-document.querySelectorAll('[data-host]').forEach(h=>h.outerHTML=hostHTML(false));
-renderVoiceBtn();
+renderAmbBtn();
 renderNames();
 
 /* =====================================================================
@@ -1348,7 +1425,7 @@ renderNames();
    ===================================================================== */
 function bonusCount(){const m=S.max||0;if(!m)return 3;return m<=12?2:m<=24?3:4}
 function ensureFx(){const n=comps().length;if(!Array.isArray(S.fx))S.fx=[];if(!Array.isArray(S.bonus))S.bonus=[];for(let i=0;i<n;i++){if(!S.fx[i])S.fx[i]={};if(typeof S.bonus[i]!=='number')S.bonus[i]=bonusCount()}}
-const GAGES=["Parle avec l'accent marseillais jusqu'à ton prochain tour","Imite Albatar pendant une minute","Chante un refrain debout sur une chaise","Fais 10 squats en comptant à voix haute","Danse 20 secondes sans musique","Parle en rimant jusqu'à ton prochain tour","Fais une déclaration d'amour à l'objet le plus proche","Ne dis plus « oui » ni « non » pendant 2 tours","Fais le tour de la pièce en marchant comme un pingouin","Mime ton métier sans parler, les autres doivent deviner","Raconte ta pire honte en 30 secondes","Appelle tout le monde « Votre Majesté » jusqu'à ton prochain tour"];
+const GAGES=["Parle avec l'accent marseillais jusqu'à ton prochain tour","Imite un présentateur télé pendant une minute","Chante un refrain debout sur une chaise","Fais 10 squats en comptant à voix haute","Danse 20 secondes sans musique","Parle en rimant jusqu'à ton prochain tour","Fais une déclaration d'amour à l'objet le plus proche","Ne dis plus « oui » ni « non » pendant 2 tours","Fais le tour de la pièce en marchant comme un pingouin","Mime ton métier sans parler, les autres doivent deviner","Raconte ta pire honte en 30 secondes","Appelle tout le monde « Votre Majesté » jusqu'à ton prochain tour"];
 const BONUS=[
  {id:'vol',e:'🦹',w:'Vol',t:'Vol de points',d:'Vole 2 points au joueur de ton choix.',target:true},
  {id:'don',e:'🎁',w:'Don',t:'Don de points',d:'Aïe ! Tu dois donner 2 points au joueur de ton choix.',target:true},
@@ -1361,7 +1438,7 @@ const BONUS=[
  {id:'quitte',e:'🪙',w:'Pile/Face',t:'Quitte ou double',d:'Pile : tes points sont doublés. Face : tu en perds la moitié.',coin:true},
  {id:'rejoue',e:'🔁',w:'Rejoue',t:'Tour bonus',d:'Après ce tour, tu rejoues tout de suite.'},
  {id:'bouclier',e:'🛡️',w:'Bouclier',t:'Bouclier',d:'Pendant tes 3 prochains tours, personne ne peut te voler de points.'},
- {id:'cadeau',e:'💰',w:'+3',t:'Jackpot',d:"Tu gagnes 3 points, cadeau d'Albatar."}
+ {id:'cadeau',e:'💰',w:'+3',t:'Jackpot',d:"Tu gagnes 3 points, cadeau de la maison."}
 ];
 const swapText=()=>S.mode==='couple'?"Ton partenaire part dans l'équipe de ton choix, et tu récupères le sien.":"Échange ton score avec le joueur de ton choix.";
 function fxBadges(i){
@@ -1375,7 +1452,7 @@ function refreshBonusBtn(){
 }
 function gameAward(i,pts){
   ensureFx();const f=S.fx[i];
-  if(f&&f.double&&pts>0){f.double=false;award(i,pts*2);setTimeout(()=>say(`Bonus points doublés pour ${comps()[i]} : ${ptsTxt(pts*2)} au lieu de ${pts} !`),1800);return}
+  if(f&&f.double&&pts>0){f.double=false;award(i,pts*2);return}
   award(i,pts);
 }
 function pickWheelTarget(){
@@ -1399,17 +1476,17 @@ function drawBonus(){
   x.fillStyle='#ffd166';x.textAlign='center';x.textBaseline='middle';x.font='900 '+Math.max(9,r*.058)+'px Nunito, sans-serif';x.fillText('QUITTE',0,-r*.045);x.fillText('OU DOUBLE',0,r*.06);x.restore();
 }
 function openBonus(){
-  ensureFx();if(spinning||!$('#sheet').hidden||!(S.bonus[S.turn]>0))return;
+  ensureFx();if(spinning||cardOn()||!$('#sheet').hidden||!(S.bonus[S.turn]>0))return;
   S.bonus[S.turn]--;save();renderScores();
   const name=comps()[S.turn];
   cur={cat:{id:'bonus',type:'bonus',name:'Quitte ou Double',col:'--gold',pts:0,how:''},item:null,stage:'wheel'};
   $('#sheet').style.setProperty('--c',css('--gold'));
   $('#sheet').hidden=false;$('#backdrop').hidden=false;
-  $('#sheetIn').innerHTML=miniScores()+hostHTML(true)+
+  $('#sheetIn').innerHTML=miniScores()+
     `<div class="cathead"><h2 class="cat">🎲 Quitte ou Double</h2></div><p class="how">${esc(name)} joue un bonus. Ça peut rapporter gros… ou se retourner contre toi !</p>`+
     '<div class="bx-wheel"><canvas id="bxCanvas"></canvas><div class="ptr">▼</div></div><button type="button" class="big" data-bx="spin">TOURNER LA ROUE BONUS</button>';
   drawBonus();
-  say(pick([`Oh fatche ! ${name} sort un bonus ! Quitte ou double, gros, ça passe ou ça casse !`,`${name} tente le diable avec un bonus ! Allez, tourne, on verra si t'as le bol de cocu.`]));
+  SFX.jingle();
 }
 $('#bonusBtn').onclick=openBonus;
 function spinBonus(){
@@ -1421,7 +1498,7 @@ function spinBonus(){
   (function go(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,4);bxRot=start+(end-start)*e;drawBonus();
     const k=Math.floor(((-Math.PI/2-bxRot)%(Math.PI*2)+Math.PI*2)%(Math.PI*2)/seg);if(k!==last){last=k;beep(1300,0,.025,.03)}
     if(p<1)requestAnimationFrame(go);else{bxSpin=false;bxRot%=Math.PI*2;cur.fx=BONUS[target];cur.sel=[];cur.stage='result';cur.gage=pick(GAGES);renderBonus();
-      const fx=cur.fx,c=comps();say(`${c[S.turn]} tombe sur… ${fx.t} ! ${fx.id==='swap'?swapText():fx.d}`)}
+      SFX.clash()}
   })(t0);
 }
 function renderBonus(){
@@ -1439,12 +1516,12 @@ function renderBonus(){
     act=`${gage}<button type="button" class="big" data-bx="ok">${fx.id==='gagedroite'?'Gage fait, on continue':'Compris, on continue'}</button>`;
   }
   if(fx.id==='gagechoix')act+=`<p class="gage">Idée de gage : ${esc(cur.gage)}</p>`;
-  $('#sheetIn').innerHTML=miniScores()+hostHTML(true)+
+  $('#sheetIn').innerHTML=miniScores()+
     `<div class="cathead"><h2 class="cat">🎲 Quitte ou Double</h2></div><div class="card bx-res"><div class="big-e">${fx.e}</div><h3>${esc(fx.t)}</h3><p>${esc(desc)}</p></div>${act}`;
 }
 function finishBonus(line){
-  closeSheet();save();renderScores();
-  say((line?line+' ':'')+`${comps()[S.turn]}, maintenant fais tourner la grande roue !`);
+  const fx=cur&&cur.fx||{};closeSheet();save();renderScores();
+  SFX.ding();showCard(`<div class="cd-emoji">${fx.e||'🎲'}</div><h2 class="cd-title">${esc(fx.t||'Quitte ou Double')}</h2>${line?`<p class="cd-line">${esc(line)}</p>`:''}<p class="cd-next"><b>${esc(comps()[S.turn])}</b>, maintenant tourne la grande roue →</p>`,4500,'v-clash');
 }
 $('#sheet').addEventListener('click',e=>{
   const b=e.target.closest('[data-bx]');if(!b||!cur||cur.cat.type!=='bonus'||b.disabled)return;
@@ -1467,7 +1544,7 @@ $('#sheet').addEventListener('click',e=>{
   if(a==='coin'){
     const pile=Math.random()<.5,sc=S.scores[me]||0;
     if(pile){award(me,sc);cur.coin=`PILE ! Tes points sont doublés : ${ptsTxt(sc*2)}.`}else{const l=Math.floor(sc/2);award(me,-l);cur.coin=`FACE… tu perds ${ptsTxt(l)}.`}
-    beep(pile?1200:200,0,.3,.08);renderBonus();say(pile?`Pile ! Oh le bol ! ${c[me]} double ses points !`:`Face ! Aïe aïe aïe, ${c[me]} perd la moitié de ses points. Le Quitte ou Double est cruel.`);return;
+    beep(pile?1200:200,0,.3,.08);renderBonus();(pile?SFX.win:SFX.lose)();return;
   }
   if(a==='ok'){
     const f=S.fx[me];
@@ -1500,7 +1577,7 @@ const newCode=()=>Array.from({length:4},()=>'ABCDEFGHJKMNPQRSTUVWXYZ'[Math.floor
 const cleanName=n=>String(n||'').replace(/\s+/g,' ').trim().slice(0,16);
 function wake(){try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>NET.lock=l).catch(()=>{})}catch(e){}}
 document.addEventListener('visibilitychange',()=>{if(NET.role&&document.visibilityState==='visible')wake()});
-function unlockMedia(){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
+function unlockMedia(){ac()}
 
 /* ---- accueil : choix du mode ---- */
 function setNetMode(multi){
@@ -1530,7 +1607,7 @@ async function hostCreate(resume){
   $('#lobbyRounds').appendChild($('#rounds'));$('#rounds').hidden=false;
   $('#lobbyOpts').appendChild($('#gameOpts'));$('#gameOpts').hidden=false;renderGameOpts();
   startPeer();drawQR();
-  if(NET.inGame){show('game');say(`Albatar est de retour ! Les joueurs, reconnectez vos téléphones, le code c'est toujours ${NET.code.split('').join(' ')}.`);
+  if(NET.inGame){show('game');
     if(S.game==='party'&&S.party&&S.party.done<S.party.total)setTimeout(()=>{if(!BT)btOpen(true)},6000)}
   else{$('#lobby').hidden=false;renderLobby()}
   new MutationObserver(syncSoon).observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true});
@@ -1596,7 +1673,7 @@ function hostMsg(c,m){
   const slot=NET.players.indexOf(p);
   if(m.t==='spin'){if(slot===S.turn&&$('#sheet').hidden&&!$('#game').hidden&&!spinning)$('#spin').click();return}
   if(m.t==='bonus'){if(slot===S.turn&&$('#sheet').hidden&&!$('#game').hidden&&!spinning)openBonus();return}
-  if(m.t==='bt'){if(!BT||!cur||!cur.bt)return;if(m.next){btAdvance()}else btAnswer(slot,+m.c,String(m.k||''));return}
+  if(m.t==='bt'){if(!BT||!cur||!cur.bt)return;if(m.next){btAdvance()}else if(m.w!==undefined)btWord(slot,String(m.w).slice(0,40),String(m.k||''));else btAnswer(slot,+m.c,String(m.k||''));return}
   if(m.t==='answer'){
     if($('#sheet').hidden)return;resetAnswersIfNew();
     if(NET.answers[slot])return;
@@ -1674,8 +1751,8 @@ function sheetFor(slot){
 }
 function viewFor(slot){
   const ph=phaseNow(),c=NET.inGame?comps():NET.players.map(p=>p.name);
-  const v={t:'view',ph,me:slot,names:c,scores:NET.inGame?S.scores:[],turn:S.turn,line:lastLine,round:NET.inGame?$('#roundLbl').textContent:''};
-  if(ph==='wheel'){v.canSpin=slot===S.turn&&!spinning;ensureFx();v.bonus=S.bonus[slot]||0}
+  const v={t:'view',ph,me:slot,names:c,scores:NET.inGame?S.scores:[],turn:S.turn,card:cardNow,round:NET.inGame?$('#roundLbl').textContent:''};
+  if(ph==='wheel'){v.canSpin=slot===S.turn&&!spinning&&!cardOn();ensureFx();v.bonus=S.bonus[slot]||0}
   if(ph==='podium')v.rank=$('#rank').innerHTML;
   if(ph==='sheet'&&cur&&cur.bt){v.ph='bt';v.bt=btViewFor(slot)}
   else if(ph==='sheet'){const r=sheetFor(slot);v.role=r.role;v.html=r.html;v.input=r.input;resetAnswersIfNew();v.sent=NET.answers[slot]?NET.answers[slot].text:null;v.qkey=ansKey()}
@@ -1779,15 +1856,18 @@ function phoneMsg(m){
   }
   else if(v.ph==='bt'){
     const b=v.bt||{};role=`<p class="ph-role duelist">${esc(b.role||'Tout le monde joue !')}</p>`;panel=btPhoneHTML(b);
-    if(b.phase==='reveal'&&b.pts>0&&NET.cfk!==b.k){NET.cfk=b.k;confetti(70);if(navigator.vibrate)navigator.vibrate([60,40,120])}
+    if(b.phase==='reveal'&&NET.cfk!==b.k&&!b.spect){NET.cfk=b.k;if(b.pts>0){confetti(70);SFX.win();if(navigator.vibrate)navigator.vibrate([60,40,120])}else SFX.lose()}
+    const pi=btPhoneInput(b);input=pi.h;v.btik=pi.k;
   }
   else if(v.ph==='podium'){panel=`<ol class="rank">${v.rank||''}</ol>`}
   setHTML('phRole',role);setHTML('phPanel',panel);
-  const ik=(v.ph==='sheet'?(v.qkey||'')+'|'+v.input+'|'+v.sent:'')+v.ph;
-  if($('#phInput').dataset.k!==ik){$('#phInput').innerHTML=input;$('#phInput').dataset.k=ik}
-  setHTML('phLine',v.line&&v.ph!=='lobby'?`<p class="ph-line"><b>Albatar</b>${esc(v.line)}</p>`:'');
+  const ik=(v.ph==='sheet'?(v.qkey||'')+'|'+v.input+'|'+v.sent:v.ph==='bt'?v.btik:'')+v.ph;
+  if($('#phInput').dataset.k!==ik){$('#phInput').innerHTML=input;$('#phInput').dataset.k=ik;const f=$('#phBt');if(f)f.focus()}
+  const ov=$('#cardOv'),cd=v.card;
+  if(cd){const k=cd.cls+cd.h;if(ov.dataset.k!==k){ov.dataset.k=k;ov.className='card-ov '+cd.cls;ov.style.cssText=cd.st||'';ov.innerHTML=`<div class="card-box">${cd.h}</div>`;ov.hidden=false;if(/go/.test(cd.cls))SFX.go()}}
+  else if(!ov.hidden){ov.hidden=true;ov.dataset.k='';ov.innerHTML=''}
 }
-$('#phPlay').addEventListener('submit',e=>{e.preventDefault();const i=$('#phAns');const t=i&&i.value.trim();if(t)phSend({t:'answer',text:t})});
+$('#phPlay').addEventListener('submit',e=>{e.preventDefault();const bf=e.target.closest('[data-btk]');if(bf){const x=bf.querySelector('input'),w=x&&x.value.trim();if(w){phSend({t:'bt',w,k:bf.dataset.btk});x.value='';if(navigator.vibrate)navigator.vibrate(30)}return}const i=$('#phAns');const t=i&&i.value.trim();if(t)phSend({t:'answer',text:t})});
 $('#phPlay').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||b.type==='submit')return;
   if(b.dataset.net==='spin'){phSend({t:'spin'});if(navigator.vibrate)navigator.vibrate(40);return}
@@ -1888,15 +1968,26 @@ function btUnlock(){
 document.addEventListener('pointerdown',()=>btUnlock(),{once:true,capture:true});
 player.addEventListener('error',()=>{const r=BT&&BT.r;if(r&&r.song&&['load','count','play'].includes(r.phase)&&player.src===r.song.url)btBroken()});
 function btBroken(){if(!BT)return;BT.fails=(BT.fails||0)+1;if(BT.fails>=3){BT.r.phase='error';btRender();return}btRound()}
-function btWaitSpeech(max){return new Promise(res=>{const t0=performance.now();(function f(){const t=performance.now()-t0;let talk=false;try{talk=voiceOn&&hasTTS&&speechSynthesis.speaking}catch(e){}if(t>max||(t>1500&&!talk))res();else setTimeout(f,150)})()})}
 
-function btOpen(party,cat){
+
+/* ---------- moteur « tout le monde joue », sans arbitre ----------
+   music : Blind Test (4 titres) · quiz : Champion, Millions, Duel (4 réponses)
+   word  : Slam, Motus (on tape le mot, le jeu vérifie tout seul) */
+const BT_WORD={slam:{sec:25,pts:[2,1],ico:'🧱',tries:3},motus:{sec:60,pts:[2,1],ico:'🔤',tries:6}};
+const normW=s=>String(s||'').toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Z]/g,'');
+function motusFb(g,w){
+  const fb=[...g].map(()=>0),left={};
+  [...w].forEach((ch,i)=>{if(g[i]===ch)fb[i]=2;else left[ch]=(left[ch]||0)+1});
+  [...g].forEach((ch,i)=>{if(fb[i]!==2&&left[ch]>0){fb[i]=1;left[ch]--}});
+  return fb;
+}
+function btOpen(party,cat,ps){
   stopMusic();btClear();
   cat=party?{id:'blindtest',name:'Blind Test Party',col:'--violet',pts:3,type:'bt'}:(cat||btCat());
   cur={cat,item:null,bt:true};
-  const q=cat.all;
-  BT={party:!!party,cat,quiz:!!q,sec:q?q.sec:BT_SEC,pts:q?q.pts:BT_PTS,auto:q?8:BT_AUTO,ico:q?q.ico:'💿',
-    theme:btThemeOf(S.btTheme),total:party?S.party.total:1,done:party?S.party.done:0,r:null,fails:0};
+  const wd=BT_WORD[cat.id],q=cat.all,kind=wd?'word':q?'quiz':'music',cfg=wd||q||{sec:BT_SEC,pts:BT_PTS,ico:'💿'};
+  BT={party:!!party,cat,kind,quiz:kind==='quiz',sec:cfg.sec,pts:cfg.pts,ico:cfg.ico,tries:cfg.tries||0,auto:kind==='music'?BT_AUTO:7,
+    ps:ps||comps().map((_,i)=>i),duel:!!ps,theme:btThemeOf(S.btTheme),total:party?S.party.total:1,done:party?S.party.done:0,r:null,fails:0};
   $('#sheet').style.setProperty('--c',css(cat.col));$('#sheet').hidden=false;$('#backdrop').hidden=false;
   btRound();
 }
@@ -1904,15 +1995,12 @@ function btClear(){if(!BT)return;clearInterval(BT.iv);clearInterval(BT.bz);clear
 function btStop(){if(!BT)return;btClear();BT=null;try{player.volume=1}catch(e){}}
 async function btRound(){
   if(!BT)return;btClear();stopMusic();player.volume=1;
-  const r=BT.r={k:Math.random().toString(36).slice(2,8),n:BT.done+1,phase:'load',ans:{},out:[],buzz:-1,pts:{}};
-  btRender();$('#sheet').scrollTop=0;
-  const c=comps(),th=BT.theme,first=!BT.party||r.n===1;
-  if(BT.quiz){qzRound(r);return}
-  say(BT.party?(r.n===1?`Wesh la zone ! Bienvenue au BLIND TEST PARTY d'Albatar ! ${BT.total} titres, thème ${th.n}. Tout le monde joue en même temps, le plus rapide rafle 3 points. Ouvrez grand vos esgourdes !`
-      :r.n===BT.total?'Dernier titre ! Tout peut encore basculer, gros.'
-      :pick([`Titre ${r.n} ! Chauffez les doigts.`,`Titre ${r.n} sur ${BT.total}. Silence dans les rangs !`,`On enchaîne, titre ${r.n} !`,`Titre ${r.n}. Celui-là, même ma grand-mère le connaît.`]))
-    :`${c[S.turn]} tombe sur… le Blind Test ! Et là, tout le monde joue ! L'extrait part tout seul : trouvez le bon titre, le plus rapide prend 3 points.`);
-  const wait=btWaitSpeech(first?9000:3500);
+  const r=BT.r={k:Math.random().toString(36).slice(2,8),n:BT.done+1,phase:'load',ans:{},out:[],buzz:-1,pts:{},tries:{},grid:{},msg:{},shared:[]};
+  $('#sheet').scrollTop=0;
+  if(BT.kind==='quiz'){qzRound(r);return}
+  if(BT.kind==='word'){wdRound(r);return}
+  btRender();
+  const th=BT.theme,wait=new Promise(res=>setTimeout(res,1200));
   let pool;try{pool=await btPool(th)}catch(e){pool=btCatalog(th)}
   for(let i=0;i<6&&!r.song;i++){
     if(!BT||BT.r!==r)return;
@@ -1921,38 +2009,40 @@ async function btRound(){
   }
   if(!BT||BT.r!==r)return;
   BT.fb=!!pool.fb;
-  if(!r.song){r.phase='error';btRender();say("Oh fatche, pas moyen de trouver la musique ! Vérifie internet et réessaie.");return}
-  const ch=btChoices(r.song,pool);r.choices=ch.choices;r.ok=ch.ok;
+  if(!r.song){r.phase='error';btRender();SFX.bad();return}
+  const ch=btChoices(r.song,pool);r.choices=ch.choices;r.ok=ch.ok;r.answer=`${r.song.t}, de ${r.song.a}`;
   player.src=r.song.url;try{player.load()}catch(e){}
   await wait;
   if(!BT||BT.r!==r)return;
-  r.phase='count';r.cd=3;btRender();beep(660,0,.1,.06);
+  r.phase='count';r.cd=3;btRender();SFX.tick();
   BT.iv=setInterval(()=>{r.cd--;if(r.cd>0){beep(660,0,.1,.06);btUpd()}else{clearInterval(BT.iv);btPlay()}},900);
 }
-/* Champion, Millions : Albatar lit la question, puis les 4 réponses s'ouvrent pour tout le monde */
-async function qzRound(r){
-  const it=draw1(BT.cat),c=comps();
+/* Champion, Millions, Duel : on lit la question, puis les 4 réponses s'ouvrent */
+function qzRound(r){
+  const src=BT.cat.id==='duel'?CATS.find(c=>c.id===pick(['qpuc','qvgdm'])):BT.cat,it=draw1(src);
   let ch=it.c?it.c.map((t,i)=>({t,good:i===it.a})):[{t:it.a,good:true}].concat((it.w||[]).map(t=>({t})));
   ch=shuffle(ch);
   r.q=it.q;r.choices=ch.map(x=>({t:x.t,a:''}));r.ok=ch.findIndex(x=>x.good);r.answer=r.choices[r.ok].t;
   r.phase='read';btRender();
-  say(`${c[S.turn]} tombe sur… ${BT.cat.name} ! Et tout le monde joue ! ${it.q}`);
-  const read=voiceOn&&hasTTS?0:Math.min(6000,1500+it.q.length*35);
-  await Promise.all([btWaitSpeech(16000),new Promise(res=>setTimeout(res,read))]);
-  if(!BT||BT.r!==r)return;
-  btGo(r);
+  BT.to=setTimeout(()=>btGo(r),Math.min(6500,2200+it.q.length*35));
+}
+/* Slam, Motus : la définition (ou la 1re lettre), puis chacun tape le mot */
+function wdRound(r){
+  const it=draw1(BT.cat),motus=BT.cat.id==='motus';
+  r.word=normW(motus?it:it.a);r.answer=motus?it:it.a;r.def=motus?'':it.q;r.motus=motus;
+  r.phase='read';btRender();
+  BT.to=setTimeout(()=>btGo(r),motus?1600:Math.min(6000,2200+r.def.length*35));
 }
 function btGo(r){
-  if(!BT||BT.r!==r||r.phase==='play')return;BT.fails=0;r.phase='play';r.t0=performance.now();r.left=BT.sec;btRender();beep(1320,0,.1,.04);
+  if(!BT||BT.r!==r||r.phase==='play')return;BT.fails=0;r.phase='play';r.t0=performance.now();r.left=BT.sec;btRender();SFX.go();
   clearInterval(BT.iv);BT.iv=setInterval(btTick,200);
+  if(BT.kind==='word'&&!btNet()){const i=$('#btIn');if(i)i.focus()}
 }
 function btPlay(){
   const r=BT&&BT.r;if(!r||!r.song)return;
-  try{speechSynthesis.cancel()}catch(e){}talking(false);
   try{player.currentTime=0}catch(e){}player.volume=1;
-  const go=()=>btGo(r);
   let p;try{p=player.play()}catch(e){}
-  if(p&&p.then)p.then(go).catch(e=>{if(!BT||BT.r!==r)return;if(e&&e.name==='NotAllowedError'){r.phase='blocked';btRender()}else btBroken()});else go();
+  if(p&&p.then)p.then(()=>btGo(r)).catch(e=>{if(!BT||BT.r!==r)return;if(e&&e.name==='NotAllowedError'){r.phase='blocked';btRender()}else btBroken()});else btGo(r);
 }
 function btTick(){
   const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz>=0)return;
@@ -1960,104 +2050,156 @@ function btTick(){
   if(left!==r.left){r.left=left;btUpd();if(left>0&&left<=3)beep(520,0,.06,.04)}
   if(left<=0)btReveal();
 }
-/* plusieurs écrans : chacun répond une fois, on garde l'heure d'arrivée */
-function btAnswer(slot,c,k){
-  const r=BT&&BT.r;if(!r||r.phase!=='play'||k!==r.k||r.ans[slot]||!(c>=0&&c<4)||!(slot>=0&&slot<comps().length))return;
-  r.ans[slot]={c,ms:performance.now()-r.t0};beep(900+Object.keys(r.ans).length*90,0,.06,.04);btRender();
-  const waiting=comps().map((_,i)=>i).filter(i=>!r.ans[i]&&btOnline(i));
+const btMs=r=>performance.now()-r.t0;
+function btCheckEnd(r){
+  const waiting=BT.ps.filter(i=>!r.ans[i]&&btOnline(i));
   if(!waiting.length){clearTimeout(BT.to);BT.to=setTimeout(()=>{if(BT&&BT.r===r)btReveal()},500)}
 }
-/* un seul téléphone : buzzer, puis 4 titres pour celui qui a buzzé */
-function btBuzz(slot){
-  const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz>=0||r.out.includes(slot))return;
-  r.buzz=slot;r.pauseAt=performance.now();stopMusic();beep(1500,0,.25,.09);r.bleft=BT_BUZZ;btRender();
-  BT.bz=setInterval(()=>{r.bleft--;btUpd();if(r.bleft<=0)btChoose(-1)},1000);
+/* plusieurs écrans : 4 choix, une seule réponse chacun */
+function btAnswer(slot,c,k){
+  const r=BT&&BT.r;if(!r||r.phase!=='play'||k!==r.k||r.ans[slot]||!(c>=0&&c<4)||!BT.ps.includes(slot)||BT.kind==='word')return;
+  r.ans[slot]={c,ok:c===r.ok,ms:btMs(r)};beep(900+Object.keys(r.ans).length*90,0,.06,.04);btRender();btCheckEnd(r);
 }
+/* plusieurs écrans : on tape le mot (3 essais au Slam, 6 lignes au Motus) */
+function btWord(slot,text,k){
+  const r=BT&&BT.r;if(!r||r.phase!=='play'||k!==r.k||r.ans[slot]||!BT.ps.includes(slot)||BT.kind!=='word')return;
+  const g=normW(text);if(!g)return;
+  if(r.motus&&(g.length!==r.word.length||g[0]!==r.word[0])){r.msg[slot]=`Il faut ${r.word.length} lettres et commencer par ${r.word[0]}.`;btRender();return}
+  r.msg[slot]='';r.tries[slot]=(r.tries[slot]||0)+1;
+  if(r.motus)(r.grid[slot]=r.grid[slot]||[]).push({g,fb:motusFb(g,r.word)});
+  if(g===r.word){r.ans[slot]={ok:true,ms:btMs(r),n:r.tries[slot]};SFX.ding()}
+  else if(r.tries[slot]>=BT.tries){r.ans[slot]={ok:false,ms:btMs(r),n:r.tries[slot]};r.msg[slot]='Plus d\'essais !'}
+  else r.msg[slot]=r.motus?'':`Non ! Encore ${BT.tries-r.tries[slot]} essai${BT.tries-r.tries[slot]>1?'s':''}.`;
+  btRender();btCheckEnd(r);
+}
+/* un seul téléphone : buzzer, puis on choisit (ou on tape) */
+function btBuzz(slot){
+  const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz>=0||r.out.includes(slot)||!BT.ps.includes(slot))return;
+  r.buzz=slot;r.pauseAt=performance.now();r.bmsg='';stopMusic();SFX.buzz();r.bleft=BT.kind==='word'?15:7;btRender();
+  const i=$('#btIn');if(i)i.focus();
+  BT.bz=setInterval(()=>{r.bleft--;btUpd();if(r.bleft<=0){if(BT.kind==='word')btType(null);else btChoose(-1)}},1000);
+}
+function btResume(r){r.buzz=-1;r.t0+=performance.now()-r.pauseAt;if(BT.kind==='music')player.play().catch(()=>{});btRender()}
 function btChoose(c){
-  const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz<0)return;clearInterval(BT.bz);
-  const slot=r.buzz;r.ans[slot]={c,ms:r.pauseAt-r.t0};r.buzz=-1;
-  if(c===r.ok){btReveal();return}
-  r.out.push(slot);beep(180,0,.35,.08);
-  if(r.out.length>=comps().length){btReveal();return}
-  r.t0+=performance.now()-r.pauseAt;if(!BT.quiz)player.play().catch(()=>{});btRender();
+  const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz<0||BT.kind==='word')return;clearInterval(BT.bz);
+  const slot=r.buzz;r.ans[slot]={c,ok:c===r.ok,ms:r.pauseAt-r.t0};
+  if(c===r.ok){r.buzz=-1;btReveal();return}
+  r.out.push(slot);SFX.bad();
+  if(BT.ps.every(i=>r.out.includes(i))){r.buzz=-1;btReveal();return}
+  btResume(r);
+}
+function btType(text){
+  const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz<0||BT.kind!=='word')return;
+  const slot=r.buzz,g=normW(text||'');
+  if(text!==null&&r.motus&&(g.length!==r.word.length||g[0]!==r.word[0])){r.bmsg=`Il faut ${r.word.length} lettres et commencer par ${r.word[0]}.`;btRender();const i=$('#btIn');if(i)i.focus();return}
+  clearInterval(BT.bz);
+  if(r.motus&&g)r.shared.push({g,fb:motusFb(g,r.word),who:slot});
+  if(g&&g===r.word){r.ans[slot]={ok:true,ms:r.pauseAt-r.t0};r.buzz=-1;btReveal();return}
+  SFX.bad();
+  if(r.motus){if(r.shared.length>=6){r.buzz=-1;btReveal();return}btResume(r);return}
+  r.ans[slot]={ok:false,ms:r.pauseAt-r.t0};r.out.push(slot);
+  if(BT.ps.every(i=>r.out.includes(i))){r.buzz=-1;btReveal();return}
+  btResume(r);
 }
 function btReveal(){
   const r=BT&&BT.r;if(!r||r.phase!=='play')return;
   clearInterval(BT.iv);clearInterval(BT.bz);clearTimeout(BT.to);
   r.phase='reveal';r.buzz=-1;
   const c=comps();
-  const good=Object.keys(r.ans).map(Number).filter(i=>r.ans[i].c===r.ok).sort((x,y)=>r.ans[x].ms-r.ans[y].ms);
-  good.forEach((i,k)=>{r.pts[i]=BT.pts[Math.min(k,BT.pts.length-1)]});
+  const good=Object.keys(r.ans).map(Number).filter(i=>r.ans[i].ok).sort((x,y)=>r.ans[x].ms-r.ans[y].ms);
+  r.good=good;good.forEach((i,k)=>{r.pts[i]=BT.pts[Math.min(k,BT.pts.length-1)]});
   BT.done++;if(BT.party&&S.party){S.party.done=BT.done;save()}
-  if(!BT.quiz){if(player.paused)player.play().catch(()=>{});player.volume=.4}
-  good.forEach(i=>gameAward(i,r.pts[i]));
+  if(BT.kind==='music'){if(player.paused)player.play().catch(()=>{});player.volume=.4}
+  good.forEach(i=>{if(r.pts[i])gameAward(i,r.pts[i])});
+  r.res=btRes(r);
+  r.line=verdict(r.res).l;
   r.auto=BT.auto;btRender();
-  const ans=BT.quiz?r.answer:`${r.song.t}, de ${r.song.a}`;
-  let line;
-  if(!good.length)line=pick(['Personne ! ','Silence radio… ','Zéro pointé pour tout le monde ! '])+`C'était ${ans}. `+pick(LOSE);
-  else{line=`${pick(['Dans le mille !','Oh fatche, la vitesse !','Validé !'])} ${c[good[0]]} dégaine le plus vite et prend ${ptsTxt(r.pts[good[0]])}. C'était ${ans}.`;
-    if(good.length>1)line+=` ${good.slice(1).map(i=>c[i]).join(', ')} ${good.length>2?'ont':'a'} trouvé aussi.`}
-  say(line);
-  if(good.length)confetti(good.length>1?130:90);else beep(200,0,.5,.07);
+  if(good.length){SFX.ding();confetti(good.length>1?120:80)}else SFX.none();
   BT.iv=setInterval(()=>{r.auto--;btUpd();if(r.auto<=0)btAdvance()},1000);
+}
+function btRes(r){
+  const g=r.good;
+  if(BT.duel){const other=BT.ps.find(i=>i!==g[0]);return g.length?{k:'duel',w:g[0],l:other}:{k:'none'}}
+  if(!g.length)return {k:'none'};
+  return g.length>1?{k:'multi',w:g[0],o:g.slice(1)}:{k:'win',w:g[0]};
 }
 function btAdvance(){
   const r=BT&&BT.r;if(!r||r.phase!=='reveal')return;
   if(BT.done<BT.total){btRound();return}
-  const party=BT.party;closeSheet();
-  if(party){S.party=null;save();endGame('Fin du blind test !')}
-  else nextTurn(r.q?pick(['Question suivante… enfin, roue suivante !','On remet la roue en route.']):pick(['On range les vinyles !','Fin du blind test, on remet la roue en route.']));
+  const party=BT.party,res=r.res;closeSheet();
+  if(party){S.party=null;save();endGame()}
+  else nextTurn(res);
 }
 function btChoiceHTML(x,i,cls,btn,extra){
   const inner=`<b>${esc(x.t)}</b>${x.a?`<small>${esc(x.a)}</small>`:''}${extra||''}`,st=`data-l="${'ABCD'[i]}" style="--k:var(${BT_K[i]})"`;
   return btn?`<button type="button" class="${cls}" ${btn} ${st}>${inner}</button>`:`<div class="${cls}" ${st}>${inner}</div>`;
 }
-const btRule=()=>BT.pts.length>2?`le plus rapide prend ${BT.pts[0]} points, le 2e ${BT.pts[1]} points, les autres ${ptsTxt(BT.pts[2])}`:`le plus rapide prend ${BT.pts[0]} points, les autres bonnes réponses ${ptsTxt(BT.pts[1])}`;
+/* tuiles façon Motus : rouge bien placé, jaune mal placé */
+function knownOf(rows,len){const k=Array(len).fill('');rows.forEach(x=>x.fb.forEach((f,i)=>{if(f===2)k[i]=x.g[i]}));return k}
+function tilesHTML(word,shown,known){return `<div class="letters">${[...word].map((l,i)=>`<span class="${i?'':'first'}${known&&known[i]&&i?' kn':''}">${shown||!i?esc(l):known&&known[i]?esc(known[i]):'·'}</span>`).join('')}</div>`}
+function gridHTML(rows,word){
+  return `<div class="mgrid">${rows.map(x=>`<div class="mrow">${[...x.g].map((l,i)=>`<span class="${x.fb[i]===2?'ok':x.fb[i]===1?'mis':''}">${esc(l)}</span>`).join('')}${x.who!==undefined?`<em>${esc(comps()[x.who])}</em>`:''}</div>`).join('')}</div>`;
+}
+const btRule=()=>BT.duel?`le plus rapide des deux prend ${BT.pts[0]} points`:BT.pts.length>2?`le plus rapide prend ${BT.pts[0]} points, le 2e ${BT.pts[1]} points, les autres ${ptsTxt(BT.pts[2])}`:`le plus rapide prend ${BT.pts[0]} points, les autres bonnes réponses ${ptsTxt(BT.pts[1])}`;
 function btClock(r,el){return `<div class="bt-clock"><div class="bt-time"><i class="run${r.buzz>=0?' paused':''}" style="--d:${BT.sec}s;animation-delay:-${el.toFixed(2)}s"></i></div><span class="bt-left${r.left<=5?' low':''}" data-btv="left">${r.left}</span></div>`}
 function btRender(){
   if(!BT||!cur||!cur.bt||!BT.r)return;
-  const r=BT.r,c=comps(),net=btNet(),th=BT.theme,quiz=BT.quiz,ty=TYPO[BT.cat.id]||TYPO.blindtest;
-  const head=`<div class="cathead"><h2 class="cat" style="font-family:'${ty.f}',var(--display);font-weight:${ty.w||400};${ty.up?'text-transform:uppercase;':''}">${esc(cur.cat.name)}</h2><span class="pts">${BT.pts.join(' · ')} pts</span></div>`;
-  const top=`<div class="bt-top"><span>${BT.party?`Titre <b>${r.n} / ${BT.total}</b>`:'⚡ Tout le monde joue'}</span><span>${quiz?`⏱ ${BT.sec} s pour répondre`:`${th.e} ${esc(th.n)}${BT.fb?' · catalogue de secours':''}`}</span></div>`;
+  const r=BT.r,c=comps(),net=btNet(),th=BT.theme,kind=BT.kind,ty=TYPO[BT.cat.id]||TYPO.blindtest;
+  const head=`<div class="cathead"><h2 class="cat" style="font-family:'${ty.f}',var(--display);font-weight:${ty.w||400};${ty.up?'text-transform:uppercase;':''}">${esc(cur.cat.name)}</h2><span class="pts">${BT.duel?BT.pts[0]:BT.pts.join(' · ')} pts</span></div>`;
+  const who=BT.duel?`⚔️ ${esc(c[BT.ps[0]])} contre ${esc(c[BT.ps[1]])}`:'⚡ Tout le monde joue';
+  const top=`<div class="bt-top"><span>${BT.party?`Titre <b>${r.n} / ${BT.total}</b>`:who}</span><span>${kind==='music'?`${th.e} ${esc(th.n)}${BT.fb?' · catalogue de secours':''}`:`⏱ ${BT.sec} s`}</span></div>`;
   const spin=(r.phase==='play'&&r.buzz<0)||r.phase==='reveal';
-  const disc=quiz?`<div class="qz-ico${r.phase==='play'&&r.buzz<0?' on':''}">${BT.ico}</div>`
-    :`<div class="vinyl${spin?' spin':''}">${r.phase==='reveal'&&r.song.cover?`<img src="${esc(r.song.cover)}" alt="">`:''}</div>`;
+  const disc=kind==='music'?`<div class="vinyl${spin?' spin':''}">${r.phase==='reveal'&&r.song.cover?`<img src="${esc(r.song.cover)}" alt="">`:''}</div>`
+    :`<div class="qz-ico${r.phase==='play'&&r.buzz<0?' on':''}">${BT.ico}</div>`;
   const el=r.phase==='play'?Math.max(0,((r.buzz>=0?r.pauseAt:performance.now())-r.t0)/1000):0;
-  const buzzMsg=r.phase==='play'&&r.buzz>=0?`<p class="bt-msg">${esc(c[r.buzz])} a buzzé !<small>Plus que <span data-btv="bleft">${r.bleft}</span> s pour choisir</small></p>`:'';
+  const buzzMsg=r.phase==='play'&&r.buzz>=0?`<p class="bt-msg">${esc(c[r.buzz])} a buzzé !<small>Plus que <span data-btv="bleft">${r.bleft}</span> s pour ${kind==='word'?'taper le mot':'choisir'}</small></p>`:'';
+  const reveal=`<div class="bt-song"><small>La bonne réponse</small><b>${esc(r.answer||'')}</b></div>`;
   let side='',below='';
-  if(quiz){
+  if(kind==='quiz'){
     side=`<p class="qz-q">${esc(r.q||'')}</p>`;
-    if(r.phase==='read')side+=`<p class="bt-msg"><small>${net?'Les réponses arrivent sur vos téléphones…':'Écoutez bien, les buzzers arrivent…'}</small></p>`;
+    if(r.phase==='read')side+=`<p class="bt-msg"><small>Lisez bien… les réponses arrivent !</small></p>`;
     else if(r.phase==='play')side+=btClock(r,el)+buzzMsg;
-    else if(r.phase==='reveal')side+=`<div class="bt-song"><small>La bonne réponse</small><b>${esc(r.answer)}</b></div>`;
+    else if(r.phase==='reveal')side+=reveal;
+  }else if(kind==='word'){
+    side=(r.def?`<p class="qz-q">${esc(r.def)}</p>`:`<p class="qz-q">Un mot de ${r.word.length} lettres</p>`)+tilesHTML(r.word,r.phase==='reveal',r.motus&&!net?knownOf(r.shared,r.word.length):null);
+    if(r.phase==='read')side+=`<p class="bt-msg"><small>Préparez vos claviers…</small></p>`;
+    else if(r.phase==='play')side+=btClock(r,el)+buzzMsg;
   }
-  else if(r.phase==='load')side=`<p class="bt-msg">Albatar fouille dans ses vinyles…<small>L'extrait va se lancer tout seul.</small></p>`;
+  else if(r.phase==='load')side=`<p class="bt-msg">On cherche le disque…<small>L'extrait va se lancer tout seul.</small></p>`;
   else if(r.phase==='error')side=`<p class="bt-msg">Pas de musique trouvée<small>Il faut internet pour les extraits. Vérifie la connexion.</small></p><button type="button" class="bt-next" data-btact="retry">Réessayer</button><button type="button" class="ghostbtn" data-btact="quit">${BT.party?'Arrêter le blind test':'Passer au tour suivant'}</button>`;
   else if(r.phase==='count')side=`<div class="bt-count" data-btv="cd">${r.cd}</div><p class="bt-msg"><small>Prêts ? L'extrait arrive…</small></p>`;
   else if(r.phase==='blocked')side=`<p class="bt-msg">Le navigateur bloque le son<small>Touchez le bouton pour lancer l'extrait.</small></p><button type="button" class="bt-next" data-btact="play">▶ Lancer l'extrait</button>`;
   else if(r.phase==='play')side=`<div class="bt-eq${r.buzz<0?' on':''}">${'<i></i>'.repeat(12)}</div>`+btClock(r,el)+buzzMsg;
   else if(r.phase==='reveal')side=`<div class="bt-song"><b>${esc(r.song.t)}</b><small>${esc(r.song.a)}${r.song.y?' · '+r.song.y:''}</small></div>`;
-  if(r.phase==='play'&&(net||r.buzz>=0)){
-    const btn=!net&&r.buzz>=0;
-    below+=`<div class="bt-choices">${r.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch',btn?`data-btc="${i}"`:'')).join('')}</div>`;
-  }
-  if(r.phase==='reveal'){
-    below+=`<div class="bt-choices">${r.choices.map((x,i)=>{
+  if(kind!=='word'){
+    if(r.phase==='play'&&(net||r.buzz>=0)){
+      const btn=!net&&r.buzz>=0;
+      below+=`<div class="bt-choices">${r.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch',btn?`data-btc="${i}"`:'')).join('')}</div>`;
+    }
+    if(r.phase==='reveal')below+=`<div class="bt-choices">${r.choices.map((x,i)=>{
       const who=Object.keys(r.ans).filter(s=>r.ans[s].c===i).map(s=>`<span style="background:${BT_PCOL[s%8]};color:#031018">${esc(c[s])}</span>`).join('');
       return btChoiceHTML(x,i,'bt-ch'+(i===r.ok?' ok':' no'),'',who?`<span class="who">${who}</span>`:'')}).join('')}</div>`;
-  }
+  }else if(!net&&r.motus&&r.shared.length)below+=gridHTML(r.shared,r.word);
   if(r.phase==='play'){
-    if(net)below+=`<div class="bt-players">${c.map((n,i)=>`<span class="bt-p${r.ans[i]?' done':''}${btOnline(i)?'':' off'}">${esc(n)}</span>`).join('')}</div><p class="bt-note">Répondez sur vos téléphones : ${btRule()}.</p>`;
-    else if(r.buzz<0)below+=`<div class="bt-buzzers">${c.map((n,i)=>`<button type="button" class="bt-bz" data-btbuzz="${i}" style="--k:${BT_PCOL[i%8]}"${r.out.includes(i)?' disabled':''}><small>${r.out.includes(i)?'ÉLIMINÉ':'BUZZER'}</small>${esc(n)}</button>`).join('')}</div><p class="bt-note">${quiz?'Tu sais ? Buzze ! Les 4 réponses s\'affichent au buzz.':'Tu reconnais ? Buzze ! Les 4 titres s\'affichent au buzz.'} Une erreur et tu es éliminé pour cette ${quiz?'question':'manche'}.</p>`;
+    if(net){
+      const st=i=>{const a=r.ans[i];return a?(kind==='word'?(a.ok?' done':' off'):' done'):''};
+      below+=`<div class="bt-players">${BT.ps.map(i=>`<span class="bt-p${st(i)}${btOnline(i)?'':' off'}">${esc(c[i])}</span>`).join('')}</div><p class="bt-note">${kind==='word'?'Tapez le mot sur vos téléphones':'Répondez sur vos téléphones'} : ${btRule()}.</p>`;
+    }else if(r.buzz>=0&&kind==='word'){
+      below+=`<form class="bt-type" data-btform><input id="btIn" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" placeholder="${r.word[0]}… (${r.word.length} lettres)"><button type="submit">Valider</button></form>${r.bmsg?`<p class="bt-note bad">${esc(r.bmsg)}</p>`:''}`;
+    }else if(r.buzz<0){
+      below+=`<div class="bt-buzzers">${BT.ps.map(i=>`<button type="button" class="bt-bz" data-btbuzz="${i}" style="--k:${BT_PCOL[i%8]}"${r.out.includes(i)?' disabled':''}><small>${r.out.includes(i)?'ÉLIMINÉ':'BUZZER'}</small>${esc(c[i])}</button>`).join('')}</div>`;
+      below+=`<p class="bt-note">${kind==='music'?'Tu reconnais ? Buzze ! Les 4 titres s\'affichent au buzz.':kind==='quiz'?'Tu sais ? Buzze ! Les 4 réponses s\'affichent au buzz.':r.motus?`Une idée ? Buzze et tape un mot (${6-r.shared.length} lignes restantes).`:'Tu sais ? Buzze et tape le mot !'}${r.motus?'':' Une erreur et tu es éliminé pour ce tour.'}</p>`;
+    }
   }
   if(r.phase==='reveal'){
+    if(kind==='word')below+=reveal;
+    below+=`<p class="bt-quip">${esc(r.line||'')}</p>`;
     const rows=c.map((n,i)=>({i,n,a:r.ans[i]})).filter(x=>x.a).sort((x,y)=>(r.pts[y.i]||0)-(r.pts[x.i]||0)||x.a.ms-y.a.ms);
-    below+=rows.length?`<ol class="bt-res">${rows.map(x=>{const p=r.pts[x.i]||0;return `<li class="${p===BT.pts[0]?'win':''}"><span class="nm">${p===BT.pts[0]?'⚡ ':''}${esc(x.n)}</span><span class="tm">${x.a.c<0?'trop tard':(x.a.ms/1000).toFixed(1).replace('.',',')+' s'}</span><span class="pp${p?'':' z'}">${p?'+'+p:'✗'}</span></li>`}).join('')}</ol>`:`<p class="bt-note">Personne n'a répondu.</p>`;
-    below+=`<button type="button" class="bt-next" data-btact="next">${BT.done<BT.total?'Titre suivant':BT.party?'Voir le classement':'Tour suivant'} · <span data-btv="auto">${r.auto}</span> s</button>`;
+    below+=rows.length?`<ol class="bt-res">${rows.map(x=>{const p=r.pts[x.i]||0;return `<li class="${p&&p===BT.pts[0]?'top':''}"><span class="nm">${p&&p===BT.pts[0]?'⚡ ':''}${esc(x.n)}</span><span class="tm">${x.a.c<0?'trop tard':(x.a.ms/1000).toFixed(1).replace('.',',')+' s'}</span><span class="pp${p?'':' z'}">${p?'+'+p:x.a.ok?'trop lent':'✗'}</span></li>`}).join('')}</ol>`:`<p class="bt-note">Personne n'a répondu.</p>`;
+    below+=`<button type="button" class="bt-next" data-btact="next">${BT.done<BT.total?'Titre suivant':BT.party?'Voir le classement':'Voir le score'} · <span data-btv="auto">${r.auto}</span> s</button>`;
   }
   if(BT.party&&r.phase!=='error')below+=`<button type="button" class="redraw" data-btact="quit">Arrêter le blind test et voir le classement</button>`;
-  $('#sheetIn').innerHTML=`${miniScores()}${hostHTML(true)}${head}<div class="bt">${top}<div class="bt-stage${quiz?' qz':''}">${disc}<div class="bt-side">${side}</div></div>${below}</div>`;
-  try{if(voiceOn&&hasTTS&&speechSynthesis.speaking)talking(true)}catch(e){}
+  $('#sheetIn').innerHTML=`${miniScores()}${head}<div class="bt">${top}<div class="bt-stage${kind!=='music'?' qz':''}">${disc}<div class="bt-side">${side}</div></div>${below}</div>`;
 }
 function btUpd(){
   const r=BT&&BT.r;if(!r)return;
@@ -2070,47 +2212,63 @@ $('#sheet').addEventListener('click',e=>{
   if(d.btact==='play'){btPlay();return}
   if(d.btact==='next'){btAdvance();return}
   if(d.btact==='retry'){BT.fails=0;btRound();return}
-  if(d.btact==='quit'){const party=BT.party;closeSheet();if(party){S.party=null;save();endGame()}else nextTurn('Pas de musique ce coup-ci, on passe.');return}
+  if(d.btact==='quit'){const party=BT.party;closeSheet();if(party){S.party=null;save();endGame()}else nextTurn({k:'x',e:'🔇',t:'Pas de musique',l:'Le disque est rayé, on passe à la suite !'});return}
 });
+$('#sheet').addEventListener('submit',e=>{if(!e.target.closest('[data-btform]'))return;e.preventDefault();const i=$('#btIn');btType(i?i.value:'')});
 
-/* ---- vue téléphone du blind test ---- */
+/* ---- vue téléphone ---- */
 function btViewFor(slot){
   const r=BT&&BT.r;if(!r)return {phase:'load',k:''};
-  const v={phase:r.phase,n:r.n,total:BT.party?BT.total:0,theme:BT.quiz?`⏱ ${BT.sec} s`:BT.theme.e+' '+BT.theme.n,k:r.k,cd:r.cd,left:r.left,sec:BT.sec,top:BT.pts[0],
-    role:BT.quiz?`⚡ ${BT.cat.name} : tout le monde joue !`:'🎵 Blind test : tout le monde joue !'};
-  if(BT.quiz){v.quiz=1;v.q=r.q;v.ico=BT.ico}
-  if(r.phase==='play'||r.phase==='reveal')v.choices=r.choices;
-  const a=r.ans[slot];if(a)v.mine={c:a.c,ms:Math.round(a.ms)};
-  if(r.phase==='reveal'){v.ok=r.ok;v.song=BT.quiz?{t:r.answer,a:'',lbl:'La bonne réponse'}:{t:r.song.t,a:r.song.a,y:r.song.y||'',cover:r.song.cover||''};v.pts=r.pts[slot]||0;v.auto=r.auto;v.last=BT.done>=BT.total}
+  const c=comps();
+  const v={phase:r.phase,kind:BT.kind,n:r.n,total:BT.party?BT.total:0,theme:BT.kind==='music'?BT.theme.e+' '+BT.theme.n:`⏱ ${BT.sec} s`,k:r.k,cd:r.cd,left:r.left,sec:BT.sec,top:BT.pts[0],ico:BT.ico,
+    spect:!BT.ps.includes(slot),
+    role:BT.duel?(BT.ps.includes(slot)?`⚔️ Duel : ${c[BT.ps[0]]} contre ${c[BT.ps[1]]} !`:`👀 Tu regardes le duel ${c[BT.ps[0]]} – ${c[BT.ps[1]]}`):BT.kind==='music'?'🎵 Blind test : tout le monde joue !':`⚡ ${BT.cat.name} : tout le monde joue !`};
+  if(BT.kind==='quiz')v.q=r.q;
+  if(BT.kind==='word'){v.def=r.def;v.word0=r.word[0];v.len=r.word.length;v.motus=r.motus;v.grid=r.grid[slot]||[];v.tries=r.tries[slot]||0;v.max=BT.tries;v.msg=r.msg[slot]||''}
+  if(BT.kind!=='word'&&(r.phase==='play'||r.phase==='reveal'))v.choices=r.choices;
+  const a=r.ans[slot];if(a)v.mine={c:a.c,ok:a.ok,ms:Math.round(a.ms)};
+  if(r.phase==='reveal'){v.ok=r.ok;v.answer=r.answer;v.song=BT.kind==='music'?{t:r.song.t,a:r.song.a,y:r.song.y||'',cover:r.song.cover||''}:null;v.pts=r.pts[slot]||0;v.auto=r.auto;v.last=BT.done>=BT.total;v.line=r.line}
   return v;
 }
 function btPhoneHTML(v){
-  const top=`<div class="bt-top"><span>${v.total?`Titre <b>${v.n} / ${v.total}</b>`:'⚡ Tout le monde joue'}</span><span>${esc(v.theme||'')}</span></div>`;
-  const stage=(spin,side,img)=>v.quiz?`<div class="bt-stage qz"><div class="qz-ico${spin&&v.phase==='play'?' on':''}">${v.ico}</div><div class="bt-side"><p class="qz-q">${esc(v.q||'')}</p>${side}</div></div>`
-    :`<div class="bt-stage"><div class="vinyl${spin?' spin':''}">${img?`<img src="${esc(img)}" alt="">`:''}</div><div class="bt-side">${side}</div></div>`;
-  const eq=v.quiz?'':`<div class="bt-eq on">${'<i></i>'.repeat(8)}</div>`;
+  const top=`<div class="bt-top"><span>${v.total?`Titre <b>${v.n} / ${v.total}</b>`:'⚡ En direct'}</span><span>${esc(v.theme||'')}</span></div>`;
   const t=ms=>(ms/1000).toFixed(1).replace('.',',');
+  const head=v.kind==='quiz'?`<p class="qz-q">${esc(v.q||'')}</p>`:v.kind==='word'?(v.def?`<p class="qz-q">${esc(v.def)}</p>`:`<p class="qz-q">Un mot de ${v.len} lettres</p>`)+`<div class="letters">${(k=>Array.from({length:v.len},(_,i)=>`<span class="${i?'':'first'}${i&&k[i]?' kn':''}">${i?(k[i]?esc(k[i]):'·'):esc(v.word0)}</span>`).join(''))(v.motus?knownOf(v.grid||[],v.len):[])}</div>`:'';
+  const stage=(spin,side,img)=>v.kind==='music'?`<div class="bt-stage"><div class="vinyl${spin?' spin':''}">${img?`<img src="${esc(img)}" alt="">`:''}</div><div class="bt-side">${side}</div></div>`
+    :`<div class="bt-stage qz"><div class="qz-ico${spin&&v.phase==='play'?' on':''}">${v.ico}</div><div class="bt-side">${head}${side}</div></div>`;
+  const clock=`${v.kind==='music'?`<div class="bt-eq on">${'<i></i>'.repeat(8)}</div>`:''}<div class="bt-clock"><div class="bt-time"><i style="transform:scaleX(${(v.left||0)/(v.sec||BT_SEC)});transition:transform 1s linear"></i></div><span class="bt-left${v.left<=5?' low':''}">${v.left}</span></div>`;
   let h='';
-  if(v.phase==='load')h=stage(false,`<p class="bt-msg">Albatar cherche le disque…<small>Garde les yeux sur ton téléphone !</small></p>`);
+  if(v.phase==='load')h=stage(false,`<p class="bt-msg">On cherche le disque…<small>Garde les yeux sur ton téléphone !</small></p>`);
   else if(v.phase==='error')h=stage(false,`<p class="bt-msg">Pas de musique trouvée<small>L'écran principal n'arrive pas à charger l'extrait.</small></p>`);
   else if(v.phase==='blocked')h=stage(false,`<p class="bt-msg">Son bloqué sur l'écran principal<small>Touchez ▶ sur l'écran principal.</small></p>`);
   else if(v.phase==='count')h=stage(false,`<div class="bt-count">${v.cd}</div><p class="bt-msg"><small>Prépare tes doigts…</small></p>`);
-  else if(v.phase==='read')h=stage(false,`<p class="bt-msg"><small>Les 4 réponses arrivent, prépare tes doigts…</small></p>`);
+  else if(v.phase==='read')h=stage(false,`<p class="bt-msg"><small>${v.kind==='word'?'Prépare ton clavier…':'Les 4 réponses arrivent…'}</small></p>`);
   else if(v.phase==='play'){
-    h=stage(true,`${eq}<div class="bt-clock"><div class="bt-time"><i style="transform:scaleX(${(v.left||0)/(v.sec||BT_SEC)});transition:transform 1s linear"></i></div><span class="bt-left${v.left<=5?' low':''}">${v.left}</span></div>`);
-    if(v.mine)h+=`<p class="bt-banner" style="background:linear-gradient(100deg,var(--violet),var(--pink));color:#fff">Réponse ${'ABCD'[v.mine.c]} verrouillée<small>en ${t(v.mine.ms)} s · réponse au signal !</small></p><div class="bt-choices bt-small">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch'+(i===v.mine.c?' mine':' no'),'')).join('')}</div>`;
+    h=stage(true,clock);
+    if(v.spect)h+=`<p class="bt-note">Tu regardes le duel : pas de réponse pour toi cette fois.</p>`;
+    else if(v.kind==='word'){
+      if(v.motus&&v.grid.length)h+=gridHTML(v.grid,'');
+      if(v.mine)h+=v.mine.ok?`<p class="bt-banner">Trouvé !<small>en ${t(v.mine.ms)} s · attends les autres…</small></p>`:`<p class="bt-banner z">Plus d'essais !<small>Attends la réponse…</small></p>`;
+      else h+=`<p class="bt-note${v.msg?' bad':''}">${esc(v.msg||(v.motus?`Ligne ${v.tries+1} sur ${v.max}`:`${v.max-v.tries} essai${v.max-v.tries>1?'s':''}`))}</p>`;
+    }
+    else if(v.mine)h+=`<p class="bt-banner" style="background:linear-gradient(100deg,var(--violet),var(--pink));color:#fff">Réponse ${'ABCD'[v.mine.c]} verrouillée<small>en ${t(v.mine.ms)} s · réponse au signal !</small></p><div class="bt-choices bt-small">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch'+(i===v.mine.c?' mine':' no'),'')).join('')}</div>`;
     else h+=`<div class="bt-choices">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch',`data-btc="${i}" data-btk="${esc(v.k)}"`)).join('')}</div>`;
   }
   else if(v.phase==='reveal'){
     const p=v.pts||0;
-    h=v.mine?(p?`<p class="bt-banner">+${p} point${p>1?'s':''} !<small>${p===v.top?'Le plus rapide !':'Bien joué !'} (${t(v.mine.ms)} s)</small></p>`:`<p class="bt-banner z">Raté !<small>${v.mine.c<0?'Trop tard…':'Mauvaise réponse'}</small></p>`):`<p class="bt-banner z">Trop tard !<small>Pas de réponse cette fois</small></p>`;
-    h+=stage(true,v.quiz?`<div class="bt-song"><small>${v.song.lbl}</small><b>${esc(v.song.t)}</b></div>`:`<div class="bt-song"><b>${esc(v.song.t)}</b><small>${esc(v.song.a)}${v.song.y?' · '+v.song.y:''}</small></div>`,v.song.cover);
-    h+=`<div class="bt-choices bt-small">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch'+(i===v.ok?' ok':' no')+(v.mine&&v.mine.c===i?' mine':''),'')).join('')}</div>`;
-    h+=`<button type="button" class="bt-next" data-btnext="1">${v.last?'Continuer':'Titre suivant'} · ${v.auto} s</button>`;
+    if(!v.spect)h=v.mine?(p?`<p class="bt-banner">+${p} point${p>1?'s':''} !<small>${p===v.top?'Le plus rapide !':'Bien joué !'} (${t(v.mine.ms)} s)</small></p>`:`<p class="bt-banner z">${v.mine.ok?'Trop lent !':'Raté !'}<small>${v.mine.ok?'Juste, mais l\'autre a dégainé avant':v.mine.c<0?'Trop tard…':'Mauvaise réponse'}</small></p>`):`<p class="bt-banner z">Trop tard !<small>Pas de réponse cette fois</small></p>`;
+    h+=stage(true,v.song?`<div class="bt-song"><b>${esc(v.song.t)}</b><small>${esc(v.song.a)}${v.song.y?' · '+v.song.y:''}</small></div>`:`<div class="bt-song"><small>La bonne réponse</small><b>${esc(v.answer)}</b></div>`,v.song&&v.song.cover);
+    if(v.choices)h+=`<div class="bt-choices bt-small">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch'+(i===v.ok?' ok':' no')+(v.mine&&v.mine.c===i?' mine':''),'')).join('')}</div>`;
+    if(v.line)h+=`<p class="bt-quip">${esc(v.line)}</p>`;
+    h+=`<button type="button" class="bt-next" data-btnext="1">${v.last?'Voir le score':'Titre suivant'} · ${v.auto} s</button>`;
   }
   return `<div class="bt">${top}${h}</div>`;
 }
-
+/* le champ de saisie reste en place pendant que le chrono tourne */
+function btPhoneInput(v){
+  if(v.kind!=='word'||v.phase!=='play'||v.spect||v.mine||v.tries>=v.max)return {k:'',h:''};
+  return {k:v.k+'|'+v.tries+'|'+v.msg,h:`<form class="ph-form" data-btk="${esc(v.k)}"><input id="phBt" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" placeholder="${esc(v.word0)}… (${v.len} lettres)"><button type="submit">OK</button></form>`};
+}
 
 /* ---- réglages : Grande Roue ou Blind Test Party, thème musical ---- */
 function renderGameOpts(){
@@ -2126,7 +2284,8 @@ $('#gameMode').addEventListener('click',e=>{const b=e.target.closest('button');i
 $('#btThemes').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.btTheme=b.dataset.th;save();renderGameOpts();btPool(btThemeOf(S.btTheme)).catch(()=>{})});
 $('#partyN').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.partyN=+b.dataset.n;save();renderGameOpts()});
 renderGameOpts();
-function partyGo(fresh){if(fresh||!S.party||S.party.done>=S.party.total)S.party={total:S.partyN||10,done:0};save();show('game');btOpen(true)}
+function partyGo(fresh){if(fresh||!S.party||S.party.done>=S.party.total)S.party={total:S.partyN||10,done:0};save();show('game');snap=S.scores.slice();
+  ruleCard({id:'blindtest',name:'Blind Test Party',col:'--violet'},'⚡ Tout le monde joue · '+btThemeOf(S.btTheme).n,RULES.party.replace('{n}',S.party.total-S.party.done)).then(()=>btOpen(true))}
 {const old=$('#start').onclick;$('#start').onclick=()=>{btUnlock();old();if(S.game==='party')partyGo(true)}}
 {const old=$('#resume').onclick;$('#resume').onclick=()=>{btUnlock();old();if(S.game==='party')partyGo(false)}}
 {const old=$('#continue').onclick;$('#continue').onclick=()=>{btUnlock();if(S.game==='party'){partyGo(true);return}old()}}

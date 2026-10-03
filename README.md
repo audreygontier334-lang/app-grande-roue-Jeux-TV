@@ -1,6 +1,6 @@
 # LA GRANDE ROUE
 
-Un jeu de soirée sur téléphone : on fait tourner une roue de 15 jeux télé cultes, et Albatar l'avatar, un albatros marseillais en survêt, présente la partie à voix haute.
+Un jeu de soirée sur téléphone : on fait tourner une roue de 16 jeux télé cultes. Des écrans annoncent la règle et donnent le GO, puis un écran de résultat chambre les joueurs et affiche le score.
 
 ## Comment jouer
 
@@ -26,13 +26,16 @@ Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette
 - **Thèmes** : Tubes cultes (notre sélection de plus de 100 titres), Hits du moment, Années 70-80, 90, 2000, 2010, Chanson française, Rap français, Disney, Génériques. Sauf Tubes cultes, les thèmes vont chercher une playlist Deezer en direct. Si Deezer ne répond pas, le jeu se rabat sur le catalogue intégré.
 - Si le navigateur bloque le son, un bouton ▶ apparaît sur l'écran principal.
 
-## Champion et Millions : tout le monde joue aussi
+## Champion, Millions, Motus et Slam : tout le monde joue aussi
 
 Questions pour un champion et Qui veut gagner des millions fonctionnent comme le blind test, sans arbitre :
 - Albatar lit la question à voix haute (ou on la lit à l'écran si la voix est coupée), puis les 4 réponses s'ouvrent pour tout le monde.
 - 12 secondes pour Champion, 20 secondes pour Millions.
 - Le plus rapide avec la bonne réponse prend 2 points, les autres bonnes réponses 1 point.
 - Plusieurs écrans : chacun répond sur son téléphone. Un seul téléphone : un buzzer par joueur, les 4 réponses s'affichent au buzz, une erreur élimine pour la question.
+- **Slam** : la définition, la 1re lettre et la longueur ; chacun tape le mot (3 essais sur son téléphone). Accents et majuscules ne comptent pas.
+- **Motus** : chacun a sa grille de 6 lignes sur son téléphone (rouge = bien placé, jaune = mal placé). Sur un seul téléphone, la grille est commune : on buzze pour proposer un mot.
+- **Le Duel** : une case spéciale de la roue, face-à-face entre le joueur et un adversaire tiré au sort.
 
 ## Les bonus Quitte ou Double
 
@@ -44,9 +47,11 @@ Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix
 
 Si une joueuse s'appelle Cécile, des cartes spéciales à son sujet s'ajoutent automatiquement.
 
-## Le présentateur
+## Annonces, résultats et ambiance
 
-Albatar parle grâce à la synthèse vocale du navigateur. Le rendu dépend de la voix française installée sur l'appareil. Le bouton « Voix off » coupe le son.
+- Avant chaque jeu, un écran annonce le jeu, la règle en une phrase et qui joue, puis un grand « GO ! ».
+- Après chaque jeu, un écran de 6 secondes félicite, console ou chambre (jeux de mots, rimes), avec le classement et les points gagnés. On peut le toucher pour passer.
+- Une petite musique d'ambiance tourne sous les jeux (bouton « 🔊 Ambiance ») et des effets sonores accompagnent buzz, bonnes et mauvaises réponses, duels, podium. Tout est synthétisé par le navigateur, rien à télécharger.
 
 ## Les fichiers
 
