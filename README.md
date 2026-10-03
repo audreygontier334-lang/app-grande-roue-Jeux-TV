@@ -11,6 +11,14 @@ Un jeu de soirée sur téléphone : on fait tourner une roue de 15 jeux télé c
 5. Les scores et le classement restent affichés en permanence, même pendant les questions.
 6. La partie s'arrête toute seule au dernier tour, ou avec « Fin de partie », et affiche le podium.
 
+## Mode multi-écrans
+
+Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette) : un code et un QR code s'affichent. Chaque joueur (2 à 8) le scanne avec son téléphone. Le joueur dont c'est le tour fait tourner la roue depuis son téléphone, l'arbitre voit la réponse en secret, chacun écrit ses réponses sans que les autres les voient, et les duels se jouent avec un buzzer sur chaque téléphone. Pour mettre le jeu sur la télé : navigateur de la télé, « Caster » de Chrome, AirPlay ou câble HDMI.
+
+## Les bonus Quitte ou Double
+
+Chaque joueur a 2 bonus en partie courte, 3 en normale et sans fin, 4 en longue. À son tour, avant de tourner, il peut en jouer un : une roue décide de l'effet (vol ou don de points, stylo entre les dents, échange d'équipe, 2 jeux imposés pendant 3 tours, gages, points doublés, pile ou face, tour bonus, bouclier, jackpot).
+
 ## Les 15 jeux
 
 Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix (version chiffres), N'oubliez pas les paroles, Fort Boyard, Attention à la marche !, Les Z'amours, Le Bigdil, Qui est qui ?, Slam, Burger Quiz (Sel ou poivre), Blind Test, NEO ARENA (mini-jeux réflexes, mémoire et code) et Défis & Duels (une deuxième roue de défis physiques).

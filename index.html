@@ -183,7 +183,7 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 @keyframes fly{to{transform:translate(-50%,-40px);opacity:0}}
 .turn .round{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);font-weight:900;margin-bottom:2px}
 .mini-scores{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
-.mini-scores span{flex:1 1 22%;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:10px;background:#030912;border:1px solid #1c3852;font-weight:900;font-size:.8rem}
+.mini-scores span{flex:1 1 20%;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:10px;background:#030912;border:1px solid #1c3852;font-weight:900;font-size:.8rem}
 .mini-scores span.now{border-color:var(--cyan);box-shadow:0 0 12px rgba(56,232,255,.18)}
 .mini-scores i{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .mini-scores b{color:var(--cyan);font-family:var(--display);font-weight:400;font-variant-numeric:tabular-nums}
@@ -199,6 +199,22 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 .rounds button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(56,232,255,.12)}
 .bubble .bubbleText{display:block;max-height:7.4em;overflow:auto}
 #game{overflow-x:clip}
+/* ===== BONUS QUITTE OU DOUBLE ===== */
+.gamebar #bonusBtn{border-color:var(--gold);color:#140f3a;background:linear-gradient(100deg,var(--gold),#ffb36b);font-weight:900;box-shadow:0 0 18px rgba(255,209,102,.3)}
+.chip .fx{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;font-size:.72rem;min-height:1.1em;line-height:1.1}
+.bx-wheel{position:relative;max-width:360px;margin:14px auto}
+.bx-wheel canvas{display:block;width:100%;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 10px 22px #0008)}
+.bx-wheel .ptr{position:absolute;left:50%;top:-10px;transform:translateX(-50%);font-size:34px;z-index:2;color:var(--gold)}
+.bx-res{text-align:center;display:grid;gap:10px;justify-items:center}
+.bx-res .big-e{font-size:3.2rem;line-height:1}
+.bx-res h3{margin:0;font-family:var(--display);font-weight:400;font-size:1.6rem;color:var(--gold)}
+.bx-res p{margin:0;font-weight:700;max-width:40ch}
+.bx-res .gage{padding:10px 14px;border-radius:12px;background:#030912;border:1px dashed var(--pink);font-weight:900}
+.bx-pick{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.bx-pick button{padding:9px 12px;border-radius:999px;border:1px solid #244568;font-weight:900;background:#0b1325}
+.bx-pick button.on{background:var(--gold);color:#140f3a;border-color:var(--gold)}
+.bx-pick button:disabled{opacity:.35}
+.ph-bonus{display:block;width:100%;padding:14px;border-radius:14px;background:linear-gradient(100deg,var(--gold),#ffb36b);color:#140f3a;font-weight:900;font-size:1.05rem}
 /* ===== MULTI-ÉCRANS ===== */
 .mode button small{display:block;font-weight:700;color:var(--muted);font-size:.72rem;margin-top:2px}
 .linkbtn{display:block;margin:-10px auto 22px;color:var(--cyan);font-weight:900;text-decoration:underline;padding:6px}
@@ -314,6 +330,7 @@ body.tv .app{max-width:1280px}
         <li>Il touche « Gagné » ou « Raté ». Les points s'ajoutent tout seuls.</li>
         <li>En couples, les deux partenaires jouent ensemble (sauf aux Z'amours, évidemment).</li>
         <li>Les petits + et − sous chaque score servent à corriger ou à donner un bonus.</li>
+        <li>Chaque joueur a des bonus « Quitte ou Double » (2 en partie courte, 3 en normale, 4 en longue) : à son tour, avant de tourner, il peut en jouer un. Gare au revers !</li>
         <li>Le bouton ⏱ lance le chrono du jeu. La partie s'arrête toute seule après le nombre de tours choisi.</li>
       </ul>
     </details>
@@ -381,6 +398,7 @@ body.tv .app{max-width:1280px}
     </div>
     <div class="host" data-host></div>
     <div class="gamebar">
+      <button type="button" id="bonusBtn" hidden>🎲 Quitte ou Double</button>
       <button type="button" id="voice">Voix off : oui</button>
       <button type="button" id="skip">Passer son tour</button>
       <button type="button" id="end">Fin de partie</button>
@@ -752,7 +770,7 @@ $('#names').addEventListener('input',e=>{if(e.target.dataset.i!==undefined){S.pl
 $('#names').addEventListener('change',e=>{if(e.target.id!=='participantCount')return;if(S.mode==='solo')S.playerCount=+e.target.value;else S.coupleCount=+e.target.value;S.started=false;save();renderNames()});
 $('#m-solo').onclick=()=>{S.mode='solo';S.started=false;save();renderNames()};
 $('#m-couple').onclick=()=>{S.mode='couple';S.started=false;save();renderNames()};
-$('#start').onclick=()=>{S.scores=comps().map(()=>0);S.turn=0;S.played=0;S.started=true;save();show('game');
+$('#start').onclick=()=>{S.scores=comps().map(()=>0);S.turn=0;S.played=0;S.bonus=comps().map(()=>bonusCount());S.fx=comps().map(()=>({}));S.started=true;save();show('game');
   const c=comps();
   say(`Wesh la zone ! C'est Albatar l'avatar, en direct des quartiers nord, le seul présentateur qui plane plus haut que vos notes au bac. Bienvenue sur LA GRANDE ROUE, gros ! Ce soir, ${S.mode==='solo'?c.length+' candidats':c.length+' couples'} vont se mettre sur la tronche sur quinze jeux cultes. Le perdant, on le jette dans le Vieux-Port… non j'déconne. Quoique. ${c[0]}, t'as l'honneur : fais péter la roue !`)};
 $('#resume').onclick=()=>{if(S.scores.length!==comps().length)S.scores=comps().map(()=>0);show('game');say(`Oh fatche, on y retourne ! ${TURN(comps()[S.turn])}`)};
@@ -773,15 +791,20 @@ function miniScores(){
 function renderScores(popI,delta){
   const c=comps(),rk=ranks(),top=Math.max(...c.map((_,i)=>S.scores[i]||0));
   $('#scores').style.setProperty('--n',Math.min(c.length,4));
-  $('#scores').innerHTML=c.map((n,i)=>`<div class="chip${i===S.turn?' now':''}${i===popI?' pop':''}${rk[i]===1&&top>0?' lead':''}">${top>0?`<span class="rk">${rk[i]===1?'👑 ':''}${rkTxt(rk[i])}</span>`:''}<div class="nm">${esc(n)}</div><div class="pt">${S.scores[i]||0}</div><div class="adj"><button type="button" data-adj="${i}" data-d="-1" aria-label="Retirer un point à ${esc(n)}">−</button><button type="button" data-adj="${i}" data-d="1" aria-label="Ajouter un point à ${esc(n)}">+</button></div>${i===popI&&delta?`<span class="fly${delta<0?' neg':''}">${delta>0?'+':''}${delta}</span>`:''}</div>`).join('');
+  $('#scores').innerHTML=c.map((n,i)=>`<div class="chip${i===S.turn?' now':''}${i===popI?' pop':''}${rk[i]===1&&top>0?' lead':''}">${top>0?`<span class="rk">${rk[i]===1?'👑 ':''}${rkTxt(rk[i])}</span>`:''}<div class="nm">${esc(n)}</div><div class="pt">${S.scores[i]||0}</div><div class="fx">${fxBadges(i)}</div><div class="adj"><button type="button" data-adj="${i}" data-d="-1" aria-label="Retirer un point à ${esc(n)}">−</button><button type="button" data-adj="${i}" data-d="1" aria-label="Ajouter un point à ${esc(n)}">+</button></div>${i===popI&&delta?`<span class="fly${delta<0?' neg':''}">${delta>0?'+':''}${delta}</span>`:''}</div>`).join('');
   $('#turnName').textContent=c[S.turn];
   $('#roundLbl').textContent=S.max?`Tour ${Math.min(S.played+1,S.max)} / ${S.max}`:`Tour ${S.played+1}`;
   document.querySelectorAll('.mini-scores').forEach(el=>el.outerHTML=miniScores());
+  refreshBonusBtn();
 }
 $('#scores').addEventListener('click',e=>{const b=e.target.closest('[data-adj]');if(b)award(+b.dataset.adj,+b.dataset.d)});
 function award(i,n){S.scores[i]=(S.scores[i]||0)+n;save();renderScores(i,n)}
 function nextTurn(prefix){
-  S.played=(S.played||0)+1;S.turn=(S.turn+1)%comps().length;save();renderScores();
+  ensureFx();const prev=S.turn,f=S.fx[prev]||{};
+  if(f.stylo>0)f.stylo--;if(f.shield>0)f.shield--;
+  const again=f.again;f.again=false;
+  S.played=(S.played||0)+1;S.turn=again?prev:(prev+1)%comps().length;save();renderScores();
+  if(again&&!(S.max&&S.played>=S.max)&&prefix!==undefined){say(prefix+` Et ${comps()[prev]} rejoue grâce à son bonus !`);return}
   if(S.max&&S.played>=S.max){endGame((prefix||'')+" Et c'était le dernier tour !");return}
   if(prefix!==undefined)say(prefix+' '+TURN(comps()[S.turn]));
 }
@@ -879,7 +902,7 @@ function beep(f,t,dur,vol){
 $('#spin').onclick=()=>{
   if(spinning)return;spinning=true;$('#spin').disabled=true;
   beep(1,0,.01,.0001);say(pick(SPIN));
-  const target=Math.floor(Math.random()*N),jit=(Math.random()-.5)*SEG*.7;
+  const target=pickWheelTarget(),jit=(Math.random()-.5)*SEG*.7;
   let end=-Math.PI/2-(target+.5)*SEG-jit;
   const min=rot+Math.PI*2*5;
   while(end<min)end+=Math.PI*2;
@@ -1007,7 +1030,7 @@ function arenaDone(ok,msg){
  const me=S.turn,n=comps()[me],p=cur.cat.pts,st=$('#sheetIn .arena-status');if(st)st.textContent=msg;
  $('#sheetIn').querySelectorAll('button,input').forEach(x=>{if(!x.classList.contains('replay'))x.disabled=true});
  beep(ok?1200:180,0,.18,.08);
- setTimeout(()=>{if(ok)award(me,p);closeSheet();nextTurn(ok?('MISSION VALIDÉE ! '+n+' prend '+ptsTxt(p)+'.'):('MISSION ÉCHOUÉE pour '+n+'.'))},850);
+ setTimeout(()=>{if(ok)gameAward(me,p);closeSheet();nextTurn(ok?('MISSION VALIDÉE ! '+n+' prend '+ptsTxt(p)+'.'):('MISSION ÉCHOUÉE pour '+n+'.'))},850);
 }
 function reflexNext(){
  const pads=[...$('#sheetIn').querySelectorAll('.arena-pad')];pads.forEach(p=>p.classList.remove('on','bad'));arenaState.hot=Math.floor(Math.random()*pads.length);pads[arenaState.hot].classList.add('on');clearTimeout(arenaState.to);arenaState.to=setTimeout(()=>arenaDone(false,'Trop lent.'),1500);
@@ -1112,7 +1135,7 @@ $('#sheet').addEventListener('click',e=>{
     const who=+b.dataset.buzz;cur.buzz=who;stopMusic();stopTimer();beep(1500,0,.25,.09);
     $('#sheetIn').querySelectorAll('.buzz').forEach(x=>x.classList.add(+x.dataset.buzz===who?'won':'lost'));
     duelRes();say(pick([`${c0[who]} a buzzé !`,`Buzz ! ${c0[who]}, on t'écoute.`,`${c0[who]} dégaine en premier !`]));return}
-  if(b.dataset.act==='duelok'){const w=cur.buzz;award(w,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[w]} remporte le duel et ${ptsTxt(cat.pts)}.`);return}
+  if(b.dataset.act==='duelok'){const w=cur.buzz;gameAward(w,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[w]} remporte le duel et ${ptsTxt(cat.pts)}.`);return}
   if(b.dataset.act==='duelko'){
     if(!cur.second){cur.second=true;const other=cur.buzz===me?cur.opp:me;cur.buzz=other;
       $('#sheetIn').querySelectorAll('.buzz').forEach(x=>{x.classList.remove('won','lost');x.classList.add(+x.dataset.buzz===other?'won':'lost')});
@@ -1126,9 +1149,9 @@ $('#sheet').addEventListener('click',e=>{
     b.remove();say(answerLine(cat,cur.item));return;
   }
   if(b.dataset.act==='redraw'){stopMusic();cur.item=draw1(cat);cur.buzz=undefined;cur.second=false;renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}
-  if(b.dataset.act==='win'){award(me,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[me]} empoche ${ptsTxt(cat.pts)}, ça lui fait ${ptsTxt(S.scores[me])} au compteur.`);return}
+  if(b.dataset.act==='win'){gameAward(me,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[me]} empoche ${ptsTxt(cat.pts)}, ça lui fait ${ptsTxt(S.scores[me])} au compteur.`);return}
   if(b.dataset.act==='lose'){closeSheet();nextTurn(pick(LOSE));return}
-  if(b.dataset.give){const g=+b.dataset.give;award(g,cat.pts);closeSheet();nextTurn(`Les points s'envolent chez ${c0[g]}… comme un albatros, vé !`);return}
+  if(b.dataset.give){const g=+b.dataset.give;gameAward(g,cat.pts);closeSheet();nextTurn(`Les points s'envolent chez ${c0[g]}… comme un albatros, vé !`);return}
   if(b.dataset.box!==undefined&&!cur.opened){
     cur.opened=true;
     const picks=shuffle(BIGDIL).slice(0,3),mine=+b.dataset.box,o=picks[mine];
@@ -1149,6 +1172,144 @@ $('#backdrop').onclick=()=>{};
 document.querySelectorAll('[data-host]').forEach(h=>h.outerHTML=hostHTML(false));
 renderVoiceBtn();
 renderNames();
+
+/* =====================================================================
+   BONUS « QUITTE OU DOUBLE » : chaque joueur en a 2 à 4 selon la durée.
+   ===================================================================== */
+function bonusCount(){const m=S.max||0;if(!m)return 3;return m<=12?2:m<=24?3:4}
+function ensureFx(){const n=comps().length;if(!Array.isArray(S.fx))S.fx=[];if(!Array.isArray(S.bonus))S.bonus=[];for(let i=0;i<n;i++){if(!S.fx[i])S.fx[i]={};if(typeof S.bonus[i]!=='number')S.bonus[i]=bonusCount()}}
+const GAGES=["Parle avec l'accent marseillais jusqu'à ton prochain tour","Imite Albatar pendant une minute","Chante un refrain debout sur une chaise","Fais 10 squats en comptant à voix haute","Danse 20 secondes sans musique","Parle en rimant jusqu'à ton prochain tour","Fais une déclaration d'amour à l'objet le plus proche","Ne dis plus « oui » ni « non » pendant 2 tours","Fais le tour de la pièce en marchant comme un pingouin","Mime ton métier sans parler, les autres doivent deviner","Raconte ta pire honte en 30 secondes","Appelle tout le monde « Votre Majesté » jusqu'à ton prochain tour"];
+const BONUS=[
+ {id:'vol',e:'🦹',w:'Vol',t:'Vol de points',d:'Vole 2 points au joueur de ton choix.',target:true},
+ {id:'don',e:'🎁',w:'Don',t:'Don de points',d:'Aïe ! Tu dois donner 2 points au joueur de ton choix.',target:true},
+ {id:'stylo',e:'✏️',w:'Stylo',t:'Stylo entre les dents',d:'Tu joues avec un stylo entre les dents pendant tes 2 prochains tours.'},
+ {id:'swap',e:'🔄',w:'Échange',t:"Échange d'équipe",target:true},
+ {id:'choix',e:'🎯',w:'2 jeux',t:'Choisis tes jeux',d:'Choisis 2 jeux : la roue ne tombera que sur eux pendant tes 3 prochains tours.',pick:true},
+ {id:'gagedroite',e:'😈',w:'Gage reçu',t:'Gage du voisin',d:'Le joueur à ta droite te donne un gage.'},
+ {id:'gagechoix',e:'👉',w:'Gage donné',t:'Donne un gage',d:'Donne un gage au joueur de ton choix.',target:true},
+ {id:'double',e:'✖️',w:'Double',t:'Points doublés',d:'Ta prochaine victoire rapporte le double de points.'},
+ {id:'quitte',e:'🪙',w:'Pile/Face',t:'Quitte ou double',d:'Pile : tes points sont doublés. Face : tu en perds la moitié.',coin:true},
+ {id:'rejoue',e:'🔁',w:'Rejoue',t:'Tour bonus',d:'Après ce tour, tu rejoues tout de suite.'},
+ {id:'bouclier',e:'🛡️',w:'Bouclier',t:'Bouclier',d:'Pendant tes 3 prochains tours, personne ne peut te voler de points.'},
+ {id:'cadeau',e:'💰',w:'+3',t:'Jackpot',d:"Tu gagnes 3 points, cadeau d'Albatar."}
+];
+const swapText=()=>S.mode==='couple'?"Ton partenaire part dans l'équipe de ton choix, et tu récupères le sien.":"Échange ton score avec le joueur de ton choix.";
+function fxBadges(i){
+  ensureFx();const f=S.fx[i]||{},b=S.bonus[i]||0,out=[];
+  if(b>0)out.push(`🎲${b}`);if(f.stylo>0)out.push('✏️');if(f.shield>0)out.push('🛡️');if(f.double)out.push('✖️2');if(f.onlyN>0)out.push('🎯');if(f.again)out.push('🔁');
+  return out.map(x=>`<span>${x}</span>`).join('');
+}
+function refreshBonusBtn(){
+  const btn=$('#bonusBtn');if(!btn)return;ensureFx();
+  const n=S.bonus[S.turn]||0;btn.hidden=!(S.started&&n>0);btn.textContent=`🎲 Quitte ou Double · ${n} bonus`;
+}
+function gameAward(i,pts){
+  ensureFx();const f=S.fx[i];
+  if(f&&f.double&&pts>0){f.double=false;award(i,pts*2);setTimeout(()=>say(`Bonus points doublés pour ${comps()[i]} : ${ptsTxt(pts*2)} au lieu de ${pts} !`),1800);return}
+  award(i,pts);
+}
+function pickWheelTarget(){
+  ensureFx();const f=S.fx[S.turn];
+  if(f&&f.onlyN>0&&Array.isArray(f.only)&&f.only.length){
+    const idx=CATS.map((c,i)=>f.only.includes(c.id)?i:-1).filter(i=>i>=0);f.onlyN--;save();
+    if(idx.length)return pick(idx);
+  }
+  return Math.floor(Math.random()*N);
+}
+let bxRot=0,bxSpin=false;
+function drawBonus(){
+  const cv=document.querySelector('#bxCanvas');if(!cv)return;
+  const box=cv.getBoundingClientRect(),dpr=devicePixelRatio||1,w=box.width||320;
+  cv.width=w*dpr;cv.height=w*dpr;const x=cv.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);
+  const r=w/2,seg=Math.PI*2/BONUS.length,cols=['#ffd166','#ff4fa3','#38e8ff','#9c7cff','#ff914d','#38f2ad'];
+  x.clearRect(0,0,w,w);x.save();x.translate(r,r);x.rotate(bxRot);
+  BONUS.forEach((d,i)=>{x.beginPath();x.moveTo(0,0);x.arc(0,0,r-4,i*seg,(i+1)*seg);x.closePath();x.fillStyle=cols[i%cols.length];x.fill();x.strokeStyle='#02060d';x.lineWidth=3;x.stroke();
+    x.save();x.rotate((i+.5)*seg);x.textAlign='right';x.textBaseline='middle';x.fillStyle='#02060d';x.font='900 '+Math.max(11,r*.085)+'px Nunito, sans-serif';x.fillText(d.w+' '+d.e,r*.9,0);x.restore()});
+  x.beginPath();x.arc(0,0,r*.25,0,Math.PI*2);x.fillStyle='#02060d';x.fill();x.strokeStyle='#ffd166';x.lineWidth=4;x.stroke();
+  x.fillStyle='#ffd166';x.textAlign='center';x.textBaseline='middle';x.font='900 '+Math.max(9,r*.058)+'px Nunito, sans-serif';x.fillText('QUITTE',0,-r*.045);x.fillText('OU DOUBLE',0,r*.06);x.restore();
+}
+function openBonus(){
+  ensureFx();if(spinning||!$('#sheet').hidden||!(S.bonus[S.turn]>0))return;
+  S.bonus[S.turn]--;save();renderScores();
+  const name=comps()[S.turn];
+  cur={cat:{id:'bonus',type:'bonus',name:'Quitte ou Double',col:'--gold',pts:0,how:''},item:null,stage:'wheel'};
+  $('#sheet').style.setProperty('--c',css('--gold'));
+  $('#sheet').hidden=false;$('#backdrop').hidden=false;
+  $('#sheetIn').innerHTML=miniScores()+hostHTML(true)+
+    `<div class="cathead"><h2 class="cat">🎲 Quitte ou Double</h2></div><p class="how">${esc(name)} joue un bonus. Ça peut rapporter gros… ou se retourner contre toi !</p>`+
+    '<div class="bx-wheel"><canvas id="bxCanvas"></canvas><div class="ptr">▼</div></div><button type="button" class="big" data-bx="spin">TOURNER LA ROUE BONUS</button>';
+  drawBonus();
+  say(pick([`Oh fatche ! ${name} sort un bonus ! Quitte ou double, gros, ça passe ou ça casse !`,`${name} tente le diable avec un bonus ! Allez, tourne, on verra si t'as le bol de cocu.`]));
+}
+$('#bonusBtn').onclick=openBonus;
+function spinBonus(){
+  if(bxSpin||!cur||cur.cat.type!=='bonus'||cur.stage!=='wheel')return;bxSpin=true;cur.stage='spinning';
+  const btn=$('#sheetIn [data-bx="spin"]');if(btn)btn.disabled=true;
+  const seg=Math.PI*2/BONUS.length,target=Math.floor(Math.random()*BONUS.length),jit=(Math.random()-.5)*seg*.6;
+  let end=-Math.PI/2-(target+.5)*seg-jit;const min=bxRot+Math.PI*2*5;while(end<min)end+=Math.PI*2;
+  const start=bxRot,t0=performance.now(),dur=3400;let last=-1;
+  (function go(now){const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,4);bxRot=start+(end-start)*e;drawBonus();
+    const k=Math.floor(((-Math.PI/2-bxRot)%(Math.PI*2)+Math.PI*2)%(Math.PI*2)/seg);if(k!==last){last=k;beep(1300,0,.025,.03)}
+    if(p<1)requestAnimationFrame(go);else{bxSpin=false;bxRot%=Math.PI*2;cur.fx=BONUS[target];cur.sel=[];cur.stage='result';cur.gage=pick(GAGES);renderBonus();
+      const fx=cur.fx,c=comps();say(`${c[S.turn]} tombe sur… ${fx.t} ! ${fx.id==='swap'?swapText():fx.d}`)}
+  })(t0);
+}
+function renderBonus(){
+  const fx=cur.fx,c=comps(),me=S.turn;ensureFx();
+  const desc=fx.id==='swap'?swapText():fx.d;
+  let act='';
+  if(fx.target){
+    act=`<p class="label" style="margin:6px 0 0">Choisis le joueur</p><div class="bx-pick">${c.map((n,i)=>{if(i===me)return '';const shielded=fx.id==='vol'&&S.fx[i]&&S.fx[i].shield>0;return `<button type="button" data-bx="target" data-bt="${i}"${shielded?' disabled':''}>${esc(n)}${shielded?' 🛡️':''}</button>`}).join('')}</div>`;
+  }else if(fx.pick){
+    act=`<p class="label" style="margin:6px 0 0">Choisis 2 jeux (${cur.sel.length}/2)</p><div class="bx-pick">${CATS.map(k=>`<button type="button" data-bx="cat" data-bc="${k.id}" class="${cur.sel.includes(k.id)?'on':''}"${!cur.sel.includes(k.id)&&cur.sel.length>=2?' disabled':''}>${esc(k.wheel)}</button>`).join('')}</div><button type="button" class="big" data-bx="ok"${cur.sel.length<2?' disabled':''}>Valider mes 2 jeux</button>`;
+  }else if(fx.coin){
+    act=cur.coin?`<p class="gage">${cur.coin}</p><button type="button" class="big" data-bx="ok">Continuer</button>`:'<button type="button" class="big" data-bx="coin">🪙 Lancer la pièce</button>';
+  }else{
+    const gage=(fx.id==='gagedroite')?`<p class="gage">Idée de gage : ${esc(cur.gage)}</p>`:'';
+    act=`${gage}<button type="button" class="big" data-bx="ok">${fx.id==='gagedroite'?'Gage fait, on continue':'Compris, on continue'}</button>`;
+  }
+  if(fx.id==='gagechoix')act+=`<p class="gage">Idée de gage : ${esc(cur.gage)}</p>`;
+  $('#sheetIn').innerHTML=miniScores()+hostHTML(true)+
+    `<div class="cathead"><h2 class="cat">🎲 Quitte ou Double</h2></div><div class="card bx-res"><div class="big-e">${fx.e}</div><h3>${esc(fx.t)}</h3><p>${esc(desc)}</p></div>${act}`;
+}
+function finishBonus(line){
+  closeSheet();save();renderScores();
+  say((line?line+' ':'')+`${comps()[S.turn]}, maintenant fais tourner la grande roue !`);
+}
+$('#sheet').addEventListener('click',e=>{
+  const b=e.target.closest('[data-bx]');if(!b||!cur||cur.cat.type!=='bonus'||b.disabled)return;
+  e.stopPropagation();
+  const a=b.dataset.bx,me=S.turn,c=comps(),fx=cur.fx;ensureFx();
+  if(a==='spin'){spinBonus();return}
+  if(!fx)return;
+  if(a==='target'){
+    const t=+b.dataset.bt;if(t===me||!c[t])return;
+    if(fx.id==='vol'){const v=Math.min(2,Math.max(0,S.scores[t]||0));award(t,-v);award(me,v);finishBonus(`${c[me]} dépouille ${c[t]} de ${ptsTxt(v)}. Sans pitié !`)}
+    else if(fx.id==='don'){const v=Math.min(2,Math.max(0,S.scores[me]||0));award(me,-v);award(t,v);finishBonus(`Ha ! ${c[me]} offre ${ptsTxt(v)} à ${c[t]}. Le Quitte ou Double, ça pique.`)}
+    else if(fx.id==='swap'){
+      if(S.mode==='couple'){const a1=me*2+1,a2=t*2+1;const tmp=S.players[a1];S.players[a1]=S.players[a2];S.players[a2]=tmp;finishBonus(`Mercato ! Les partenaires changent d'équipe. Nouvelle équipe : ${comps()[me]}.`)}
+      else{const tmp=S.scores[me];S.scores[me]=S.scores[t];S.scores[t]=tmp;finishBonus(`Échange de scores entre ${c[me]} et ${c[t]} ! La roue tourne, et pas que la roue.`)}
+    }
+    else if(fx.id==='gagechoix'){finishBonus(`${c[t]}, tu reçois un gage de la part de ${c[me]}. Exécution !`)}
+    return;
+  }
+  if(a==='cat'){const id=b.dataset.bc;const i=cur.sel.indexOf(id);if(i>=0)cur.sel.splice(i,1);else if(cur.sel.length<2)cur.sel.push(id);renderBonus();return}
+  if(a==='coin'){
+    const pile=Math.random()<.5,sc=S.scores[me]||0;
+    if(pile){award(me,sc);cur.coin=`PILE ! Tes points sont doublés : ${ptsTxt(sc*2)}.`}else{const l=Math.floor(sc/2);award(me,-l);cur.coin=`FACE… tu perds ${ptsTxt(l)}.`}
+    beep(pile?1200:200,0,.3,.08);renderBonus();say(pile?`Pile ! Oh le bol ! ${c[me]} double ses points !`:`Face ! Aïe aïe aïe, ${c[me]} perd la moitié de ses points. Le Quitte ou Double est cruel.`);return;
+  }
+  if(a==='ok'){
+    const f=S.fx[me];
+    if(fx.id==='choix'){if(cur.sel.length<2)return;f.only=cur.sel.slice();f.onlyN=3;finishBonus(`La roue est truquée pour ${c[me]} pendant 3 tours !`);return}
+    if(fx.id==='stylo'){f.stylo=2;finishBonus('Stylo entre les dents, gros, et on articule !');return}
+    if(fx.id==='double'){f.double=true;finishBonus('Ta prochaine victoire compte double !');return}
+    if(fx.id==='rejoue'){f.again=true;finishBonus('Tu rejoueras juste après ce tour !');return}
+    if(fx.id==='bouclier'){f.shield=3;finishBonus('Bouclier activé, intouchable pendant 3 tours !');return}
+    if(fx.id==='cadeau'){award(me,3);finishBonus('Trois points cadeau, la maison régale !');return}
+    finishBonus('');
+  }
+},true);
 
 /* =====================================================================
    MULTI-ÉCRANS : un écran principal (télé, ordi, tablette) + 2 à 8 téléphones.
@@ -1262,6 +1423,7 @@ function hostMsg(c,m){
   const p=NET.players.find(p=>p.conn===c);if(!p||!NET.inGame)return;
   const slot=NET.players.indexOf(p);
   if(m.t==='spin'){if(slot===S.turn&&$('#sheet').hidden&&!$('#game').hidden&&!spinning)$('#spin').click();return}
+  if(m.t==='bonus'){if(slot===S.turn&&$('#sheet').hidden&&!$('#game').hidden&&!spinning)openBonus();return}
   if(m.t==='answer'){
     if($('#sheet').hidden)return;resetAnswersIfNew();
     if(NET.answers[slot])return;
@@ -1280,7 +1442,7 @@ function roleOf(slot){
   if(slot===S.turn)return 'actor';
   return slot===arbiterSlot()?'arbiter':'viewer';
 }
-const actorControls=()=>!cur||['interactive','bigdil'].includes(cur.cat.type);
+const actorControls=()=>!cur||['interactive','bigdil','bonus'].includes(cur.cat.type);
 function canControl(slot){
   const r=roleOf(slot);
   if(r==='arbiter')return true;
@@ -1341,7 +1503,7 @@ function sheetFor(slot){
 function viewFor(slot){
   const ph=phaseNow(),c=NET.inGame?comps():NET.players.map(p=>p.name);
   const v={t:'view',ph,me:slot,names:c,scores:NET.inGame?S.scores:[],turn:S.turn,line:lastLine,round:NET.inGame?$('#roundLbl').textContent:''};
-  if(ph==='wheel')v.canSpin=slot===S.turn&&!spinning;
+  if(ph==='wheel'){v.canSpin=slot===S.turn&&!spinning;ensureFx();v.bonus=S.bonus[slot]||0}
   if(ph==='podium')v.rank=$('#rank').innerHTML;
   if(ph==='sheet'){const r=sheetFor(slot);v.role=r.role;v.html=r.html;v.input=r.input;resetAnswersIfNew();v.sent=NET.answers[slot]?NET.answers[slot].text:null;v.qkey=ansKey()}
   return v;
@@ -1429,7 +1591,7 @@ function phoneMsg(m){
   let role='',panel='',input='';
   if(v.ph==='lobby'){panel=`<p class="ph-wait">Tu es dans la partie !<b>${esc(names[me]||'')}</b></p><p class="ph-role">Joueurs : ${names.map(esc).join(', ')}</p><p class="ph-wait" style="font-size:.95rem">La partie va commencer sur l'écran principal. Garde ton téléphone allumé.</p>`}
   else if(v.ph==='wheel'){
-    if(v.canSpin){role='<p class="ph-role actor">À toi de jouer !</p>';panel='<button type="button" class="ph-spin" data-net="spin">TOURNE<br>LA ROUE</button>'}
+    if(v.canSpin){role='<p class="ph-role actor">À toi de jouer !</p>';panel='<button type="button" class="ph-spin" data-net="spin">TOURNE<br>LA ROUE</button>'+(v.bonus>0?`<button type="button" class="ph-bonus" data-net="bonus">🎲 Jouer un bonus Quitte ou Double (${v.bonus})</button>`:'')}
     else panel=`<p class="ph-wait">${esc(v.round||'')}<br>Au tour de<b>${esc(names[v.turn]||'')}</b></p><p class="ph-wait" style="font-size:.9rem">Regarde l'écran principal.</p>`;
   }
   else if(v.ph==='sheet'){
@@ -1451,6 +1613,7 @@ $('#phPlay').addEventListener('submit',e=>{e.preventDefault();const i=$('#phAns'
 $('#phPlay').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||b.type==='submit')return;
   if(b.dataset.net==='spin'){phSend({t:'spin'});if(navigator.vibrate)navigator.vibrate(40);return}
+  if(b.dataset.net==='bonus'){phSend({t:'bonus'});return}
   if(b.dataset.netChoice){phSend({t:'answer',text:b.dataset.netChoice});return}
   const sel={...b.dataset};if(b.id)sel.id=b.id;
   const m={t:'click',sel};
