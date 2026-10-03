@@ -177,8 +177,8 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 
     <p class="label">Formule</p>
     <div class="mode">
-      <button type="button" id="m-solo" aria-pressed="true">4 joueurs</button>
-      <button type="button" id="m-couple" aria-pressed="false">2 couples</button>
+      <button type="button" id="m-solo" aria-pressed="true">2 à 8 joueurs</button>
+      <button type="button" id="m-couple" aria-pressed="false">1 à 4 couples</button>
     </div>
 
     <p class="label">Les candidats</p>
@@ -365,7 +365,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
-let S={mode:'solo',players:['Cécile','','',''],scores:[0,0,0,0],turn:0,started:false,max:20,played:0};
+let S={mode:'solo',players:['Cécile','','','','','','',''],scores:[],turn:0,started:false,max:20,played:0,playerCount:4,coupleCount:2};
 try{const s=JSON.parse(localStorage.getItem('plateau-cecile')||'null');if(s&&s.players)S=Object.assign(S,s)}catch(e){}
 const save=()=>{try{localStorage.setItem('plateau-cecile',JSON.stringify(S))}catch(e){}};
 const hasCecile=()=>S.players.some(n=>/^\s*c[ée]cile\s*$/i.test(n||''));
