@@ -199,6 +199,69 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 .rounds button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(56,232,255,.12)}
 .bubble .bubbleText{display:block;max-height:7.4em;overflow:auto}
 #game{overflow-x:clip}
+/* ===== MULTI-ÉCRANS ===== */
+.mode button small{display:block;font-weight:700;color:var(--muted);font-size:.72rem;margin-top:2px}
+.linkbtn{display:block;margin:-10px auto 22px;color:var(--cyan);font-weight:900;text-decoration:underline;padding:6px}
+.note{font-size:.85rem;color:var(--muted);margin:10px 0 0}
+#lobby{position:relative;padding:clamp(18px,4vw,34px);border:1px solid rgba(56,232,255,.22);border-radius:28px;background:linear-gradient(145deg,rgba(11,19,37,.92),rgba(5,9,20,.78))}
+.lobby-grid{display:grid;gap:24px}
+@media (min-width:800px){.lobby-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:start}}
+.join-card{display:grid;justify-items:center;gap:8px;text-align:center;padding:18px;border-radius:22px;background:#030912;border:1px solid #1c3852}
+.qr{width:min(240px,70vw);aspect-ratio:1;background:#fff;border-radius:16px;padding:10px;box-sizing:border-box}
+.qr svg{width:100%;height:100%;display:block}
+.code{font-family:var(--display);font-size:clamp(2.6rem,9vw,4.4rem);letter-spacing:.18em;color:var(--gold);line-height:1;padding-left:.18em}
+.join-url{margin:0;font-size:.8rem;color:var(--muted);overflow-wrap:anywhere}
+.plist{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.plist li{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:#0b1325;border:1px solid #1c3852;font-weight:900;min-width:0}
+.plist li span.nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plist li.empty{grid-column:1/-1;justify-content:center;color:var(--muted);font-weight:700;border-style:dashed;background:none}
+.plist .dot{width:10px;height:10px;border-radius:50%;background:#5b6b80;flex:none}.plist .dot.on{background:var(--teal);box-shadow:0 0 8px var(--teal)}
+.plist button{color:var(--muted);font-weight:900;padding:0 4px}
+.net-answers{display:grid;gap:8px;margin:0 0 14px;padding:12px;border-radius:16px;background:#030912;border:1px solid #1c3852}
+.net-answers .arb{font-size:.82rem;color:var(--cyan);font-weight:900;letter-spacing:.04em}
+.net-answers ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.net-answers li{padding:6px 10px;border-radius:10px;background:#0b1325;border:1px solid #244568;font-weight:900}
+.net-answers li b{color:var(--gold)}
+.net-answers button{justify-self:start;padding:8px 12px;border-radius:10px;border:1px solid #244568;color:var(--cyan);font-weight:900}
+body.tv .app{max-width:1280px}
+@media (min-width:900px){
+ body.tv #game{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:"wheel scores" "wheel turn" "wheel host" "wheel bar";column-gap:32px;align-items:start}
+ body.tv #scores{grid-area:scores;position:static}
+ body.tv #game .turn{grid-area:turn}
+ body.tv #game .wheelwrap{grid-area:wheel;width:min(46vw,640px);margin-top:30px}
+ body.tv #game>.host{grid-area:host}
+ body.tv #game .gamebar{grid-area:bar;justify-content:flex-start}
+ body.tv .turn strong{font-size:2.6rem}
+ body.tv .sheet{left:0;right:0;margin-inline:auto;width:min(1000px,94vw);top:4vh;bottom:auto;max-height:92vh;border-radius:30px;border:1px solid var(--c,var(--cyan));font-size:1.15rem}
+ body.tv .q{font-size:1.7rem}
+}
+/* téléphone joueur */
+#phone{max-width:520px;margin:0 auto}
+#phone h1{font-size:clamp(2rem,10vw,3rem)}
+#phone .field{margin-bottom:12px}
+#phCode{text-transform:uppercase;letter-spacing:.3em;font-family:var(--display);font-size:1.6rem;text-align:center}
+.ph-banner{position:sticky;top:env(safe-area-inset-top,0px);z-index:4;margin:0 0 10px;padding:8px 12px;border-radius:12px;background:#ff5577;color:#fff;font-weight:900;text-align:center}
+.ph-role{margin:4px 0 12px;padding:10px 14px;border-radius:14px;background:#0b1325;border:1px solid #244568;font-weight:900;text-align:center}
+.ph-role.actor,.ph-role.duelist{background:var(--gold);color:#140f3a;border-color:var(--gold)}
+.ph-role.arbiter{background:var(--violet);color:#140f3a;border-color:var(--violet)}
+.ph-wait{text-align:center;color:var(--muted);font-size:1.05rem;margin:28px 0}
+.ph-wait b{display:block;font-family:var(--display);font-weight:400;color:var(--ink);font-size:2rem;margin-top:6px;overflow-wrap:anywhere}
+.ph-spin{display:block;margin:24px auto;width:min(78vw,320px);aspect-ratio:1;border-radius:50%;font-family:var(--display);font-size:1.7rem;line-height:1.1;color:#031018;background:radial-gradient(circle at 45% 35%,#fff3c4,var(--gold));box-shadow:0 0 0 10px rgba(255,209,102,.18),0 0 50px rgba(255,209,102,.45);animation:breathe 1.6s ease-in-out infinite alternate}
+@keyframes breathe{to{transform:scale(1.04)}}
+.ph-line{margin:14px 0 0;padding:10px 12px;border-radius:14px;background:var(--ink);color:var(--dark);font-weight:700;font-size:.9rem}
+.ph-line b{display:block;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:#6b3fd1}
+.ph-panel .host,.ph-panel .mini-scores{display:none}
+.ph-panel .buzzers{grid-template-columns:1fr}
+.ph-panel .buzz{min-height:42vh;font-size:1.6rem}
+.ph-form{display:flex;gap:8px;margin-top:12px}
+.ph-form input{flex:1;min-width:0;padding:14px;border-radius:12px;border:2px solid var(--line);background:var(--dark);color:var(--ink);font:inherit;font-weight:900;font-size:1.1rem}
+.ph-form button{padding:0 18px;border-radius:12px;background:var(--teal);color:#031018;font-weight:900}
+.ph-qcm{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ph-qcm button{min-height:80px;border-radius:16px;font-family:var(--display);font-size:2rem;background:#10233b;border:1px solid #31506d}
+.ph-sent{margin-top:12px;padding:12px;border-radius:12px;background:rgba(56,242,173,.12);border:1px solid var(--teal);font-weight:900;text-align:center}
+.net-arb{margin-top:14px;padding:12px;border-radius:14px;background:#030912;border:1px dashed #31506d}
+.net-arb ol{margin:6px 0 10px;padding-left:20px;font-weight:900}
+.net-arb button{padding:10px 12px;border-radius:12px;border:1px solid #244568;color:var(--cyan);font-weight:900;width:100%}
 .wheelwrap{width:min(80vw,470px)}
 </style>
 </head>
@@ -208,25 +271,40 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
     <h1>La Grande<br><span>Roue</span></h1>
     <p class="lead">15 jeux télé sur une roue, présentés par Albatar l'avatar. Un seul téléphone qu'on se passe : celui qui ne joue pas lit la question.</p>
 
-    <p class="label">Formule</p>
-    <div class="mode">
+    <p class="label">Comment vous jouez ?</p>
+    <div class="mode" id="netMode">
+      <button type="button" id="m-one" aria-pressed="true">Un seul téléphone<small>on se le passe</small></button>
+      <button type="button" id="m-multi" aria-pressed="false">Plusieurs écrans<small>télé + un téléphone chacun</small></button>
+    </div>
+    <button type="button" class="linkbtn" id="m-join">J'ai un code : rejoindre avec mon téléphone</button>
+
+    <div id="multiIntro" hidden>
+      <p class="lead">Cet écran devient l'écran principal : mets-le sur la télé, un ordi ou une tablette. Chaque joueur rejoint avec son téléphone, de 2 à 8 joueurs. Sur son téléphone, chacun voit ce que les autres ne doivent pas voir et écrit ses réponses en secret.</p>
+      <button type="button" class="big" id="hostCreate">Créer la partie sur cet écran</button>
+      <button type="button" class="ghostbtn" id="hostResume" hidden>Reprendre la partie multi-écrans</button>
+      <p class="note" id="hostMsg">Tous les appareils ont besoin d'internet, idéalement le même wifi.</p>
+      <div style="height:22px"></div>
+    </div>
+
+    <p class="label one-only">Formule</p>
+    <div class="mode one-only">
       <button type="button" id="m-solo" aria-pressed="true">2 à 8 joueurs</button>
       <button type="button" id="m-couple" aria-pressed="false">1 à 4 couples</button>
     </div>
 
-    <p class="label">Les candidats</p>
-    <div class="names" id="names"></div>
+    <p class="label one-only">Les candidats</p>
+    <div class="names one-only" id="names"></div>
 
-    <p class="label">Durée de la partie</p>
-    <div class="rounds" id="rounds">
+    <p class="label one-only">Durée de la partie</p>
+    <div class="rounds one-only" id="rounds">
       <button type="button" data-max="12">Courte<small>12 tours</small></button>
       <button type="button" data-max="20">Normale<small>20 tours</small></button>
       <button type="button" data-max="32">Longue<small>32 tours</small></button>
       <button type="button" data-max="0">Sans fin<small>on arrête quand on veut</small></button>
     </div>
 
-    <button type="button" class="big" id="start">C'est parti !</button>
-    <button type="button" class="ghostbtn" id="resume" hidden>Reprendre la partie en cours</button>
+    <button type="button" class="big one-only" id="start">C'est parti !</button>
+    <button type="button" class="ghostbtn one-only" id="resume" hidden>Reprendre la partie en cours</button>
 
     <details>
       <summary>Comment on joue</summary>
@@ -239,6 +317,58 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
         <li>Le bouton ⏱ lance le chrono du jeu. La partie s'arrête toute seule après le nombre de tours choisi.</li>
       </ul>
     </details>
+  </section>
+
+  <section id="lobby" hidden>
+    <h1>La Grande<br><span>Roue</span></h1>
+    <div class="lobby-grid">
+      <div class="join-card">
+        <p class="label">Scanne pour rejoindre</p>
+        <div class="qr" id="qr"></div>
+        <p class="label" style="margin:6px 0 0">ou tape le code</p>
+        <div class="code" id="roomCode">····</div>
+        <p class="join-url" id="joinUrl"></p>
+      </div>
+      <div>
+        <p class="label">Joueurs connectés · <span id="pcount">0 / 8</span></p>
+        <ul class="plist" id="plist"></ul>
+        <p class="label">Durée de la partie</p>
+        <div id="lobbyRounds"></div>
+        <button type="button" class="big" id="netStart" disabled>Il faut au moins 2 joueurs</button>
+        <button type="button" class="ghostbtn" id="fsBtn">Plein écran</button>
+        <button type="button" class="ghostbtn" id="netBack">Revenir au mode un seul téléphone</button>
+        <p class="note" id="netStatus">Connexion…</p>
+        <details>
+          <summary>Mettre le jeu sur la télé</summary>
+          <ul>
+            <li>Télé connectée : ouvre l'adresse du jeu dans le navigateur de la télé et crée la partie depuis la télé.</li>
+            <li>Ordi avec Chrome : menu ⋮ puis « Caster… » vers une télé Chromecast ou Google TV.</li>
+            <li>Mac, iPhone ou iPad : « Recopie de l'écran » (AirPlay) vers une Apple TV ou une télé compatible.</li>
+            <li>Ou tout simplement un câble HDMI entre l'ordi et la télé.</li>
+            <li>Le son d'Albatar et des blind tests sort de l'écran principal : monte le volume de la télé !</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="phone" hidden>
+    <div id="phJoin">
+      <h1>La Grande<br><span>Roue</span></h1>
+      <div class="field"><label for="phCode">Code de la partie (sur la télé)</label><input id="phCode" maxlength="4" autocomplete="off" autocapitalize="characters" inputmode="text"></div>
+      <div class="field"><label for="phName">Ton prénom</label><input id="phName" maxlength="16" autocomplete="off"></div>
+      <button type="button" class="big" id="phGo">Rejoindre la partie</button>
+      <p class="note" id="phMsg"></p>
+      <button type="button" class="ghostbtn" id="phBack">Retour</button>
+    </div>
+    <div id="phPlay" hidden>
+      <div id="phBanner"></div>
+      <div id="phScores"></div>
+      <div id="phRole"></div>
+      <div id="phPanel" class="ph-panel"></div>
+      <div id="phInput"></div>
+      <div id="phLine"></div>
+    </div>
   </section>
 
   <section id="game" hidden>
@@ -1019,6 +1149,318 @@ $('#backdrop').onclick=()=>{};
 document.querySelectorAll('[data-host]').forEach(h=>h.outerHTML=hostHTML(false));
 renderVoiceBtn();
 renderNames();
+
+/* =====================================================================
+   MULTI-ÉCRANS : un écran principal (télé, ordi, tablette) + 2 à 8 téléphones.
+   Connexion directe entre appareils (WebRTC via PeerJS), sans serveur à nous.
+   L'écran principal fait tourner tout le jeu ; les téléphones reçoivent leur
+   vue privée et renvoient leurs actions (tourner, buzzer, répondre, arbitrer).
+   ===================================================================== */
+const NET={role:null,peer:null,code:null,players:[],answers:{},ansKey:null,revealedKey:null,lastSent:{},inGame:false,tries:0};
+const PEERJS='https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js';
+const QRJS='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
+const ROOM_PREFIX='lagranderoue-v1-';
+const QS=new URLSearchParams(location.search);
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+function loadScript(src){return new Promise((res,rej)=>{if([...document.scripts].some(x=>x.src===src&&x.dataset.ok))return res();const x=document.createElement('script');x.src=src;x.onload=()=>{x.dataset.ok='1';res()};x.onerror=()=>{x.remove();rej(new Error('script'))};document.head.appendChild(x)})}
+function peerOpts(){const ps=QS.get('ps');if(!ps)return {debug:0};const [h,pt]=ps.split(':');return {host:h,port:+pt||9000,path:'/',secure:false,debug:0}}
+const newCode=()=>Array.from({length:4},()=>'ABCDEFGHJKMNPQRSTUVWXYZ'[Math.floor(Math.random()*23)]).join('');
+const cleanName=n=>String(n||'').replace(/\s+/g,' ').trim().slice(0,16);
+function wake(){try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>NET.lock=l).catch(()=>{})}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(NET.role&&document.visibilityState==='visible')wake()});
+function unlockMedia(){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}
+
+/* ---- accueil : choix du mode ---- */
+function setNetMode(multi){
+  $('#m-one').setAttribute('aria-pressed',!multi);$('#m-multi').setAttribute('aria-pressed',multi);
+  $('#multiIntro').hidden=!multi;document.querySelectorAll('.one-only').forEach(e=>e.hidden=multi);
+  if(!multi)$('#resume').hidden=!S.started;
+  let saved=null;try{saved=JSON.parse(lsGet('lgr-host')||'null')}catch(e){}
+  $('#hostResume').hidden=!(multi&&saved&&saved.code&&saved.players&&saved.players.length);
+  if(saved&&saved.code)$('#hostResume').textContent=`Reprendre la partie multi-écrans (code ${saved.code})`;
+}
+$('#m-one').onclick=()=>setNetMode(false);
+$('#m-multi').onclick=()=>setNetMode(true);
+$('#m-join').onclick=()=>phoneInit('');
+
+/* ================= ÉCRAN PRINCIPAL ================= */
+function hostSave(){lsSet('lgr-host',JSON.stringify({code:NET.code,players:NET.players.map(p=>({pid:p.pid,name:p.name})),inGame:NET.inGame}))}
+function netStatus(t){const e=$('#netStatus');if(e)e.textContent=t}
+async function hostCreate(resume){
+  $('#hostCreate').disabled=true;$('#hostMsg').textContent='Connexion…';
+  try{await loadScript(PEERJS)}catch(e){$('#hostMsg').textContent="Impossible de charger la connexion. Vérifie qu'il y a internet, puis réessaie.";$('#hostCreate').disabled=false;return}
+  unlockMedia();wake();
+  NET.role='host';document.body.classList.add('tv');
+  if(resume){NET.code=resume.code;NET.players=resume.players.map(p=>({pid:p.pid,name:p.name,conn:null}));NET.inGame=!!resume.inGame&&S.started}
+  else{NET.code=newCode();NET.players=[];NET.inGame=false}
+  hostSave();
+  $('#setup').hidden=true;
+  $('#lobbyRounds').appendChild($('#rounds'));$('#rounds').hidden=false;
+  startPeer();drawQR();
+  if(NET.inGame){show('game');say(`Albatar est de retour ! Les joueurs, reconnectez vos téléphones, le code c'est toujours ${NET.code.split('').join(' ')}.`)}
+  else{$('#lobby').hidden=false;renderLobby()}
+  new MutationObserver(syncSoon).observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true});
+}
+$('#hostCreate').onclick=()=>hostCreate(null);
+$('#hostResume').onclick=()=>{try{hostCreate(JSON.parse(lsGet('lgr-host')))}catch(e){hostCreate(null)}};
+function startPeer(){
+  if(NET.peer&&!NET.peer.destroyed)NET.peer.destroy();
+  const peer=new Peer(ROOM_PREFIX+NET.code,peerOpts());NET.peer=peer;
+  peer.on('open',()=>{NET.tries=0;netStatus('Prêt ! Scannez le QR code ou tapez le code sur vos téléphones.')});
+  peer.on('connection',c=>hostConn(c));
+  peer.on('disconnected',()=>{netStatus('Connexion coupée, reconnexion…');setTimeout(()=>{try{if(!peer.destroyed)peer.reconnect()}catch(e){}},2000)});
+  peer.on('error',e=>{
+    if(e.type==='unavailable-id'){NET.tries++;if(NET.tries>4&&!NET.inGame&&!NET.players.length){NET.code=newCode();hostSave();drawQR();NET.tries=0}
+      netStatus('Code encore occupé, nouvel essai…');setTimeout(startPeer,3000)}
+    else if(['network','server-error','socket-error','socket-closed'].includes(e.type)){netStatus('Pas de connexion au service de mise en relation. Vérifie internet, nouvel essai…');setTimeout(()=>{if(peer.destroyed||peer.disconnected)startPeer()},5000)}
+  });
+}
+function joinUrl(){let u=location.href.split(/[?#]/)[0]+'?room='+NET.code;if(QS.get('ps'))u+='&ps='+QS.get('ps');return u}
+async function drawQR(){
+  $('#roomCode').textContent=NET.code;$('#joinUrl').textContent=joinUrl();
+  try{await loadScript(QRJS);const q=qrcode(0,'M');q.addData(joinUrl());q.make();$('#qr').innerHTML=q.createSvgTag({cellSize:6,margin:2,scalable:true})}
+  catch(e){$('#qr').innerHTML='<p style="color:#140f3a;font-weight:900;text-align:center;margin-top:40%">QR indisponible : tapez le code</p>'}
+}
+function renderLobby(){
+  const ps=NET.players;
+  $('#pcount').textContent=ps.length+' / 8';
+  $('#plist').innerHTML=ps.length?ps.map((p,i)=>`<li><span class="dot${p.conn&&p.conn.open?' on':''}"></span><span class="nm">${esc(p.name)}</span><button type="button" data-kick="${i}" aria-label="Retirer ${esc(p.name)}">✕</button></li>`).join(''):'<li class="empty">En attente des téléphones…</li>';
+  const ok=ps.length>=2;$('#netStart').disabled=!ok;$('#netStart').textContent=ok?`Lancer la partie avec ${ps.length} joueurs`:'Il faut au moins 2 joueurs';
+}
+$('#plist').addEventListener('click',e=>{const b=e.target.closest('[data-kick]');if(!b||NET.inGame)return;const p=NET.players.splice(+b.dataset.kick,1)[0];if(p&&p.conn){try{p.conn.send({t:'refused',why:"L'écran principal t'a retiré de la partie."});setTimeout(()=>p.conn.close(),300)}catch(e){}}hostSave();renderLobby()});
+$('#fsBtn').onclick=()=>{try{const r=document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();if(r&&r.catch)r.catch(()=>{})}catch(e){}};
+$('#netBack').onclick=()=>{if(NET.peer)NET.peer.destroy();lsSet('lgr-host','');location.href=location.href.split(/[?#]/)[0]};
+$('#netStart').onclick=()=>{
+  if(NET.players.length<2)return;
+  unlockMedia();wake();
+  NET.inGame=true;S.mode='solo';S.playerCount=NET.players.length;
+  S.players=NET.players.map(p=>p.name).concat(Array(8).fill('')).slice(0,8);
+  $('#lobby').hidden=true;hostSave();$('#start').click();
+};
+{const old=$('#restart').onclick;$('#restart').onclick=()=>{if(NET.role!=='host')return old();NET.inGame=false;S.started=false;save();hostSave();['setup','game','podium'].forEach(x=>$('#'+x).hidden=true);$('#lobby').hidden=false;renderLobby();syncSoon()}}
+
+function hostConn(c){
+  c.on('data',m=>{try{hostMsg(c,m)}catch(e){}});
+  c.on('close',()=>{const p=NET.players.find(p=>p.conn===c);if(p){p.conn=null;if(!NET.inGame)renderLobby()}});
+  c.on('error',()=>{});
+}
+function hostMsg(c,m){
+  if(!m||typeof m!=='object')return;
+  if(m.t==='hello'){
+    const pid=String(m.pid||'').slice(0,40);let p=NET.players.find(p=>p.pid===pid);
+    if(!p){
+      if(NET.inGame){c.send({t:'refused',why:"La partie a déjà commencé. Demande à l'écran principal de relancer une partie."});return}
+      if(NET.players.length>=8){c.send({t:'refused',why:'La partie est complète (8 joueurs maximum).'});return}
+      p={pid,name:cleanName(m.name)||('Joueur '+(NET.players.length+1))};NET.players.push(p);beep(880,0,.12,.05);
+    }else if(!NET.inGame)p.name=cleanName(m.name)||p.name;
+    if(p.conn&&p.conn!==c){try{p.conn.close()}catch(e){}}
+    p.conn=c;NET.lastSent[p.pid]=null;hostSave();
+    if(!NET.inGame)renderLobby();
+    syncNow();return;
+  }
+  const p=NET.players.find(p=>p.conn===c);if(!p||!NET.inGame)return;
+  const slot=NET.players.indexOf(p);
+  if(m.t==='spin'){if(slot===S.turn&&$('#sheet').hidden&&!$('#game').hidden&&!spinning)$('#spin').click();return}
+  if(m.t==='answer'){
+    if($('#sheet').hidden)return;resetAnswersIfNew();
+    if(NET.answers[slot])return;
+    NET.answers[slot]={text:String(m.text||'').slice(0,80),at:Object.keys(NET.answers).length+1};
+    beep(1000,0,.08,.04);syncSoon();return;
+  }
+  if(m.t==='click')remoteClick(slot,m);
+}
+
+/* ---- rôles ---- */
+const curDuel=()=>!!(cur&&cur.opp!==undefined&&isDuel(cur.cat));
+function arbiterSlot(){const n=comps().length,t=S.turn,ex=[t];if(curDuel())ex.push(cur.opp);for(let k=1;k<n;k++){const x=(t+k)%n;if(!ex.includes(x))return x}return -1}
+function roleOf(slot){
+  if(!cur)return slot===S.turn?'actor':'viewer';
+  if(curDuel()&&(slot===S.turn||slot===cur.opp))return 'duelist';
+  if(slot===S.turn)return 'actor';
+  return slot===arbiterSlot()?'arbiter':'viewer';
+}
+const actorControls=()=>!cur||['interactive','bigdil'].includes(cur.cat.type);
+function canControl(slot){
+  const r=roleOf(slot);
+  if(r==='arbiter')return true;
+  if(r==='actor'&&actorControls())return true;
+  if(r==='duelist'&&arbiterSlot()<0&&cur&&cur.buzz!==undefined&&slot!==cur.buzz)return true;
+  return false;
+}
+function ansKey(){return cur?cur.cat.id+'|'+JSON.stringify(cur.item).slice(0,80):'none'}
+function resetAnswersIfNew(){const k=ansKey();if(NET.ansKey!==k){NET.ansKey=k;NET.answers={}}}
+function expectsAnswers(){if(!cur)return false;const t=cur.cat.type,id=cur.cat.id;return id==='prix'||id==='zamours'||(!curDuel()&&['qa','qcm','slam','motus'].includes(t))}
+function answerInputFor(slot){
+  if(!cur||canControl(slot))return null;const t=cur.cat.type,id=cur.cat.id,r=roleOf(slot);
+  if(id==='prix'||id==='zamours')return 'text';
+  if(r==='actor'&&['qa','slam','motus'].includes(t))return 'text';
+  if(r==='actor'&&t==='qcm')return 'qcm';
+  return null;
+}
+function answersList(full){
+  const c=comps(),a=Object.entries(NET.answers).sort((x,y)=>x[1].at-y[1].at);
+  return a.map(([sl,v])=>full?`<li>${esc(c[sl])} : <b>${esc(v.text)}</b></li>`:`<li>✓ ${esc(c[sl])}</li>`).join('');
+}
+
+function remoteClick(slot,m){
+  if($('#sheet').hidden)return;
+  const sel=m.sel&&typeof m.sel==='object'?m.sel:{};
+  if(sel.act==='netshow'){if(canControl(slot)){NET.revealedKey=ansKey();syncSoon()}return}
+  if(sel.buzz!==undefined){if(roleOf(slot)!=='duelist'||+sel.buzz!==slot)return}
+  else if(!canControl(slot))return;
+  if(sel.act==='reveal')NET.revealedKey=ansKey();
+  const ks=Object.keys(sel).filter(k=>k!=='id');
+  const el=[...$('#sheetIn').querySelectorAll('button')].find(b=>sel.id?b.id===sel.id:(ks.length&&ks.every(k=>b.dataset[k]===String(sel[k]))&&Object.keys(b.dataset).length===ks.length));
+  if(!el||el.disabled)return;
+  if(Array.isArray(m.vals)){const ins=$('#sheetIn').querySelectorAll('[data-code]');m.vals.forEach((v,i)=>{if(ins[i])ins[i].value=String(v).slice(0,1)})}
+  el.click();
+}
+$('#sheet').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||NET.role!=='host')return;if(b.dataset.act==='netshow'){NET.revealedKey=ansKey();syncSoon()}if(b.dataset.act==='reveal')NET.revealedKey=ansKey()},true);
+
+/* ---- ce que voit chaque téléphone ---- */
+function phaseNow(){if(!NET.inGame)return 'lobby';if(!$('#podium').hidden)return 'podium';if(!$('#sheet').hidden)return 'sheet';return 'wheel'}
+function sheetFor(slot){
+  const role=roleOf(slot),ctrl=canControl(slot),type=cur?cur.cat.type:'dex';
+  const box=$('#sheetIn').cloneNode(true);
+  box.querySelectorAll('.host,.mini-scores,#netAnswers').forEach(e=>e.remove());
+  box.querySelectorAll('canvas').forEach(cv=>{const w=cv.parentElement;if(w&&w!==box)w.remove();else cv.remove()});
+  const seeAnswer=ctrl||(type==='secret'&&slot!==S.turn);
+  box.querySelectorAll('.ans').forEach(e=>{if(seeAnswer)e.hidden=false;else if(e.hidden)e.remove()});
+  if(seeAnswer&&type==='qcm'&&cur){const li=box.querySelector(`.qcm li[data-i="${cur.item.a}"]`);if(li)li.classList.add('ok')}
+  box.querySelectorAll('.song img[hidden]').forEach(e=>e.remove());
+  if(!ctrl){
+    box.querySelectorAll('button').forEach(b=>{if(!(role==='duelist'&&b.dataset.buzz!==undefined&&+b.dataset.buzz===slot))b.remove()});
+    box.querySelectorAll('.actions,.others-l,.others,.duel-res,.redraw').forEach(e=>e.remove());
+  }else if(role==='duelist'){box.querySelectorAll('.buzzers').forEach(e=>e.remove())}
+  let extra='';
+  if(ctrl&&expectsAnswers()){resetAnswersIfNew();const l=answersList(true);extra=`<div class="net-arb"><p class="label">Réponses des joueurs</p>${l?`<ol>${l}</ol>`:'<p class="note">Personne n\'a encore répondu.</p>'}<button type="button" data-act="netshow">Afficher les réponses sur l'écran principal</button></div>`}
+  const label=role==='duelist'&&ctrl?'arbiter':role;
+  return {role:label,html:box.innerHTML+extra,input:answerInputFor(slot)};
+}
+function viewFor(slot){
+  const ph=phaseNow(),c=NET.inGame?comps():NET.players.map(p=>p.name);
+  const v={t:'view',ph,me:slot,names:c,scores:NET.inGame?S.scores:[],turn:S.turn,line:lastLine,round:NET.inGame?$('#roundLbl').textContent:''};
+  if(ph==='wheel')v.canSpin=slot===S.turn&&!spinning;
+  if(ph==='podium')v.rank=$('#rank').innerHTML;
+  if(ph==='sheet'){const r=sheetFor(slot);v.role=r.role;v.html=r.html;v.input=r.input;resetAnswersIfNew();v.sent=NET.answers[slot]?NET.answers[slot].text:null;v.qkey=ansKey()}
+  return v;
+}
+function tvExtras(){
+  if(NET.role!=='host'||!NET.inGame||$('#sheet').hidden)return;
+  let el=$('#netAnswers');
+  if(!el){el=document.createElement('div');el.id='netAnswers';el.className='net-answers';const anchor=$('#sheetIn .card')||$('#sheetIn .cathead');if(anchor)anchor.before(el);else $('#sheetIn').appendChild(el)}
+  resetAnswersIfNew();
+  const c=comps(),a=arbiterSlot();
+  let h='';
+  if(cur&&!actorControls())h+=`<span class="arb">${a>=0?`📱 Arbitre : ${esc(c[a])}, la réponse est sur son téléphone`:(curDuel()?'📱 Après le buzz, le perdant du buzz arbitre sur son téléphone':'Arbitrage sur cet écran')}</span>`;
+  if(expectsAnswers()){
+    const shown=NET.revealedKey===ansKey(),l=answersList(shown);
+    h+=l?`<ul>${l}</ul>`:'<span class="note" style="margin:0">Les joueurs écrivent leur réponse sur leur téléphone…</span>';
+    if(l&&!shown)h+='<button type="button" data-act="netshow">Afficher les réponses</button>';
+  }
+  if(el.innerHTML!==h)el.innerHTML=h;
+  el.hidden=!h;
+}
+let syncT=null;
+function syncSoon(){if(NET.role!=='host'||syncT)return;syncT=setTimeout(()=>{syncT=null;syncNow()},40)}
+function syncNow(){
+  if(NET.role!=='host')return;
+  tvExtras();
+  NET.players.forEach((p,i)=>{
+    if(!p.conn||!p.conn.open)return;
+    const v=viewFor(i),str=JSON.stringify(v);
+    if(NET.lastSent[p.pid]!==str){try{p.conn.send(v);NET.lastSent[p.pid]=str}catch(e){}}
+  });
+}
+setInterval(()=>{if(NET.role==='host'){syncNow();if(!NET.inGame&&!$('#lobby').hidden)renderLobby()}},2500);
+
+/* ================= TÉLÉPHONE JOUEUR ================= */
+function phMsg(t){$('#phMsg').textContent=t}
+function phoneInit(code){
+  NET.role='phone';document.body.classList.add('phone-mode');
+  ['setup','lobby','game','podium'].forEach(x=>$('#'+x).hidden=true);$('#phone').hidden=false;$('#phJoin').hidden=false;$('#phPlay').hidden=true;
+  $('#phCode').value=String(code||lsGet('lgr-code')||'').toUpperCase().slice(0,4);$('#phName').value=lsGet('lgr-name')||'';
+  NET.pid=lsGet('lgr-pid')||(Math.random().toString(36).slice(2)+Date.now().toString(36));lsSet('lgr-pid',NET.pid);
+  (code?$('#phName'):$('#phCode')).focus();
+}
+$('#phBack').onclick=()=>{location.href=location.href.split(/[?#]/)[0]};
+$('#phGo').onclick=()=>phoneJoin();
+$('#phName').addEventListener('keydown',e=>{if(e.key==='Enter')phoneJoin()});
+async function phoneJoin(){
+  const code=$('#phCode').value.trim().toUpperCase(),name=cleanName($('#phName').value);
+  if(code.length!==4){phMsg('Le code fait 4 lettres : il est affiché sur l\'écran principal.');return}
+  if(!name){phMsg('Écris ton prénom.');return}
+  lsSet('lgr-code',code);lsSet('lgr-name',name);NET.code=code;NET.name=name;
+  phMsg('Connexion…');$('#phGo').disabled=true;wake();unlockMedia();
+  try{await loadScript(PEERJS)}catch(e){phMsg("Impossible de charger la connexion. Vérifie qu'il y a internet.");$('#phGo').disabled=false;return}
+  if(!NET.peer||NET.peer.destroyed){
+    NET.peer=new Peer(peerOpts());
+    NET.peer.on('error',e=>{
+      if(e.type==='peer-unavailable'){if(NET.everJoined)phoneRetry();else{phMsg('Partie introuvable. Vérifie le code affiché sur l\'écran principal.');$('#phGo').disabled=false}}
+      else if(NET.everJoined)phoneRetry();else{phMsg('Connexion impossible. Vérifie internet et réessaie.');$('#phGo').disabled=false}
+    });
+    NET.peer.on('disconnected',()=>{setTimeout(()=>{try{if(!NET.peer.destroyed)NET.peer.reconnect()}catch(e){}},1500)});
+  }
+  if(NET.peer.open)phoneConnect();else NET.peer.once('open',phoneConnect);
+}
+function phoneConnect(){
+  const c=NET.peer.connect(ROOM_PREFIX+NET.code,{reliable:true});NET.conn=c;
+  c.on('open',()=>{c.send({t:'hello',pid:NET.pid,name:NET.name});NET.everJoined=true;$('#phBanner').innerHTML=''});
+  c.on('data',m=>{try{phoneMsg(m)}catch(e){}});
+  c.on('close',()=>{if(NET.conn===c)phoneRetry()});
+  c.on('error',()=>{});
+}
+function phoneRetry(){
+  if(!NET.everJoined)return;
+  $('#phBanner').innerHTML='<p class="ph-banner">Connexion perdue avec l\'écran principal, reconnexion…</p>';
+  clearTimeout(NET.rt);
+  NET.rt=setTimeout(()=>{if(!NET.peer||NET.peer.destroyed){NET.peer=null;phoneJoin()}else if(NET.peer.disconnected){try{NET.peer.reconnect()}catch(e){}NET.rt=setTimeout(phoneConnect,2000)}else phoneConnect()},2500);
+}
+function phSend(m){try{if(NET.conn&&NET.conn.open)NET.conn.send(m)}catch(e){}}
+function setHTML(id,h){const e=$('#'+id);if(e.dataset.h!==h){e.innerHTML=h;e.dataset.h=h}}
+function phoneMsg(m){
+  if(!m)return;
+  if(m.t==='refused'){NET.everJoined=false;try{NET.conn&&NET.conn.close()}catch(e){}$('#phPlay').hidden=true;$('#phJoin').hidden=false;$('#phGo').disabled=false;phMsg(m.why||'Connexion refusée.');return}
+  if(m.t!=='view')return;
+  $('#phJoin').hidden=true;$('#phPlay').hidden=false;
+  const v=m,me=v.me,names=v.names||[];
+  setHTML('phScores',v.ph==='lobby'?'':`<div class="mini-scores">${names.map((n,i)=>`<span class="${i===v.turn?'now':''}"><i>${i===me?'⭐ ':''}${esc(n)}</i><b>${(v.scores||[])[i]||0}</b></span>`).join('')}</div>`);
+  let role='',panel='',input='';
+  if(v.ph==='lobby'){panel=`<p class="ph-wait">Tu es dans la partie !<b>${esc(names[me]||'')}</b></p><p class="ph-role">Joueurs : ${names.map(esc).join(', ')}</p><p class="ph-wait" style="font-size:.95rem">La partie va commencer sur l'écran principal. Garde ton téléphone allumé.</p>`}
+  else if(v.ph==='wheel'){
+    if(v.canSpin){role='<p class="ph-role actor">À toi de jouer !</p>';panel='<button type="button" class="ph-spin" data-net="spin">TOURNE<br>LA ROUE</button>'}
+    else panel=`<p class="ph-wait">${esc(v.round||'')}<br>Au tour de<b>${esc(names[v.turn]||'')}</b></p><p class="ph-wait" style="font-size:.9rem">Regarde l'écran principal.</p>`;
+  }
+  else if(v.ph==='sheet'){
+    const R={actor:'À toi de jouer !',arbiter:"Tu es l'arbitre : toi seul vois la réponse. Ne la montre pas !",duelist:'Duel ! Buzze le premier !',viewer:"Regarde l'écran principal"};
+    role=`<p class="ph-role ${v.role}">${R[v.role]||''}</p>`;panel=v.html||'';
+    if(v.input){
+      if(v.sent!==null&&v.sent!==undefined)input=`<p class="ph-sent">Réponse envoyée : ${esc(v.sent)}</p>`;
+      else if(v.input==='qcm')input=`<div class="ph-qcm">${'ABCD'.split('').map(l=>`<button type="button" data-net-choice="${l}">${l}</button>`).join('')}</div>`;
+      else input=`<form class="ph-form" data-q="${esc(v.qkey||'')}"><input id="phAns" maxlength="80" autocomplete="off" placeholder="Ta réponse, en secret"><button type="submit">Envoyer</button></form>`;
+    }
+  }
+  else if(v.ph==='podium'){panel=`<ol class="rank">${v.rank||''}</ol>`}
+  setHTML('phRole',role);setHTML('phPanel',panel);
+  const ik=(v.ph==='sheet'?(v.qkey||'')+'|'+v.input+'|'+v.sent:'')+v.ph;
+  if($('#phInput').dataset.k!==ik){$('#phInput').innerHTML=input;$('#phInput').dataset.k=ik}
+  setHTML('phLine',v.line&&v.ph!=='lobby'?`<p class="ph-line"><b>Albatar</b>${esc(v.line)}</p>`:'');
+}
+$('#phPlay').addEventListener('submit',e=>{e.preventDefault();const i=$('#phAns');const t=i&&i.value.trim();if(t)phSend({t:'answer',text:t})});
+$('#phPlay').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b||b.type==='submit')return;
+  if(b.dataset.net==='spin'){phSend({t:'spin'});if(navigator.vibrate)navigator.vibrate(40);return}
+  if(b.dataset.netChoice){phSend({t:'answer',text:b.dataset.netChoice});return}
+  const sel={...b.dataset};if(b.id)sel.id=b.id;
+  const m={t:'click',sel};
+  if(b.dataset.codeSubmit!==undefined)m.vals=[...$('#phPanel').querySelectorAll('[data-code]')].map(x=>x.value);
+  if(b.dataset.buzz!==undefined&&navigator.vibrate)navigator.vibrate(80);
+  phSend(m);
+});
+
+/* démarrage : lien d'invitation ?room=CODE */
+if(QS.get('room'))phoneInit(QS.get('room'));
 </script>
 </body>
 </html>
