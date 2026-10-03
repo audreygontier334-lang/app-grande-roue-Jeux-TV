@@ -183,7 +183,7 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 @keyframes fly{to{transform:translate(-50%,-40px);opacity:0}}
 .turn .round{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);font-weight:900;margin-bottom:2px}
 .mini-scores{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
-.mini-scores span{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:10px;background:#030912;border:1px solid #1c3852;font-weight:900;font-size:.8rem}
+.mini-scores span{flex:1 1 22%;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:10px;background:#030912;border:1px solid #1c3852;font-weight:900;font-size:.8rem}
 .mini-scores span.now{border-color:var(--cyan);box-shadow:0 0 12px rgba(56,232,255,.18)}
 .mini-scores i{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .mini-scores b{color:var(--cyan);font-family:var(--display);font-weight:400;font-variant-numeric:tabular-nums}
@@ -198,6 +198,8 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 .rounds button small{display:block;font-weight:700;color:var(--muted);font-size:.72rem}
 .rounds button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:rgba(56,232,255,.12)}
 .bubble .bubbleText{display:block;max-height:7.4em;overflow:auto}
+#game{overflow-x:clip}
+.wheelwrap{width:min(80vw,470px)}
 </style>
 </head>
 <body>
@@ -640,8 +642,8 @@ function miniScores(){
 }
 function renderScores(popI,delta){
   const c=comps(),rk=ranks(),top=Math.max(...c.map((_,i)=>S.scores[i]||0));
-  $('#scores').style.setProperty('--n',c.length);
-  $('#scores').innerHTML=c.map((n,i)=>`<div class="chip${i===S.turn?' now':''}${i===popI?' pop':''}${rk[i]===1&&top>0?' lead':''}"><span class="rk">${rk[i]===1&&top>0?'👑 ':''}${rkTxt(rk[i])}</span><div class="nm">${esc(n)}</div><div class="pt">${S.scores[i]||0}</div><div class="adj"><button type="button" data-adj="${i}" data-d="-1" aria-label="Retirer un point à ${esc(n)}">−</button><button type="button" data-adj="${i}" data-d="1" aria-label="Ajouter un point à ${esc(n)}">+</button></div>${i===popI&&delta?`<span class="fly${delta<0?' neg':''}">${delta>0?'+':''}${delta}</span>`:''}</div>`).join('');
+  $('#scores').style.setProperty('--n',Math.min(c.length,4));
+  $('#scores').innerHTML=c.map((n,i)=>`<div class="chip${i===S.turn?' now':''}${i===popI?' pop':''}${rk[i]===1&&top>0?' lead':''}">${top>0?`<span class="rk">${rk[i]===1?'👑 ':''}${rkTxt(rk[i])}</span>`:''}<div class="nm">${esc(n)}</div><div class="pt">${S.scores[i]||0}</div><div class="adj"><button type="button" data-adj="${i}" data-d="-1" aria-label="Retirer un point à ${esc(n)}">−</button><button type="button" data-adj="${i}" data-d="1" aria-label="Ajouter un point à ${esc(n)}">+</button></div>${i===popI&&delta?`<span class="fly${delta<0?' neg':''}">${delta>0?'+':''}${delta}</span>`:''}</div>`).join('');
   $('#turnName').textContent=c[S.turn];
   $('#roundLbl').textContent=S.max?`Tour ${Math.min(S.played+1,S.max)} / ${S.max}`:`Tour ${S.played+1}`;
   document.querySelectorAll('.mini-scores').forEach(el=>el.outerHTML=miniScores());
@@ -938,7 +940,7 @@ function renderSheet(){
     const A=c[me],B=c[cur.opp];
     actions=`<div class="duel"><div class="vs">⚔️ ${esc(A)} contre ${esc(B)}<small>Posez le téléphone entre vous deux. Premier qui buzze répond !</small></div>
       <div class="buzzers"><button type="button" class="buzz" data-buzz="${me}"><small>BUZZER</small>${esc(A)}</button><button type="button" class="buzz b2" data-buzz="${cur.opp}"><small>BUZZER</small>${esc(B)}</button></div>
-      <div class="duel-res" id="duelRes">${S.mode==='solo'&&c.length>2?'<button type="button" class="oppbtn" data-act="opp">Changer d\'adversaire</button>':''}</div></div>
+      <div class="duel-res" id="duelRes">${c.length>2?'<button type="button" class="oppbtn" data-act="opp">Changer d\'adversaire</button>':''}</div></div>
       ${cat.items?'<button type="button" class="redraw" data-act="redraw">Autre question</button>':''}`;
   }else if(cat.type==='interactive'){actions=''}else if(cat.type==='bigdil'){
     body=`<div class="boxes">${[0,1,2].map(i=>`<button type="button" class="box" data-box="${i}">${i+1}</button>`).join('')}</div><div id="bigres"></div>`;
