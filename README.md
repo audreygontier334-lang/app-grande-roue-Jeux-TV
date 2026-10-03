@@ -29,21 +29,33 @@ Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette
 ## Champion, Millions, Motus et Slam : tout le monde joue aussi
 
 Questions pour un champion et Qui veut gagner des millions fonctionnent comme le blind test, sans arbitre :
-- Albatar lit la question à voix haute (ou on la lit à l'écran si la voix est coupée), puis les 4 réponses s'ouvrent pour tout le monde.
+- La question s'affiche quelques secondes, puis les 4 réponses s'ouvrent pour tout le monde.
 - 12 secondes pour Champion, 20 secondes pour Millions.
 - Le plus rapide avec la bonne réponse prend 2 points, les autres bonnes réponses 1 point.
 - Plusieurs écrans : chacun répond sur son téléphone. Un seul téléphone : un buzzer par joueur, les 4 réponses s'affichent au buzz, une erreur élimine pour la question.
 - **Slam** : la définition, la 1re lettre et la longueur ; chacun tape le mot (3 essais sur son téléphone). Accents et majuscules ne comptent pas.
 - **Motus** : chacun a sa grille de 6 lignes sur son téléphone (rouge = bien placé, jaune = mal placé). Sur un seul téléphone, la grille est commune : on buzze pour proposer un mot.
-- **Le Duel** : une case spéciale de la roue, face-à-face entre le joueur et un adversaire tiré au sort.
+
+## La case Duel
+
+Une case spéciale de la roue : le joueur affronte un adversaire tiré au sort sur un des 6 duels (jamais deux fois le même d'affilée). Le gagnant prend 2 points.
+
+- **Énigme piège** : logique, question ambiguë ou piège, 4 réponses, le plus rapide des deux gagne.
+- **GéoDuel** : une phrase indice, la zone (France, Europe ou Monde) et une vraie photo du lieu (chargée depuis Wikipédia), 4 réponses.
+- **Petit bac** : une lettre et 3 catégories au hasard (métier, sport, loisir, chanteur, légume…). Le plus de mots valables gagne, puis le plus rapide. Un mot douteux ? On touche ❌ pour le refuser.
+- **Puissance 4** : chacun son tour, 10 secondes par coup.
+- **3 différences** : deux scènes dessinées par le jeu, toutes différentes à chaque partie.
+- **Memory piège** : 6 paires, dont des cartes presque jumelles qui ne diffèrent que par un détail.
+
+En multi-écrans, les deux duellistes jouent en même temps chacun sur son téléphone (les autres regardent la télé). Sur un seul téléphone, ils jouent l'un après l'autre et le meilleur score, puis le meilleur temps, gagne.
 
 ## Les bonus Quitte ou Double
 
 Chaque joueur a 2 bonus en partie courte, 3 en normale et sans fin, 4 en longue. À son tour, avant de tourner, il peut en jouer un : une roue décide de l'effet (vol ou don de points, stylo entre les dents, échange d'équipe, 2 jeux imposés pendant 3 tours, gages, points doublés, pile ou face, tour bonus, bouclier, jackpot).
 
-## Les 15 jeux
+## Les 16 cases
 
-Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix (version chiffres), N'oubliez pas les paroles, Fort Boyard, Attention à la marche !, Les Z'amours, Le Bigdil, Qui est qui ?, Slam, Burger Quiz (Sel ou poivre), Blind Test (tout le monde joue), NEO ARENA (mini-jeux réflexes, mémoire et code) et Défis & Duels (une deuxième roue de défis physiques).
+Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix (version chiffres), N'oubliez pas les paroles, Fort Boyard, Attention à la marche !, Les Z'amours, Le Bigdil, Qui est qui ?, Slam, Burger Quiz (Sel ou poivre), Blind Test (tout le monde joue), NEO ARENA (mini-jeux réflexes, mémoire et code), Défis & Duels (une deuxième roue de défis physiques) et la case Duel.
 
 Si une joueuse s'appelle Cécile, des cartes spéciales à son sujet s'ajoutent automatiquement.
 
