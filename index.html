@@ -499,11 +499,9 @@ button.coin:active,button.coin.on{transform:translateY(4px);box-shadow:0 1px 0 #
         <li>Les petits + et − sous chaque score servent à corriger ou à donner un bonus.</li>
         <li>Chaque joueur a des bonus « Quitte ou Double » (2 en partie courte, 3 en normale, 4 en longue) : à son tour, avant de tourner, il peut en jouer un. Gare au revers !</li>
         <li>Le bouton ⏱ lance le chrono du jeu. La partie s'arrête toute seule après le nombre de tours choisi.</li>
-        <li>Blind Test : tout le monde joue, sans arbitre. L'extrait se lance tout seul, chacun trouve le bon titre parmi 4. Le plus rapide prend 3 points, le 2e 2 points, les autres bons 1 point. Sur un seul téléphone, chacun a son buzzer et les titres s'affichent au buzz.</li>
-        <li>Questions pour un champion et Qui veut gagner des millions se jouent pareil : tout le monde répond, le plus rapide prend 2 points, les autres bonnes réponses 1 point.</li>
-        <li>Motus et Slam aussi : chacun tape le mot, le jeu vérifie tout seul.</li>
+        <li>Blind Test, Champion, Millions, Motus et Slam : seul le joueur dont c'est le tour répond, sans arbitre. L'extrait se lance tout seul, le jeu corrige tout seul.</li>
         <li>La case Duel : face-à-face contre un adversaire tiré au sort (énigme piège, GéoDuel, petit bac, Enchères secrètes, 3 différences ou Memory piège). Le gagnant prend 2 points.</li>
-        <li>Blind Test Party : que du blind test, 10, 20 ou 30 titres d'affilée, avec le thème de ton choix (années 80, 90, rap français, Disney, hits du moment…).</li>
+        <li>Blind Test Party : là, tout le monde joue à chaque titre ! Que du blind test, 10, 20 ou 30 titres d'affilée, avec le thème de ton choix (années 80, 90, rap français, Disney, hits du moment…).</li>
       </ul>
     </details>
   </section>
@@ -593,7 +591,7 @@ button.coin:active,button.coin.on{transform:translateY(4px);box-shadow:0 1px 0 #
 <script>
 const CATS=[
  {id:'qpuc',wheel:'Champion',name:'Questions pour un champion',col:'--gold',pts:1,type:'qa',all:{sec:12,pts:[2,1],ico:'🏆'},
-  how:"Tout le monde joue ! Une question, puis chacun choisit parmi 4 réponses. Le plus rapide prend 2 points, les autres bonnes réponses 1 point.",
+  how:"Une question, 4 réponses, 12 secondes. Bonne réponse = 2 points.",
   items:[
    {q:"Top ! Je suis un pays d'Afrique de l'Ouest, sans accès à la mer. Ma capitale s'appelle Ouagadougou. Je suis…",a:"Le Burkina Faso",w:["Le Mali","Le Niger","Le Tchad"]},
    {q:"Quel physicien allemand a formulé le principe d'incertitude en 1927 ?",a:"Werner Heisenberg",w:["Max Planck","Albert Einstein","Erwin Schrödinger"]},
@@ -617,10 +615,10 @@ const CATS=[
    {q:"Dans quel pays se trouve le désert d'Atacama, l'un des plus arides du monde ?",a:"Au Chili",w:["Au Pérou","En Bolivie","En Argentine"]}
   ]},
  {id:'motus',wheel:'Motus',name:'Motus',col:'--pink',pts:2,type:'motus',
-  how:"Tout le monde joue ! Trouve le mot : 1re lettre et longueur données. Rouge = bien placé, jaune = mal placé.",
+  how:"Trouve le mot en 6 essais : 1re lettre et longueur données. Rouge = bien placé, jaune = mal placé.",
   items:["XYLOPHONE","LABYRINTHE","ASTRONAUTE","HELICOPTERE","DIPLODOCUS","SAXOPHONE","KANGOUROU","BOOMERANG","MARMELADE","ORCHESTRE","CROCODILE","TOURNESOL","PARAPLUIE","ESCARGOT","PYRAMIDE","CATAMARAN","HIPPOCAMPE","TROMBONE"]},
  {id:'qvgdm',wheel:'Millions',name:'Qui veut gagner des millions ?',col:'--cyan',pts:1,type:'qcm',all:{sec:20,pts:[2,1],ico:'💰'},
-  how:"Tout le monde joue ! Quatre réponses, une seule bonne. Le plus rapide prend 2 points, les autres bonnes réponses 1 point.",
+  how:"Quatre réponses, une seule bonne, 20 secondes. Bonne réponse = 2 points.",
   items:[
    {q:"Quelle est la capitale du Canada ?",c:["Toronto","Ottawa","Montréal","Vancouver"],a:1},
    {q:"Combien de temps met la lumière du Soleil pour atteindre la Terre ?",c:["8 secondes","Environ 8 minutes","Environ 8 heures","1 seconde"],a:1},
@@ -695,7 +693,7 @@ const CATS=[
   how:"Passe le téléphone à un adversaire : lui seul regarde la personne. Toi, tu poses des questions en oui ou non. 10 questions maximum.",
   items:["Johnny Hallyday","Zinédine Zidane","Céline Dion","Omar Sy","Astérix","Jean Dujardin","Mylène Farmer","Kylian Mbappé","Marie Curie","Louis de Funès","Beyoncé","Harry Potter"]},
  {id:'slam',wheel:'Slam',name:'Slam',col:'--orange',pts:1,type:'slam',
-  how:"Tout le monde joue ! Une définition, la 1re lettre et la longueur : tape le mot, le plus rapide gagne.",
+  how:"Une définition, la 1re lettre et la longueur : 3 essais pour taper le mot.",
   items:[
    {q:"Science qui étudie les champignons.",a:"MYCOLOGIE"},
    {q:"Peur maladive des araignées.",a:"ARACHNOPHOBIE"},
@@ -721,7 +719,7 @@ const CATS=[
  ,
  {id:'arena',wheel:'Neo Arena',name:'NEO ARENA',col:'--pink',pts:3,type:'interactive',how:"Mini-jeu auto-arbitré : réflexes, mémoire ou code logique.",items:['reflex','memory','logic']},
  {id:'blindtest',wheel:'Blind Test',name:'Blind Test',col:'--violet',pts:3,type:'bt',
- how:"Tout le monde joue ! L'extrait se lance tout seul et chacun choisit le bon titre parmi 4. Le plus rapide prend 3 points, le 2e 2 points, les autres bons 1 point.",
+ how:"L'extrait se lance tout seul : trouve le bon titre parmi 4. Bonne réponse = 3 points.",
  items:[
  {a:"ABBA",t:"Waterloo",y:1974},
  {a:"Queen",t:"Bohemian Rhapsody",y:1975},
@@ -944,10 +942,10 @@ function showCard(html,ms,cls,style){
 const cardOn=()=>!!cardDone;
 $('#cardOv').addEventListener('click',()=>{if(cardDone)cardDone()});
 const RULES={
- qpuc:"Une question, 4 réponses. Le plus rapide prend 2 points, les autres bons 1.",
- qvgdm:"4 réponses, une seule bonne. Le plus rapide prend 2 points, les autres bons 1.",
- motus:"Trouve le mot ! Rouge : bien placé. Jaune : mal placé. Le plus rapide gagne.",
- slam:"Une définition, la 1re lettre et la longueur. Tape le mot, le plus rapide gagne !",
+ qpuc:"Une question, 4 réponses, 12 secondes : bonne réponse = 2 points !",
+ qvgdm:"4 réponses, une seule bonne, 20 secondes : bonne réponse = 2 points !",
+ motus:"Trouve le mot en 6 essais ! Rouge : bien placé. Jaune : mal placé. 2 points.",
+ slam:"Une définition, la 1re lettre et la longueur : 3 essais pour taper le mot. 2 points !",
  prix:"Chacun écrit son chiffre en secret. Le plus proche rafle 2 points.",
  noplp:"On coupe la musique, tu continues à chanter. Sans te tromper d'un mot !",
  boyard:"Énigme ou épreuve du Père Fouras : 30 secondes pour réussir.",
@@ -957,7 +955,7 @@ const RULES={
  quiest:"Questions en oui ou non pour trouver qui c'est. 10 maximum !",
  sel:"Sel, poivre ou les deux ? 4 bonnes réponses sur 5 pour gagner.",
  arena:"Mini-jeu réflexe, mémoire ou code. Réussis la mission !",
- blindtest:"L'extrait part tout seul : trouve le titre parmi 4. Le plus rapide prend 3 points !",
+ blindtest:"L'extrait part tout seul : trouve le titre parmi 4. Bonne réponse = 3 points !",
  dex:"La roue des défis choisit l'épreuve : adresse, logique ou face-à-face.",
  duel:"Face-à-face : 4 réponses, le plus rapide des deux rafle 2 points !",
  party:"{n} titres, tout le monde joue : le plus rapide prend 3 points à chaque titre !"
@@ -1348,7 +1346,7 @@ function openCat(cat){
   snap=S.scores.slice();const c=comps(),me=c[S.turn];
   if(cat.type==='secondary'){ruleCard(cat,`À toi, ${me} !`).then(openDexWheel);return}
   if(cat.type==='duel'){const opp=pickOpp(),ps=[S.turn,opp],g=dgPick();ruleCard({id:'duel',name:'Duel · '+g.n,col:'--orange'},`${me} contre ${c[opp]}`,g.e+' '+g.rule).then(()=>dgStart(g,ps));return}
-  if(cat.type==='bt'||cat.all||BT_WORD[cat.id]){ruleCard(cat,'⚡ Tout le monde joue').then(()=>btOpen(false,cat));return}
+  if(cat.type==='bt'||cat.all||BT_WORD[cat.id]){const ps=[S.turn];ruleCard(cat,`À toi, ${me} !`).then(()=>btOpen(false,cat,ps));return}
   cur={cat,item:draw1(cat)};
   ruleCard(cat,cat.couple?'En couple !':`À toi, ${me} !`).then(()=>{if(!cur||cur.cat!==cat)return;renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false});
 }
@@ -2048,7 +2046,7 @@ function btOpen(party,cat,ps){
   cur={cat,item:null,bt:true};
   const wd=BT_WORD[cat.id],q=cat.all,kind=wd?'word':q?'quiz':'music',cfg=wd||q||{sec:BT_SEC,pts:BT_PTS,ico:'💿'};
   BT={party:!!party,cat,kind,quiz:kind==='quiz',sec:cfg.sec,pts:cfg.pts,ico:cfg.ico,tries:cfg.tries||0,auto:kind==='music'?BT_AUTO:7,
-    ps:ps||comps().map((_,i)=>i),duel:!!ps,theme:btThemeOf(S.btTheme),total:party?S.party.total:1,done:party?S.party.done:0,r:null,fails:0};
+    ps:ps||comps().map((_,i)=>i),duel:!!ps&&ps.length>1,solo:!!ps&&ps.length===1,theme:btThemeOf(S.btTheme),total:party?S.party.total:1,done:party?S.party.done:0,r:null,fails:0};
   $('#sheet').style.setProperty('--c',css(cat.col));$('#sheet').hidden=false;$('#backdrop').hidden=false;
   btRound();
 }
@@ -2143,15 +2141,30 @@ function btBuzz(slot){
 }
 function btResume(r){r.buzz=-1;r.t0+=performance.now()-r.pauseAt;if(BT.kind==='music')player.play().catch(()=>{});btRender()}
 function btChoose(c){
-  const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz<0||BT.kind==='word')return;clearInterval(BT.bz);
+  const r=BT&&BT.r;
+  if(r&&BT.solo&&!btNet()&&r.phase==='play'&&BT.kind!=='word'){const slot=BT.ps[0];if(r.ans[slot])return;r.ans[slot]={c,ok:c===r.ok,ms:btMs(r)};if(c!==r.ok)SFX.bad();btReveal();return}
+  if(!r||r.phase!=='play'||r.buzz<0||BT.kind==='word')return;clearInterval(BT.bz);
   const slot=r.buzz;r.ans[slot]={c,ok:c===r.ok,ms:r.pauseAt-r.t0};
   if(c===r.ok){r.buzz=-1;btReveal();return}
   r.out.push(slot);SFX.bad();
   if(BT.ps.every(i=>r.out.includes(i))){r.buzz=-1;btReveal();return}
   btResume(r);
 }
+function btSoloType(r,text){
+  const slot=BT.ps[0],g=normW(text||'');if(!g||r.ans[slot])return;
+  if(r.motus&&(g.length!==r.word.length||g[0]!==r.word[0])){r.bmsg=`Il faut ${r.word.length} lettres et commencer par ${r.word[0]}.`;btRender();return}
+  r.tries[slot]=(r.tries[slot]||0)+1;r.bmsg='';
+  if(r.motus)r.shared.push({g,fb:motusFb(g,r.word)});
+  if(g===r.word){r.ans[slot]={ok:true,ms:btMs(r)};btReveal();return}
+  SFX.bad();
+  if(r.tries[slot]>=BT.tries){r.ans[slot]={ok:false,ms:btMs(r)};btReveal();return}
+  if(!r.motus){const n=BT.tries-r.tries[slot];r.bmsg=`Non ! Encore ${n} essai${n>1?'s':''}.`}
+  btRender();
+}
 function btType(text){
-  const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz<0||BT.kind!=='word')return;
+  const r=BT&&BT.r;
+  if(r&&BT.solo&&!btNet()&&r.phase==='play'&&BT.kind==='word'){btSoloType(r,text);const i=$('#btIn');if(i)i.focus();return}
+  if(!r||r.phase!=='play'||r.buzz<0||BT.kind!=='word')return;
   const slot=r.buzz,g=normW(text||'');
   if(text!==null&&r.motus&&(g.length!==r.word.length||g[0]!==r.word[0])){r.bmsg=`Il faut ${r.word.length} lettres et commencer par ${r.word[0]}.`;btRender();const i=$('#btIn');if(i)i.focus();return}
   clearInterval(BT.bz);
@@ -2182,6 +2195,7 @@ function btReveal(){
 function btRes(r){
   const g=r.good;
   if(BT.duel){const other=BT.ps.find(i=>i!==g[0]);return g.length?{k:'duel',w:g[0],l:other}:{k:'none'}}
+  if(BT.solo)return g.length?{k:'win',w:g[0]}:{k:'lose',l:BT.ps[0]};
   if(!g.length)return {k:'none'};
   return g.length>1?{k:'multi',w:g[0],o:g.slice(1)}:{k:'win',w:g[0]};
 }
@@ -2202,13 +2216,13 @@ function tilesHTML(word,shown,known){return `<div class="letters">${[...word].ma
 function gridHTML(rows,word){
   return `<div class="mgrid">${rows.map(x=>`<div class="mrow">${[...x.g].map((l,i)=>`<span class="${x.fb[i]===2?'ok':x.fb[i]===1?'mis':''}">${esc(l)}</span>`).join('')}${x.who!==undefined?`<em>${esc(comps()[x.who])}</em>`:''}</div>`).join('')}</div>`;
 }
-const btRule=()=>BT.duel?`le plus rapide des deux prend ${BT.pts[0]} points`:BT.pts.length>2?`le plus rapide prend ${BT.pts[0]} points, le 2e ${BT.pts[1]} points, les autres ${ptsTxt(BT.pts[2])}`:`le plus rapide prend ${BT.pts[0]} points, les autres bonnes réponses ${ptsTxt(BT.pts[1])}`;
+const btRule=()=>BT.solo?`bonne réponse = ${BT.pts[0]} points`:BT.duel?`le plus rapide des deux prend ${BT.pts[0]} points`:BT.pts.length>2?`le plus rapide prend ${BT.pts[0]} points, le 2e ${BT.pts[1]} points, les autres ${ptsTxt(BT.pts[2])}`:`le plus rapide prend ${BT.pts[0]} points, les autres bonnes réponses ${ptsTxt(BT.pts[1])}`;
 function btClock(r,el){return `<div class="bt-clock"><div class="bt-time"><i class="run${r.buzz>=0?' paused':''}" style="--d:${BT.sec}s;animation-delay:-${el.toFixed(2)}s"></i></div><span class="bt-left${r.left<=5?' low':''}" data-btv="left">${r.left}</span></div>`}
 function btRender(){
   if(!BT||!cur||!cur.bt||!BT.r)return;
   const r=BT.r,c=comps(),net=btNet(),th=BT.theme,kind=BT.kind,ty=TYPO[BT.cat.id]||TYPO.blindtest;
-  const head=`<div class="cathead"><h2 class="cat" style="font-family:'${ty.f}',var(--display);font-weight:${ty.w||400};${ty.up?'text-transform:uppercase;':''}">${esc(cur.cat.name)}</h2><span class="pts">${BT.duel?BT.pts[0]:BT.pts.join(' · ')} pts</span></div>`;
-  const who=BT.duel?`⚔️ ${esc(c[BT.ps[0]])} contre ${esc(c[BT.ps[1]])}`:'⚡ Tout le monde joue';
+  const head=`<div class="cathead"><h2 class="cat" style="font-family:'${ty.f}',var(--display);font-weight:${ty.w||400};${ty.up?'text-transform:uppercase;':''}">${esc(cur.cat.name)}</h2><span class="pts">${BT.duel||BT.solo?BT.pts[0]:BT.pts.join(' · ')} pts</span></div>`;
+  const who=BT.duel?`⚔️ ${esc(c[BT.ps[0]])} contre ${esc(c[BT.ps[1]])}`:BT.solo?`🎯 À toi, ${esc(c[BT.ps[0]])}`:'⚡ Tout le monde joue';
   const top=`<div class="bt-top"><span>${BT.party?`Titre <b>${r.n} / ${BT.total}</b>`:who}</span><span>${kind==='music'?`${th.e} ${esc(th.n)}${BT.fb?' · catalogue de secours':''}`:r.zone?`📍 ${esc(r.zone)}`:`⏱ ${BT.sec} s`}</span></div>`;
   const spin=(r.phase==='play'&&r.buzz<0)||r.phase==='reveal';
   const disc=kind==='music'?`<div class="vinyl${spin?' spin':''}">${r.phase==='reveal'&&r.song.cover?`<img src="${esc(r.song.cover)}" alt="">`:''}</div>`
@@ -2235,8 +2249,8 @@ function btRender(){
   else if(r.phase==='reveal')side=`<div class="bt-song"><b>${esc(r.song.t)}</b><small>${esc(r.song.a)}${r.song.y?' · '+r.song.y:''}</small></div>`;
   if(r.img)below+=`<div class="geo"><img src="${esc(r.img)}" alt="Photo du lieu à trouver" onerror="this.parentNode.remove()"></div>`;
   if(kind!=='word'){
-    if(r.phase==='play'&&(net||r.buzz>=0)){
-      const btn=!net&&r.buzz>=0;
+    if(r.phase==='play'&&(net||r.buzz>=0||BT.solo)){
+      const btn=!net&&(r.buzz>=0||BT.solo);
       below+=`<div class="bt-choices">${r.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch',btn?`data-btc="${i}"`:'')).join('')}</div>`;
     }
     if(r.phase==='reveal')below+=`<div class="bt-choices">${r.choices.map((x,i)=>{
@@ -2246,7 +2260,10 @@ function btRender(){
   if(r.phase==='play'){
     if(net){
       const st=i=>{const a=r.ans[i];return a?(kind==='word'?(a.ok?' done':' off'):' done'):''};
-      below+=`<div class="bt-players">${BT.ps.map(i=>`<span class="bt-p${st(i)}${btOnline(i)?'':' off'}">${esc(c[i])}</span>`).join('')}</div><p class="bt-note">${kind==='word'?'Tapez le mot sur vos téléphones':'Répondez sur vos téléphones'} : ${btRule()}.</p>`;
+      below+=`<div class="bt-players">${BT.ps.map(i=>`<span class="bt-p${st(i)}${btOnline(i)?'':' off'}">${esc(c[i])}</span>`).join('')}</div><p class="bt-note">${BT.solo?`${esc(c[BT.ps[0]])} ${kind==='word'?'tape le mot':'répond'} sur son téléphone`:kind==='word'?'Tapez le mot sur vos téléphones':'Répondez sur vos téléphones'} : ${btRule()}.</p>`;
+    }else if(BT.solo){
+      if(kind==='word')below+=`<form class="bt-type" data-btform><input id="btIn" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" placeholder="${r.word[0]}… (${r.word.length} lettres)"><button type="submit">Valider</button></form><p class="bt-note${r.bmsg?' bad':''}">${esc(r.bmsg||(r.motus?`Ligne ${r.shared.length+1} sur ${BT.tries}`:`${BT.tries-(r.tries[BT.ps[0]]||0)} essais`))}</p>`;
+      else below+=`<p class="bt-note">Une seule réponse : ${btRule()} !</p>`;
     }else if(r.buzz>=0&&kind==='word'){
       below+=`<form class="bt-type" data-btform><input id="btIn" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" placeholder="${r.word[0]}… (${r.word.length} lettres)"><button type="submit">Valider</button></form>${r.bmsg?`<p class="bt-note bad">${esc(r.bmsg)}</p>`:''}`;
     }else if(r.buzz<0){
@@ -2285,7 +2302,7 @@ function btViewFor(slot){
   const c=comps();
   const v={phase:r.phase,kind:BT.kind,n:r.n,total:BT.party?BT.total:0,theme:BT.kind==='music'?BT.theme.e+' '+BT.theme.n:`⏱ ${BT.sec} s`,k:r.k,cd:r.cd,left:r.left,sec:BT.sec,top:BT.pts[0],ico:BT.ico,
     spect:!BT.ps.includes(slot),
-    role:BT.duel?(BT.ps.includes(slot)?`⚔️ Duel : ${c[BT.ps[0]]} contre ${c[BT.ps[1]]} !`:`👀 Tu regardes le duel ${c[BT.ps[0]]} – ${c[BT.ps[1]]}`):BT.kind==='music'?'🎵 Blind test : tout le monde joue !':`⚡ ${BT.cat.name} : tout le monde joue !`};
+    role:BT.duel?(BT.ps.includes(slot)?`⚔️ Duel : ${c[BT.ps[0]]} contre ${c[BT.ps[1]]} !`:`👀 Tu regardes le duel ${c[BT.ps[0]]} – ${c[BT.ps[1]]}`):BT.solo?(BT.ps.includes(slot)?`🎯 ${BT.cat.name} : à toi de jouer !`:`👀 ${BT.cat.name} : au tour de ${c[BT.ps[0]]}`):BT.kind==='music'?'🎵 Blind test : tout le monde joue !':`⚡ ${BT.cat.name} : tout le monde joue !`};
   if(BT.kind==='quiz'){v.q=r.q;v.img=r.img||'';if(r.zone)v.theme='📍 '+r.zone}
   if(BT.kind==='word'){v.def=r.def;v.word0=r.word[0];v.len=r.word.length;v.motus=r.motus;v.grid=r.grid[slot]||[];v.tries=r.tries[slot]||0;v.max=BT.tries;v.msg=r.msg[slot]||''}
   if(BT.kind!=='word'&&(r.phase==='play'||r.phase==='reveal'))v.choices=r.choices;
@@ -2308,7 +2325,7 @@ function btPhoneHTML(v){
   else if(v.phase==='read')h=stage(false,`<p class="bt-msg"><small>${v.kind==='word'?'Prépare ton clavier…':'Les 4 réponses arrivent…'}</small></p>`);
   else if(v.phase==='play'){
     h=stage(true,clock);
-    if(v.spect)h+=`<p class="bt-note">Tu regardes le duel : pas de réponse pour toi cette fois.</p>`;
+    if(v.spect)h+=`<p class="bt-note">Ce n'est pas ton tour : regarde l'écran principal !</p>`;
     else if(v.kind==='word'){
       if(v.motus&&v.grid.length)h+=gridHTML(v.grid,'');
       if(v.mine)h+=v.mine.ok?`<p class="bt-banner">Trouvé !<small>en ${t(v.mine.ms)} s · attends les autres…</small></p>`:`<p class="bt-banner z">Plus d'essais !<small>Attends la réponse…</small></p>`;

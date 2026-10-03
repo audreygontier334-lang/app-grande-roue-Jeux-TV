@@ -13,28 +13,24 @@ Un jeu de soirée sur téléphone : on fait tourner une roue de 16 jeux télé c
 
 ## Mode multi-écrans
 
-Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette) : un code et un QR code s'affichent. Chaque joueur (2 à 8) le scanne avec son téléphone. Le joueur dont c'est le tour fait tourner la roue depuis son téléphone, l'arbitre voit la réponse en secret, chacun écrit ses réponses sans que les autres les voient, les duels se jouent avec un buzzer sur chaque téléphone et le blind test se joue sur tous les téléphones à la fois. Pour mettre le jeu sur la télé : navigateur de la télé, « Caster » de Chrome, AirPlay ou câble HDMI.
+Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette) : un code et un QR code s'affichent. Chaque joueur (2 à 8) le scanne avec son téléphone. Le joueur dont c'est le tour fait tourner la roue depuis son téléphone, l'arbitre voit la réponse en secret, chacun écrit ses réponses sans que les autres les voient, les duels se jouent sur les téléphones des deux adversaires et le Blind Test Party sur tous les téléphones à la fois. Pour mettre le jeu sur la télé : navigateur de la télé, « Caster » de Chrome, AirPlay ou câble HDMI.
 
-## Le Blind Test : tout le monde joue, sans arbitre
+## Blind Test, Champion, Millions, Motus et Slam : sans arbitre
 
-- L'extrait officiel de 30 secondes (Apple Music, sinon Deezer) se lance tout seul après un compte à rebours de 3 secondes.
-- Tout le monde joue en même temps et le jeu corrige seul : il faut trouver le bon titre parmi 4 propositions.
-- **Plusieurs écrans** : chacun répond sur son téléphone. Le plus rapide prend 3 points, le 2e 2 points, les autres bonnes réponses 1 point.
-- **Un seul téléphone** : chaque joueur a son buzzer. Celui qui buzze voit les 4 titres et a 7 secondes pour choisir. Une erreur et il est éliminé pour ce titre, la musique repart pour les autres.
-- Après la réponse, la pochette, le titre et les réponses de chacun s'affichent, et on passe tout seul au titre suivant au bout de 10 secondes.
-- **Blind Test Party** : un mode de jeu à part, choisi sur l'écran d'accueil (ou dans le salon multi-écrans), avec 10, 20 ou 30 titres d'affilée puis le podium.
+Sur la roue, **seul le joueur dont c'est le tour répond**. Le jeu lance, chronomètre et corrige tout seul.
+- **Blind Test** : l'extrait officiel de 30 secondes (Apple Music, sinon Deezer) se lance tout seul après un compte à rebours. Il faut trouver le bon titre parmi 4. Bonne réponse = 3 points.
+- **Questions pour un champion** (12 s) et **Qui veut gagner des millions** (20 s) : la question s'affiche, puis 4 réponses. Bonne réponse = 2 points.
+- **Slam** : la définition, la 1re lettre et la longueur, 3 essais pour taper le mot. Accents et majuscules ne comptent pas.
+- **Motus** : 6 lignes pour trouver le mot (rouge = bien placé, jaune = mal placé).
+- Plusieurs écrans : le joueur répond sur son téléphone, les autres regardent la télé. Un seul téléphone : il répond directement sur l'écran.
+- Après la réponse, la bonne réponse (et la pochette pour le blind test) s'affiche, puis on revient à la roue.
+
+## Blind Test Party : là, tout le monde joue
+
+Un mode de jeu à part, choisi sur l'écran d'accueil (ou dans le salon multi-écrans), avec 10, 20 ou 30 titres d'affilée puis le podium.
+- Tout le monde répond à chaque titre. **Plusieurs écrans** : chacun sur son téléphone, le plus rapide prend 3 points, le 2e 2 points, les autres bonnes réponses 1 point. **Un seul téléphone** : chaque joueur a son buzzer, celui qui buzze voit les 4 titres et a 7 secondes pour choisir ; une erreur et il est éliminé pour ce titre.
 - **Thèmes** : Tubes cultes (notre sélection de plus de 100 titres), Hits du moment, Années 70-80, 90, 2000, 2010, Chanson française, Rap français, Disney, Génériques. Sauf Tubes cultes, les thèmes vont chercher une playlist Deezer en direct. Si Deezer ne répond pas, le jeu se rabat sur le catalogue intégré.
 - Si le navigateur bloque le son, un bouton ▶ apparaît sur l'écran principal.
-
-## Champion, Millions, Motus et Slam : tout le monde joue aussi
-
-Questions pour un champion et Qui veut gagner des millions fonctionnent comme le blind test, sans arbitre :
-- La question s'affiche quelques secondes, puis les 4 réponses s'ouvrent pour tout le monde.
-- 12 secondes pour Champion, 20 secondes pour Millions.
-- Le plus rapide avec la bonne réponse prend 2 points, les autres bonnes réponses 1 point.
-- Plusieurs écrans : chacun répond sur son téléphone. Un seul téléphone : un buzzer par joueur, les 4 réponses s'affichent au buzz, une erreur élimine pour la question.
-- **Slam** : la définition, la 1re lettre et la longueur ; chacun tape le mot (3 essais sur son téléphone). Accents et majuscules ne comptent pas.
-- **Motus** : chacun a sa grille de 6 lignes sur son téléphone (rouge = bien placé, jaune = mal placé). Sur un seul téléphone, la grille est commune : on buzze pour proposer un mot.
 
 ## La case Duel
 
