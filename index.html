@@ -153,6 +153,7 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 .buzz.won{outline:4px solid var(--gold);outline-offset:3px;animation:buzzpop .35s}
 @keyframes buzzpop{50%{transform:scale(1.04)}}
 .buzz.lost{opacity:.25;filter:grayscale(1)}
+.buzzers.many .buzz{min-height:76px;font-size:1rem}
 .duel-res{display:grid;gap:8px}
 .duel-res p{margin:0;text-align:center;font-weight:900;font-size:1.05rem}
 .duel-res .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -183,7 +184,7 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 @keyframes fly{to{transform:translate(-50%,-40px);opacity:0}}
 .turn .round{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);font-weight:900;margin-bottom:2px}
 .mini-scores{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
-.mini-scores span{flex:1 1 20%;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:10px;background:#030912;border:1px solid #1c3852;font-weight:900;font-size:.8rem}
+.mini-scores span{flex:1 1 calc(25% - 30px);min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 9px;border-radius:10px;background:#030912;border:1px solid #1c3852;font-weight:900;font-size:.8rem}
 .mini-scores span.now{border-color:var(--cyan);box-shadow:0 0 12px rgba(56,232,255,.18)}
 .mini-scores i{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .mini-scores b{color:var(--cyan);font-family:var(--display);font-weight:400;font-variant-numeric:tabular-nums}
@@ -268,7 +269,7 @@ body.tv .app{max-width:1280px}
 .ph-line b{display:block;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:#6b3fd1}
 .ph-panel .host,.ph-panel .mini-scores{display:none}
 .ph-panel .buzzers{grid-template-columns:1fr}
-.ph-panel .buzz{min-height:42vh;font-size:1.6rem}
+.ph-panel .buzz,.ph-panel .buzzers.many .buzz{min-height:34vh;font-size:1.6rem}
 .ph-form{display:flex;gap:8px;margin-top:12px}
 .ph-form input{flex:1;min-width:0;padding:14px;border-radius:12px;border:2px solid var(--line);background:var(--dark);color:var(--ink);font:inherit;font-weight:900;font-size:1.1rem}
 .ph-form button{padding:0 18px;border-radius:12px;background:var(--teal);color:#031018;font-weight:900}
@@ -422,47 +423,67 @@ const CATS=[
  {id:'qpuc',wheel:'Champion',name:'Questions pour un champion',col:'--gold',pts:1,type:'qa',
   how:"Le voisin lit la question à voix haute et compte jusqu'à 5. Réponds avant la fin !",
   items:[
-   {q:"Top ! Je suis une ville française. On m'appelle la cité phocéenne. J'ai un Vieux-Port et une Bonne Mère. Je suis…",a:"Marseille"},
-   {q:"Top ! Je suis un monument. On m'a construite pour l'Exposition universelle de 1889 et beaucoup m'ont d'abord trouvée affreuse. Je suis…",a:"La tour Eiffel"},
-   {q:"Combien de cœurs possède une pieuvre ?",a:"3"},
-   {q:"Quelle est la capitale de l'Australie ?",a:"Canberra (pas Sydney !)"},
-   {q:"Quel est le plus long fleuve de France ?",a:"La Loire"},
-   {q:"Quel métal précieux a pour symbole chimique Au ?",a:"L'or"},
-   {q:"En quelle année l'homme a-t-il marché sur la Lune pour la première fois ?",a:"1969"},
-   {q:"Qui a écrit Les Misérables ?",a:"Victor Hugo"},
-   {q:"Quel peintre s'est coupé une partie de l'oreille ?",a:"Vincent Van Gogh"},
-   {q:"Dans quel pays se trouve le Machu Picchu ?",a:"Au Pérou"}
+   {q:"Top ! Je suis un pays d'Afrique de l'Ouest, sans accès à la mer. Ma capitale s'appelle Ouagadougou. Je suis…",a:"Le Burkina Faso"},
+   {q:"Quel physicien allemand a formulé le principe d'incertitude en 1927 ?",a:"Werner Heisenberg"},
+   {q:"Quel élément chimique a pour symbole W ?",a:"Le tungstène"},
+   {q:"Quel architecte catalan a conçu la Sagrada Família ?",a:"Antoni Gaudí"},
+   {q:"Quel est le plus long fleuve d'Asie ?",a:"Le Yangtsé"},
+   {q:"En quelle année a eu lieu la bataille de Marignan ?",a:"1515"},
+   {q:"Quel compositeur français a écrit l'opéra Carmen ?",a:"Georges Bizet"},
+   {q:"Quelle est la capitale du Kazakhstan ?",a:"Astana"},
+   {q:"Combien de faces possède un icosaèdre ?",a:"20"},
+   {q:"Quel écrivain a créé le gentleman cambrioleur Arsène Lupin ?",a:"Maurice Leblanc"},
+   {q:"Sur quelle planète se trouve Olympus Mons, le plus haut volcan connu du système solaire ?",a:"Mars"},
+   {q:"Quel roi de France était surnommé « le Bien-Aimé » ?",a:"Louis XV"},
+   {q:"Quel pays a pour monnaie le zloty ?",a:"La Pologne"},
+   {q:"Qui a peint Le Radeau de la Méduse ?",a:"Théodore Géricault"},
+   {q:"Quelle mer borde la ville d'Odessa ?",a:"La mer Noire"},
+   {q:"Top ! Je suis le plus petit os du corps humain, caché dans l'oreille moyenne. Je suis…",a:"L'étrier"},
+   {q:"Quel gaz rare donne leur couleur rouge-orangé aux enseignes lumineuses ?",a:"Le néon"},
+   {q:"Quelle est la plus haute montagne d'Afrique ?",a:"Le Kilimandjaro"},
+   {q:"Quel savant a énoncé les trois lois du mouvement en 1687 ?",a:"Isaac Newton"},
+   {q:"Dans quel pays se trouve le désert d'Atacama, l'un des plus arides du monde ?",a:"Au Chili"}
   ]},
  {id:'motus',wheel:'Motus',name:'Motus',col:'--pink',pts:2,type:'motus',
-  how:"Tu as la première lettre et le nombre de lettres. Propose des mots : le voisin te dit quelles lettres sont bien placées. 5 essais.",
-  items:["GATEAU","CADEAU","BOUGIE","CHANSON","CONFETTI","SURPRISE","GUIRLANDE","CHAMPAGNE","COTILLON","MUSIQUE","FARANDOLE","BALLON"]},
+  how:"Tu as la première lettre et le nombre de lettres. Propose des mots : l'arbitre te dit quelles lettres sont bien placées. 5 essais.",
+  items:["XYLOPHONE","LABYRINTHE","ASTRONAUTE","HELICOPTERE","DIPLODOCUS","SAXOPHONE","KANGOUROU","BOOMERANG","MARMELADE","ORCHESTRE","CROCODILE","TOURNESOL","PARAPLUIE","ESCARGOT","PYRAMIDE","CATAMARAN","HIPPOCAMPE","TROMBONE"]},
  {id:'qvgdm',wheel:'Millions',name:'Qui veut gagner des millions ?',col:'--cyan',pts:1,type:'qcm',
   how:"Quatre réponses, une seule bonne. Tu as droit à un joker : demander l'avis d'un adversaire (il peut mentir).",
   items:[
-   {q:"Combien de pattes a une araignée ?",c:["6","8","10","12"],a:1},
-   {q:"Quel est le plus grand océan du monde ?",c:["Atlantique","Indien","Pacifique","Arctique"],a:2},
-   {q:"Quelle planète surnomme-t-on la planète rouge ?",c:["Vénus","Mars","Jupiter","Saturne"],a:1},
-   {q:"Qui a peint La Joconde ?",c:["Michel-Ange","Raphaël","Léonard de Vinci","Botticelli"],a:2},
-   {q:"Combien d'étoiles compte le drapeau européen ?",c:["10","12","15","27"],a:1},
-   {q:"Combien y a-t-il de minutes dans une journée ?",c:["1 240","1 440","1 400","2 400"],a:1},
-   {q:"Quel animal est l'emblème du WWF ?",c:["Le tigre","Le panda","Le koala","L'ours polaire"],a:1},
-   {q:"Quel est l'ingrédient de base du guacamole ?",c:["Le concombre","L'avocat","Le petit pois","La courgette"],a:1},
-   {q:"En quelle année la France a-t-elle gagné sa première Coupe du monde de football ?",c:["1986","1998","2002","2018"],a:1},
-   {q:"Combien de joueurs par équipe sur un terrain de volley ?",c:["4","5","6","7"],a:2}
+   {q:"Quelle est la capitale du Canada ?",c:["Toronto","Ottawa","Montréal","Vancouver"],a:1},
+   {q:"Combien de temps met la lumière du Soleil pour atteindre la Terre ?",c:["8 secondes","Environ 8 minutes","Environ 8 heures","1 seconde"],a:1},
+   {q:"Quel pays compte le plus de fuseaux horaires, territoires d'outre-mer compris ?",c:["La Russie","Les États-Unis","La France","La Chine"],a:2},
+   {q:"Dans quel pays se trouve la ville de Tombouctou ?",c:["Niger","Mali","Mauritanie","Tchad"],a:1},
+   {q:"Quel est le plus petit des océans ?",c:["Indien","Austral","Arctique","Atlantique"],a:2},
+   {q:"Qui a découvert la pénicilline ?",c:["Louis Pasteur","Alexander Fleming","Marie Curie","Robert Koch"],a:1},
+   {q:"Combien de cordes a une guitare basse standard ?",c:["4","5","6","7"],a:0},
+   {q:"Quel est le symbole chimique du potassium ?",c:["P","Po","K","Pt"],a:2},
+   {q:"Quelle ville a accueilli les Jeux olympiques d'été de 2008 ?",c:["Londres","Pékin","Athènes","Sydney"],a:1},
+   {q:"Quel est le pays le plus peuplé d'Afrique ?",c:["Égypte","Éthiopie","Nigeria","Afrique du Sud"],a:2},
+   {q:"Qui a écrit « Germinal » ?",c:["Victor Hugo","Émile Zola","Honoré de Balzac","Gustave Flaubert"],a:1},
+   {q:"Quelle est la planète la plus proche du Soleil ?",c:["Vénus","Mercure","Mars","Terre"],a:1},
+   {q:"En quelle année Christophe Colomb atteint-il l'Amérique ?",c:["1453","1492","1515","1610"],a:1},
+   {q:"Quel est le plus grand organe du corps humain ?",c:["Le foie","Le cerveau","La peau","Les poumons"],a:2},
+   {q:"Quelle unité mesure la fréquence ?",c:["Le watt","Le hertz","Le pascal","Le joule"],a:1},
+   {q:"Quel pays a offert la statue de la Liberté aux États-Unis ?",c:["Le Royaume-Uni","L'Espagne","La France","L'Italie"],a:2}
   ]},
  {id:'prix',wheel:'Juste Prix',name:'Le Juste Prix',col:'--orange',pts:2,type:'qa',
   how:"Ce soir, pas de prix mais des chiffres. Tout le monde écrit sa réponse en secret. Le plus proche gagne les points.",
   items:[
    {q:"Combien d'os compte le squelette d'un adulte ?",a:"206"},
-   {q:"Combien mesure la tour Eiffel, antenne comprise ?",a:"Environ 330 mètres"},
+   {q:"En quelle année a été inauguré le tunnel sous la Manche ?",a:"1994"},
+   {q:"Combien de kilomètres mesure le tour de la Terre à l'équateur ?",a:"Environ 40 075 km"},
+   {q:"Quelle est la profondeur de la fosse des Mariannes, le point le plus profond des océans ?",a:"Environ 11 000 mètres"},
    {q:"Combien de marches pour monter à pied au 2e étage de la tour Eiffel ?",a:"674"},
-   {q:"Combien de touches sur un piano classique ?",a:"88"},
-   {q:"Combien de fois le cœur bat-il environ en une journée ?",a:"Environ 100 000 fois"},
+   {q:"À quelle vitesse va la lumière, en kilomètres par seconde ?",a:"Environ 300 000 km/s"},
+   {q:"Combien de litres de sang contient le corps d'un adulte ?",a:"Environ 5 litres"},
    {q:"Quelle est la distance moyenne entre la Terre et la Lune ?",a:"Environ 384 000 km"},
-   {q:"Combien de départements compte la France ?",a:"101"},
-   {q:"Quelle est l'altitude du mont Blanc ?",a:"Environ 4 806 mètres"},
    {q:"Combien de pays sont membres de l'ONU ?",a:"193"},
-   {q:"Combien pèse environ un éléphant d'Afrique adulte ?",a:"Environ 6 tonnes"}
+   {q:"Quelle est l'altitude du mont Blanc ?",a:"Environ 4 806 mètres"},
+   {q:"En quelle année est sorti le premier iPhone ?",a:"2007"},
+   {q:"Combien de fois le cœur bat-il environ en une journée ?",a:"Environ 100 000 fois"},
+   {q:"Combien pèse environ un éléphant d'Afrique adulte ?",a:"Environ 6 tonnes"},
+   {q:"À quelle température bout l'eau au sommet de l'Everest ?",a:"Environ 70 °C"}
   ]},
  {id:'noplp',wheel:'Paroles',name:"N'oubliez pas les paroles",col:'--violet',pts:3,type:'challenge',
   how:"Les autres choisissent une chanson sur un téléphone et coupent le son sans prévenir. Tu continues à chanter, sans te tromper d'un mot.",
@@ -470,24 +491,28 @@ const CATS=[
  {id:'boyard',wheel:'Fort Boyard',name:'Fort Boyard',col:'--teal',pts:2,type:'qa',
   how:"L'énigme du Père Fouras ou une épreuve. Pour une énigme, tu as 30 secondes.",
   items:[
-   {q:"Énigme : j'ai des dents mais je ne mords jamais. Qui suis-je ?",a:"Un peigne"},
-   {q:"Énigme : plus on m'enlève de terre, plus je grandis. Qui suis-je ?",a:"Un trou"},
-   {q:"Énigme : je monte et je descends sans jamais bouger. Qui suis-je ?",a:"Un escalier"},
+   {q:"Énigme : plus j'ai de gardiens, moins je suis gardé. Qui suis-je ?",a:"Un secret"},
+   {q:"Énigme : je suis au début de la nuit, à la fin du matin, et on me trouve deux fois dans l'année. Qui suis-je ?",a:"La lettre N"},
+   {q:"Énigme : plus il y en a, moins on voit. Qu'est-ce que c'est ?",a:"L'obscurité"},
+   {q:"Énigme : je parle toutes les langues sans en avoir appris aucune. Qui suis-je ?",a:"L'écho"},
+   {q:"Énigme : si tu me nommes, je disparais. Qui suis-je ?",a:"Le silence"},
+   {q:"Énigme : le père de Toto a trois fils : Pif, Paf et… ?",a:"Toto"},
+   {q:"Énigme : j'ai un cou mais pas de tête, des épaules mais pas de bras. Qui suis-je ?",a:"Une bouteille"},
+   {q:"Énigme : je suis plein de trous, mais je retiens l'eau. Qui suis-je ?",a:"Une éponge"},
    {q:"Énigme : j'ai des villes sans maisons, des forêts sans arbres et des rivières sans eau. Qui suis-je ?",a:"Une carte"},
-   {q:"Énigme : je me mouille pendant que je sèche. Qui suis-je ?",a:"Une serviette"},
-   {q:"Énigme : je cours sans jambes et on ne me rattrape jamais. Qui suis-je ?",a:"Le temps"},
-   {q:"Épreuve : tiens 30 secondes sur un pied, les yeux fermés.",a:"Les adversaires chronomètrent et jugent"},
-   {q:"Épreuve : récite l'alphabet à l'envers de Z à M, sans erreur.",a:"Z Y X W V U T S R Q P O N M"},
-   {q:"Épreuve : garde une cuillère en équilibre sur ton nez pendant 10 secondes.",a:"Les adversaires chronomètrent et jugent"}
+   {q:"Épreuve : récite l'alphabet à l'envers de Z à A en moins de 20 secondes.",a:"Z Y X W V U T S R Q P O N M L K J I H G F E D C B A"},
+   {q:"Épreuve : tiens 30 secondes sur un pied, les yeux fermés, en comptant à rebours de 100 de 7 en 7.",a:"100, 93, 86, 79, 72, 65, 58, 51, 44, 37…"},
+   {q:"Épreuve : garde une cuillère en équilibre sur ton nez pendant 15 secondes.",a:"Les adversaires chronomètrent et jugent"}
   ]},
  {id:'marche',wheel:'La Marche',name:'Attention à la marche !',col:'--gold',pts:3,type:'list',
   how:"Trois marches, de plus en plus dures. Il faut tout bon pour les 3 points. Une erreur ? Donne 1 point par marche réussie avec les + du tableau.",
   items:[
-   [{q:"Combien de jours en février pendant une année bissextile ?",a:"29"},{q:"Quel est le féminin de « canard » ?",a:"Cane"},{q:"Quelle est la capitale de la Norvège ?",a:"Oslo"}],
-   [{q:"Combien de côtés a un hexagone ?",a:"6"},{q:"Combien de cordes a un violon ?",a:"4"},{q:"Qui a composé Les Quatre Saisons ?",a:"Vivaldi"}],
-   [{q:"Quel est le plus petit pays du monde ?",a:"Le Vatican"},{q:"En quelle année la tour Eiffel a-t-elle été inaugurée ?",a:"1889"},{q:"Quel gaz respire-t-on en plus grande quantité ?",a:"L'azote (environ 78 %)"}],
-   [{q:"Combien dure un match de foot sans prolongations ?",a:"90 minutes"},{q:"Quel est l'os le plus long du corps humain ?",a:"Le fémur"},{q:"De quelle couleur est la « boîte noire » d'un avion ?",a:"Orange"}],
-   [{q:"Quel pays a la forme d'une botte ?",a:"L'Italie"},{q:"Combien de cases compte un échiquier ?",a:"64"},{q:"Quel est le symbole chimique du fer ?",a:"Fe"}]
+   [{q:"Quelle est la capitale de la Nouvelle-Zélande ?",a:"Wellington"},{q:"Qui a composé la « Symphonie du Nouveau Monde » ?",a:"Antonín Dvořák"},{q:"Combien de satellites naturels possède Mars ?",a:"2 (Phobos et Déimos)"}],
+   [{q:"Quel est le plus grand désert chaud du monde ?",a:"Le Sahara"},{q:"Quel traité a mis fin à la Première Guerre mondiale avec l'Allemagne ?",a:"Le traité de Versailles (1919)"},{q:"Quel est l'élément le plus abondant dans l'univers ?",a:"L'hydrogène"}],
+   [{q:"Quel peintre a réalisé « Guernica » ?",a:"Pablo Picasso"},{q:"Dans quel pays se trouve le temple d'Angkor Vat ?",a:"Le Cambodge"},{q:"Quelle est la capitale de l'Australie ?",a:"Canberra"}],
+   [{q:"Combien de cases compte un plateau de Monopoly ?",a:"40"},{q:"Qui a écrit « Les Fleurs du mal » ?",a:"Charles Baudelaire"},{q:"Quelle est l'unité de la résistance électrique ?",a:"L'ohm"}],
+   [{q:"Combien de joueurs par équipe dans l'eau au water-polo ?",a:"7"},{q:"Dans quelle ville se trouve le siège de l'ONU ?",a:"New York"},{q:"Quel est le symbole chimique de l'argent ?",a:"Ag"}],
+   [{q:"Quel est l'os le plus long du corps humain ?",a:"Le fémur"},{q:"De quelle couleur est la « boîte noire » d'un avion ?",a:"Orange"},{q:"Quel gaz respire-t-on en plus grande quantité ?",a:"L'azote (environ 78 %)"}]
   ]},
  {id:'zamours',wheel:"Z'amours",name:"Les Z'amours",col:'--pink',pts:2,type:'challenge',couple:true,
   how:"En couples : chaque partenaire écrit sa réponse en secret, puis on compare. Même réponse = points. À 4 joueurs : réponds pour ton voisin de gauche, il dit si c'est juste.",
@@ -498,17 +523,22 @@ const CATS=[
   how:"Passe le téléphone à un adversaire : lui seul regarde la personne. Toi, tu poses des questions en oui ou non. 10 questions maximum.",
   items:["Johnny Hallyday","Zinédine Zidane","Céline Dion","Omar Sy","Astérix","Jean Dujardin","Mylène Farmer","Kylian Mbappé","Marie Curie","Louis de Funès","Beyoncé","Harry Potter"]},
  {id:'slam',wheel:'Slam',name:'Slam',col:'--orange',pts:1,type:'slam',
-  how:"Le voisin lit la définition. Tu connais la première lettre et le nombre de lettres. 10 secondes.",
+  how:"L'arbitre lit la définition. Tu connais la première lettre et le nombre de lettres. 10 secondes.",
   items:[
-   {q:"Fête que l'on célèbre chaque année le jour de sa naissance.",a:"ANNIVERSAIRE"},
-   {q:"Vin pétillant de Champagne qu'on ouvre pour fêter quelque chose.",a:"CHAMPAGNE"},
-   {q:"Petits morceaux de papier coloré qu'on lance en l'air à une fête.",a:"CONFETTI"},
-   {q:"On la souffle sur le gâteau.",a:"BOUGIE"},
-   {q:"Moment où l'on boit un verre et grignote avant le repas.",a:"APERITIF"},
-   {q:"Jeu où il faut reconnaître une chanson en quelques notes.",a:"BLINDTEST"},
+   {q:"Science qui étudie les champignons.",a:"MYCOLOGIE"},
+   {q:"Peur maladive des araignées.",a:"ARACHNOPHOBIE"},
+   {q:"Mot ou phrase qui se lit de la même façon dans les deux sens.",a:"PALINDROME"},
+   {q:"Instrument qui mesure la pression atmosphérique.",a:"BAROMETRE"},
+   {q:"Mammifère au long museau qui se nourrit de fourmis.",a:"FOURMILIER"},
+   {q:"Art de tracer de belles lettres à la main.",a:"CALLIGRAPHIE"},
+   {q:"Personne qui ne consomme aucun produit d'origine animale.",a:"VEGETALIEN"},
+   {q:"Chaîne de montagnes entre la France et l'Espagne.",a:"PYRENEES"},
+   {q:"Médecin spécialiste des enfants.",a:"PEDIATRE"},
+   {q:"Pièce montée de choux caramélisés, star des mariages.",a:"CROQUEMBOUCHE"},
    {q:"Professionnelle qui accompagne enfants ou adultes en difficulté, souvent dite « spé ».",a:"EDUCATRICE"},
-   {q:"Chanter sur une musique pendant que les paroles défilent à l'écran.",a:"KARAOKE"},
-   {q:"Dessert italien au mascarpone, au café et aux biscuits.",a:"TIRAMISU"}
+   {q:"Dessert italien au mascarpone, au café et aux biscuits.",a:"TIRAMISU"},
+   {q:"Petit animal couvert de piquants qui se roule en boule.",a:"HERISSON"},
+   {q:"Étude des tremblements de terre.",a:"SISMOLOGIE"}
   ]},
  {id:'sel',wheel:'Sel/Poivre',name:'Burger Quiz · Sel ou poivre',col:'--teal',pts:2,type:'list',
   how:"Réponds le plus vite possible : sel, poivre ou les deux ? Au moins 4 bonnes réponses sur 5 pour gagner.",
@@ -1048,8 +1078,14 @@ function draw1(cat){
   return decks[cat.id].pop();
 }
 let cur=null;
-function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}cur={cat,item:draw1(cat)};if(isDuel(cat))cur.opp=pickOpp();renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;
-  const c=comps();say((cur.opp!==undefined?`Duel ! ${c[S.turn]} contre ${c[cur.opp]} ! `:'')+intro(cat,cur.item,c[S.turn]))}
+function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}cur={cat,item:draw1(cat)};
+  if(isDuel(cat)){
+    if(NET.role==='host'&&NET.inGame){const n=comps().length,arb=n>=3?(S.turn+1)%n:-1;cur.all=true;cur.arb=arb;cur.buzzers=[...Array(n).keys()].filter(i=>i!==arb)}
+    else{cur.opp=pickOpp();cur.buzzers=[S.turn,cur.opp]}
+    cur.out=[];
+  }
+  renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;
+  const c=comps();say((cur.all?'Tout le monde à son buzzer ! ':cur.opp!==undefined?`Duel ! ${c[S.turn]} contre ${c[cur.opp]} ! `:'')+intro(cat,cur.item,c[S.turn]))}
 let tm=null;
 function stopTimer(){if(tm){clearInterval(tm.id);tm=null}}
 function startTimer(){
@@ -1065,8 +1101,8 @@ function startTimer(){
   },1000)};
 }
 function duelRes(){
-  const c=comps(),w=cur.buzz,other=w===S.turn?cur.opp:S.turn,pts=cur.cat.pts;
-  $('#duelRes').innerHTML=`<p>${esc(c[w])} répond…</p><div class="row"><button type="button" class="win" data-act="duelok">Bonne réponse · +${pts} ${esc(c[w])}</button><button type="button" class="lose" data-act="duelko">${cur.second?'Raté aussi':'Raté · '+esc(c[other])+' répond'}</button></div><button type="button" class="redraw" data-act="duelnone">Personne ne trouve</button>`;
+  const c=comps(),w=cur.buzz,pts=cur.cat.pts,left=cur.buzzers.filter(x=>x!==w&&!cur.out.includes(x));
+  $('#duelRes').innerHTML=`<p>${esc(c[w])} répond…</p><div class="row"><button type="button" class="win" data-act="duelok">Bonne réponse · +${pts} ${esc(c[w])}</button><button type="button" class="lose" data-act="duelko">${!left.length?'Raté aussi':left.length===1?'Raté · '+esc(c[left[0]])+' répond':'Raté · les autres rebuzzent'}</button></div><button type="button" class="redraw" data-act="duelnone">Personne ne trouve</button>`;
 }
 function closeSheet(){stopTimer();stopMusic();if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
 
@@ -1088,12 +1124,13 @@ function renderSheet(){
   if(cat.type==='secret'){body=`<p class="q">Adversaire, toi seul regardes.</p><p class="ans huge" hidden>${esc(item)}</p>`;reveal='Montrer la personne'}
 
   let actions='';
-  const duel=isDuel(cat)&&cur.opp!==undefined;
+  const duel=isDuel(cat)&&Array.isArray(cur.buzzers);
   if(duel){
-    const A=c[me],B=c[cur.opp];
-    actions=`<div class="duel"><div class="vs">⚔️ ${esc(A)} contre ${esc(B)}<small>Posez le téléphone entre vous deux. Premier qui buzze répond !</small></div>
-      <div class="buzzers"><button type="button" class="buzz" data-buzz="${me}"><small>BUZZER</small>${esc(A)}</button><button type="button" class="buzz b2" data-buzz="${cur.opp}"><small>BUZZER</small>${esc(B)}</button></div>
-      <div class="duel-res" id="duelRes">${c.length>2?'<button type="button" class="oppbtn" data-act="opp">Changer d\'adversaire</button>':''}</div></div>
+    const many=cur.buzzers.length>2;
+    const head=cur.all?`⚡ Tout le monde buzze !<small>La question et le buzzer sont sur chaque téléphone. Premier qui buzze répond !</small>`:`⚔️ ${esc(c[me])} contre ${esc(c[cur.opp])}<small>Posez le téléphone entre vous deux. Premier qui buzze répond !</small>`;
+    actions=`<div class="duel"><div class="vs">${head}</div>
+      <div class="buzzers${many?' many':''}">${cur.buzzers.map((x,k)=>`<button type="button" class="buzz${k%2?' b2':''}${cur.out.includes(x)?' lost':''}" data-buzz="${x}"><small>BUZZER</small>${esc(c[x])}</button>`).join('')}</div>
+      <div class="duel-res" id="duelRes">${!cur.all&&c.length>2?'<button type="button" class="oppbtn" data-act="opp">Changer d\'adversaire</button>':''}</div></div>
       ${cat.items?'<button type="button" class="redraw" data-act="redraw">Autre question</button>':''}`;
   }else if(cat.type==='interactive'){actions=''}else if(cat.type==='bigdil'){
     body=`<div class="boxes">${[0,1,2].map(i=>`<button type="button" class="box" data-box="${i}">${i+1}</button>`).join('')}</div><div id="bigres"></div>`;
@@ -1129,18 +1166,23 @@ $('#sheet').addEventListener('click',e=>{
   if(b.dataset.act==='timer'){startTimer();return}
   if(b.dataset.act==='play'){playMusic(15);return}
   if(b.dataset.act==='hint'){b.textContent='Sorti en '+cur.item.y;b.disabled=true;return}
-  if(b.dataset.act==='opp'){cur.opp=pickOpp(cur.opp);renderSheet();say(`Changement ! Ce sera ${c0[me]} contre ${c0[cur.opp]}.`);return}
+  if(b.dataset.act==='opp'){if(cur.all)return;cur.opp=pickOpp(cur.opp);cur.buzzers=[S.turn,cur.opp];renderSheet();say(`Changement ! Ce sera ${c0[me]} contre ${c0[cur.opp]}.`);return}
   if(b.dataset.buzz!==undefined){
     if(cur.buzz!==undefined)return;
-    const who=+b.dataset.buzz;cur.buzz=who;stopMusic();stopTimer();beep(1500,0,.25,.09);
+    const who=+b.dataset.buzz;if(!cur.buzzers||!cur.buzzers.includes(who)||cur.out.includes(who))return;cur.buzz=who;stopMusic();stopTimer();beep(1500,0,.25,.09);
     $('#sheetIn').querySelectorAll('.buzz').forEach(x=>x.classList.add(+x.dataset.buzz===who?'won':'lost'));
     duelRes();say(pick([`${c0[who]} a buzzé !`,`Buzz ! ${c0[who]}, on t'écoute.`,`${c0[who]} dégaine en premier !`]));return}
   if(b.dataset.act==='duelok'){const w=cur.buzz;gameAward(w,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[w]} remporte le duel et ${ptsTxt(cat.pts)}.`);return}
   if(b.dataset.act==='duelko'){
-    if(!cur.second){cur.second=true;const other=cur.buzz===me?cur.opp:me;cur.buzz=other;
+    cur.out.push(cur.buzz);const left=cur.buzzers.filter(x=>!cur.out.includes(x));
+    if(!left.length){closeSheet();nextTurn((cur.buzzers.length>2?"Personne n'a trouvé ! ":'Raté des deux côtés ! ')+pick(LOSE));return}
+    if(left.length===1){const other=left[0];cur.buzz=other;
       $('#sheetIn').querySelectorAll('.buzz').forEach(x=>{x.classList.remove('won','lost');x.classList.add(+x.dataset.buzz===other?'won':'lost')});
       duelRes();say(`Raté ! ${c0[other]}, à toi de répondre, c'est ta chance !`);return}
-    closeSheet();nextTurn('Raté des deux côtés ! '+pick(LOSE));return}
+    cur.buzz=undefined;
+    $('#sheetIn').querySelectorAll('.buzz').forEach(x=>{x.classList.remove('won','lost');if(cur.out.includes(+x.dataset.buzz))x.classList.add('lost')});
+    $('#duelRes').innerHTML='<p>Raté ! Les autres, à vos buzzers !</p><button type="button" class="redraw" data-act="duelnone">Personne ne trouve</button>';
+    say('Raté ! Les autres, à vos buzzers, vite !');return}
   if(b.dataset.act==='duelnone'){closeSheet();nextTurn("Personne ? Bande de fadas, même ma grand-mère l'avait !");return}
   if(b.dataset.act==='reveal'){
     $('#sheetIn').querySelectorAll('.ans').forEach(x=>x.hidden=false);
@@ -1148,7 +1190,7 @@ $('#sheet').addEventListener('click',e=>{
     if(cat.type==='audio'&&cur.cover){const im=$('#sheetIn .song img');im.src=cur.cover;im.hidden=false}
     b.remove();say(answerLine(cat,cur.item));return;
   }
-  if(b.dataset.act==='redraw'){stopMusic();cur.item=draw1(cat);cur.buzz=undefined;cur.second=false;renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}
+  if(b.dataset.act==='redraw'){stopMusic();cur.item=draw1(cat);cur.buzz=undefined;cur.out=[];renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}
   if(b.dataset.act==='win'){gameAward(me,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[me]} empoche ${ptsTxt(cat.pts)}, ça lui fait ${ptsTxt(S.scores[me])} au compteur.`);return}
   if(b.dataset.act==='lose'){closeSheet();nextTurn(pick(LOSE));return}
   if(b.dataset.give){const g=+b.dataset.give;gameAward(g,cat.pts);closeSheet();nextTurn(`Les points s'envolent chez ${c0[g]}… comme un albatros, vé !`);return}
@@ -1434,11 +1476,11 @@ function hostMsg(c,m){
 }
 
 /* ---- rôles ---- */
-const curDuel=()=>!!(cur&&cur.opp!==undefined&&isDuel(cur.cat));
-function arbiterSlot(){const n=comps().length,t=S.turn,ex=[t];if(curDuel())ex.push(cur.opp);for(let k=1;k<n;k++){const x=(t+k)%n;if(!ex.includes(x))return x}return -1}
+const curDuel=()=>!!(cur&&Array.isArray(cur.buzzers)&&isDuel(cur.cat));
+function arbiterSlot(){if(cur&&cur.all)return cur.arb;const n=comps().length,t=S.turn,ex=[t];if(curDuel())ex.push(...cur.buzzers);for(let k=1;k<n;k++){const x=(t+k)%n;if(!ex.includes(x))return x}return -1}
 function roleOf(slot){
   if(!cur)return slot===S.turn?'actor':'viewer';
-  if(curDuel()&&(slot===S.turn||slot===cur.opp))return 'duelist';
+  if(curDuel()&&cur.buzzers.includes(slot))return 'duelist';
   if(slot===S.turn)return 'actor';
   return slot===arbiterSlot()?'arbiter':'viewer';
 }
@@ -1493,8 +1535,8 @@ function sheetFor(slot){
   box.querySelectorAll('.song img[hidden]').forEach(e=>e.remove());
   if(!ctrl){
     box.querySelectorAll('button').forEach(b=>{if(!(role==='duelist'&&b.dataset.buzz!==undefined&&+b.dataset.buzz===slot))b.remove()});
-    box.querySelectorAll('.actions,.others-l,.others,.duel-res,.redraw').forEach(e=>e.remove());
-  }else if(role==='duelist'){box.querySelectorAll('.buzzers').forEach(e=>e.remove())}
+    box.querySelectorAll('.actions,.others-l,.others,.redraw').forEach(e=>e.remove());
+  }else if(role==='duelist'||role==='arbiter'){box.querySelectorAll('.buzzers').forEach(e=>e.remove())}
   let extra='';
   if(ctrl&&expectsAnswers()){resetAnswersIfNew();const l=answersList(true);extra=`<div class="net-arb"><p class="label">Réponses des joueurs</p>${l?`<ol>${l}</ol>`:'<p class="note">Personne n\'a encore répondu.</p>'}<button type="button" data-act="netshow">Afficher les réponses sur l'écran principal</button></div>`}
   const label=role==='duelist'&&ctrl?'arbiter':role;
@@ -1515,7 +1557,7 @@ function tvExtras(){
   resetAnswersIfNew();
   const c=comps(),a=arbiterSlot();
   let h='';
-  if(cur&&!actorControls())h+=`<span class="arb">${a>=0?`📱 Arbitre : ${esc(c[a])}, la réponse est sur son téléphone`:(curDuel()?'📱 Après le buzz, le perdant du buzz arbitre sur son téléphone':'Arbitrage sur cet écran')}</span>`;
+  if(cur&&!actorControls())h+=`<span class="arb">${a>=0?`📱 Arbitre : ${esc(c[a])}, la réponse est sur son téléphone`:(curDuel()?'📱 Après le buzz, l\'autre joueur arbitre sur son téléphone':'Arbitrage sur cet écran')}</span>`;
   if(expectsAnswers()){
     const shown=NET.revealedKey===ansKey(),l=answersList(shown);
     h+=l?`<ul>${l}</ul>`:'<span class="note" style="margin:0">Les joueurs écrivent leur réponse sur leur téléphone…</span>';
@@ -1595,7 +1637,7 @@ function phoneMsg(m){
     else panel=`<p class="ph-wait">${esc(v.round||'')}<br>Au tour de<b>${esc(names[v.turn]||'')}</b></p><p class="ph-wait" style="font-size:.9rem">Regarde l'écran principal.</p>`;
   }
   else if(v.ph==='sheet'){
-    const R={actor:'À toi de jouer !',arbiter:"Tu es l'arbitre : toi seul vois la réponse. Ne la montre pas !",duelist:'Duel ! Buzze le premier !',viewer:"Regarde l'écran principal"};
+    const R={actor:'À toi de jouer !',arbiter:"Tu es l'arbitre : toi seul vois la réponse. Ne la montre pas !",duelist:'Lis la question et buzze le premier !',viewer:"Regarde l'écran principal"};
     role=`<p class="ph-role ${v.role}">${R[v.role]||''}</p>`;panel=v.html||'';
     if(v.input){
       if(v.sent!==null&&v.sent!==undefined)input=`<p class="ph-sent">Réponse envoyée : ${esc(v.sent)}</p>`;
