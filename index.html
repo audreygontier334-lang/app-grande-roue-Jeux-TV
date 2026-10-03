@@ -141,6 +141,37 @@ h1{color:var(--ink);text-shadow:0 0 28px rgba(56,232,255,.3);font-size:clamp(2.6
 /* INTERACTIVE ARENA */
 .arena{display:grid;gap:14px}.arena-hud{display:flex;justify-content:space-between;padding:10px 12px;border:1px solid #244568;border-radius:14px;background:#030912}.arena-tag{font-size:.68rem;letter-spacing:.16em;color:var(--cyan);font-weight:900}.arena-time{font-family:var(--display);font-size:1.4rem;color:var(--gold)}.arena-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.arena-pad{min-height:72px;border-radius:14px;border:1px solid #31506d;background:#10233b;font-weight:900}.arena-pad.on{background:var(--cyan);color:#031018;box-shadow:0 0 24px rgba(56,232,255,.45)}.arena-pad.bad{background:#ff5577}.arena-start{width:100%;padding:15px;border-radius:14px;background:linear-gradient(100deg,var(--cyan),var(--teal));color:#031018;font-weight:900}.arena-status{text-align:center;font-weight:900;color:var(--muted);min-height:1.5em}.logic-code{display:flex;justify-content:center;gap:8px}.logic-code input{width:64px;text-align:center;font-family:var(--display);font-size:1.7rem;padding:12px 4px;border-radius:12px;border:1px solid #31506d;background:#030912;color:var(--cyan)}
 
+/* ===== duels au buzzer + blind test ===== */
+.duel{display:grid;gap:10px;margin-bottom:12px}
+.duel .vs{text-align:center;font-family:var(--display);font-size:1.05rem;letter-spacing:.04em;color:var(--gold)}
+.duel .vs small{display:block;font-family:var(--body);font-size:.78rem;color:var(--muted);letter-spacing:0;font-weight:700}
+.buzzers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.buzz{min-height:118px;border-radius:22px;font-family:var(--display);font-size:1.15rem;color:#031018;background:radial-gradient(circle at 50% 35%,#ff9ac4,var(--pink));box-shadow:0 7px 0 #a3235f,0 0 26px rgba(255,79,163,.35);overflow-wrap:anywhere;padding:10px;transition:transform .06s}
+.buzz.b2{background:radial-gradient(circle at 50% 35%,#a8f4ff,var(--cyan));box-shadow:0 7px 0 #147e91,0 0 26px rgba(56,232,255,.35)}
+.buzz:active{transform:translateY(5px)}
+.buzz small{display:block;font-family:var(--body);font-weight:900;font-size:.7rem;letter-spacing:.14em;opacity:.75}
+.buzz.won{outline:4px solid var(--gold);outline-offset:3px;animation:buzzpop .35s}
+@keyframes buzzpop{50%{transform:scale(1.04)}}
+.buzz.lost{opacity:.25;filter:grayscale(1)}
+.duel-res{display:grid;gap:8px}
+.duel-res p{margin:0;text-align:center;font-weight:900;font-size:1.05rem}
+.duel-res .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.oppbtn{justify-self:center;padding:6px 12px;border-radius:999px;border:1px solid #244568;color:var(--muted);font-weight:700;font-size:.85rem}
+.music{display:grid;gap:10px;justify-items:center;text-align:center}
+.play{width:96px;height:96px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#c9b6ff,var(--violet));color:#140f3a;font-size:2.2rem;box-shadow:0 0 0 6px rgba(156,124,255,.18),0 0 30px rgba(156,124,255,.4)}
+.play:disabled{opacity:.5}
+.eq{display:flex;gap:4px;height:34px;align-items:flex-end}
+.eq i{width:7px;height:6px;border-radius:3px;background:var(--violet)}
+.eq.on i{animation:eqb .5s ease-in-out infinite alternate}
+.eq.on i:nth-child(2){animation-delay:.12s}.eq.on i:nth-child(3){animation-delay:.25s}.eq.on i:nth-child(4){animation-delay:.07s}.eq.on i:nth-child(5){animation-delay:.3s}.eq.on i:nth-child(6){animation-delay:.18s}
+@keyframes eqb{to{height:34px}}
+.mbar{width:100%;height:6px;border-radius:9px;background:#030912;overflow:hidden}.mbar i{display:block;height:100%;width:0;background:var(--violet)}
+.mstat{margin:0;color:var(--muted);font-size:.85rem;font-weight:700}
+.mstat a{color:var(--cyan)}
+.song{display:flex;gap:12px;align-items:center;text-align:left}
+.song img{width:64px;height:64px;border-radius:10px;flex:none}
+.song small{display:block;color:var(--muted);font-weight:700}
+.hintbtn{padding:6px 12px;border-radius:999px;border:1px solid #244568;color:var(--muted);font-weight:700;font-size:.85rem}
 /* ===== LA GRANDE ROUE : scores toujours visibles, chrono, durée ===== */
 .scores{padding-top:14px}
 .chip{position:relative;padding:12px 6px 6px}
@@ -337,19 +368,54 @@ const CATS=[
   ]}
  ,
  {id:'arena',wheel:'Neo Arena',name:'NEO ARENA',col:'--pink',pts:3,type:'interactive',how:"Mini-jeu auto-arbitré : réflexes, mémoire ou code logique.",items:['reflex','memory','logic']},
- {id:'blindtest',wheel:'Blind Test',name:'Blind Test — Music Arena',col:'--violet',pts:2,type:'qa',
- how:"Un adversaire lit l'indice sans révéler la réponse. 15 secondes, artiste + titre. Une fois la réponse donnée, lancez le morceau sur un téléphone et tout le monde chante !",
+ {id:'blindtest',wheel:'Blind Test',name:'Blind Test',col:'--violet',pts:2,type:'audio',
+ how:"Duel au buzzer ! L'arbitre lance l'extrait : le premier qui buzze donne l'artiste ET le titre.",
  items:[
- {q:"ANNÉES 90 — Groupe français avec un violon endiablé. Tube de 1997 où le chanteur propose d'emmener quelqu'un… au vent. Groupe + titre ?",a:"Louise Attaque — J't'emmène au vent"},
- {q:"ROCK — Groupe britannique. Tube de 1995 devenu hymne de soirées, avec un titre contenant le mot « Wonder ». Artiste + titre ?",a:"Oasis — Wonderwall"},
- {q:"POP — Chanteuse américaine. Tube de 2008 : elle explique qu'elle aurait dû recevoir une bague. Artiste + titre ?",a:"Beyoncé — Single Ladies (Put a Ring on It)"},
- {q:"FRANCE — Tube de 1996 mêlant raï et pop française, adressé à une femme dont le prénom donne son titre à la chanson. Artiste + titre ?",a:"Khaled — Aïcha"},
- {q:"DISCO — Groupe suédois, Eurovision 1974, chanson dont le titre est aussi le nom d'une bataille napoléonienne. Artiste + titre ?",a:"ABBA — Waterloo"},
- {q:"GÉNÉRIQUE — Série : six amis à New York, fontaine dans le générique. Quel morceau accompagne l'ouverture ?",a:"The Rembrandts — I'll Be There for You"},
- {q:"80s — Groupe britannique mené par Freddie Mercury. Morceau de 1984 dont le titre demande littéralement à être libéré. Artiste + titre ?",a:"Queen — I Want to Break Free"},
- {q:"RAP FR — Groupe marseillais. Tube de 1994 qui raconte les boîtes de nuit des années 80, avec une danse qui donne son nom au titre. Groupe + titre ?",a:"IAM — Je danse le Mia"},
- {q:"DANCE — Duo américain. Hit de 2011 associé au shuffle et aux soirées. Le titre annonce que la fête est rock chaque jour. Artiste + titre ?",a:"LMFAO — Party Rock Anthem"},
- {q:"PIÈGE — Quel artiste interprète « Seven Nation Army », souvent chanté dans les stades ?",a:"The White Stripes (c'est un groupe, pas un artiste solo)"}
+ {a:"Oasis",t:"Wonderwall",y:1995},
+ {a:"Khaled",t:"Aïcha",y:1996},
+ {a:"Louise Attaque",t:"J't'emmène au vent",y:1997},
+ {a:"IAM",t:"Je danse le Mia",y:1994},
+ {a:"Queen",t:"I Want to Break Free",y:1984},
+ {a:"ABBA",t:"Waterloo",y:1974},
+ {a:"Britney Spears",t:"...Baby One More Time",y:1998},
+ {a:"Spice Girls",t:"Wannabe",y:1996},
+ {a:"Backstreet Boys",t:"I Want It That Way",y:1999},
+ {a:"Eiffel 65",t:"Blue (Da Ba Dee)",y:1999},
+ {a:"Las Ketchup",t:"The Ketchup Song (Aserejé)",y:2002},
+ {a:"Shakira",t:"Hips Don't Lie",y:2006},
+ {a:"Beyoncé",t:"Single Ladies (Put a Ring on It)",y:2008},
+ {a:"LMFAO",t:"Party Rock Anthem",y:2011},
+ {a:"Daft Punk",t:"One More Time",y:2000},
+ {a:"Stromae",t:"Alors on danse",y:2009},
+ {a:"Céline Dion",t:"My Heart Will Go On",y:1997},
+ {a:"Mylène Farmer",t:"Désenchantée",y:1991},
+ {a:"Indochine",t:"J'ai demandé à la lune",y:2002},
+ {a:"Lorie",t:"Près de moi",y:2001},
+ {a:"Alizée",t:"Moi... Lolita",y:2000},
+ {a:"Manau",t:"La Tribu de Dana",y:1998},
+ {a:"Diam's",t:"La Boulette",y:2006},
+ {a:"Michael Jackson",t:"Billie Jean",y:1983},
+ {a:"Whitney Houston",t:"I Wanna Dance with Somebody",y:1987},
+ {a:"Bob Marley & The Wailers",t:"Could You Be Loved",y:1980},
+ {a:"Gala",t:"Freed from Desire",y:1996},
+ {a:"Haddaway",t:"What Is Love",y:1993},
+ {a:"Lou Bega",t:"Mambo No. 5",y:1999},
+ {a:"Ricky Martin",t:"Livin' la Vida Loca",y:1999},
+ {a:"Mark Ronson & Bruno Mars",t:"Uptown Funk",y:2014},
+ {a:"Pharrell Williams",t:"Happy",y:2013},
+ {a:"Zebda",t:"Tomber la chemise",y:1999},
+ {a:"Patrick Hernandez",t:"Born to Be Alive",y:1979},
+ {a:"Gloria Gaynor",t:"I Will Survive",y:1978},
+ {a:"The Rembrandts",t:"I'll Be There for You",y:1995},
+ {a:"Village People",t:"Y.M.C.A.",y:1978},
+ {a:"Cher",t:"Believe",y:1998},
+ {a:"Kyo",t:"Le Chemin",y:2003},
+ {a:"Tragédie",t:"Hey Oh",y:2003},
+ {a:"Corneille",t:"Parce qu'on vient de loin",y:2003},
+ {a:"Matmatah",t:"Lambé an dro",y:1998},
+ {a:"Eagle-Eye Cherry",t:"Save Tonight",y:1997},
+ {a:"Sean Paul",t:"Temperature",y:2005},
+ {a:"Black Eyed Peas",t:"I Gotta Feeling",y:2009}
  ]},
  {id:'dex',wheel:'Défis & Duels',name:'Défis & Duels',col:'--cyan',pts:2,type:'secondary',
   how:"La roue des défis prend le relais : adresse, dextérité, logique, rapidité, duels et bataille générale."}
@@ -460,6 +526,52 @@ const SPIN=["Ça tourne comme ma tête un lendemain de pastis…","Roule ma poul
 const QUIP={qpuc:"Top ! Sors tes neurones du formol, gros.",motus:"Motus et bouche cousue… comme au cimetière Saint-Pierre.",qvgdm:"Y a pas de million ce soir, mais ta dignité elle est en jeu.",prix:"Le Juste Prix sans les prix, parce que la vie elle est déjà tarpin chère.",noplp:"Chante, et si tu chantes faux, on te débranche.",boyard:"Le Père Fouras il est mort de vieillesse, c'est moi qu'ai récupéré la barbe.",marche:"Attention à la marche… la dernière, c'est celle de l'échafaud.",zamours:"On va voir si vous vous connaissez vraiment, ou si c'est juste pour les impôts.",bigdil:"Le Bigdil ! Trois boîtes, dont une avec peut-être ta belle-mère dedans.",quiest:"Qui est qui ? Moi je sais, mais je balance pas, j'suis pas une balance, vé.",slam:"Slam ! Pas celui des poètes, celui où tu te prends un mur.",sel:"Sel ou poivre ? Comme sur une plaie : choisis bien, mon con."};
 const TURN=n=>pick([`À toi, ${n} !`,`${n}, vas-y, fais péter !`,`${n}, c'est ton tour, fais pas le mort !`,`${n}, ramène ta fraise, gros !`]);
 const ptsTxt=n=>n+' point'+(Math.abs(n)>1?'s':'');
+/* jeux de quiz joués en duel au buzzer */
+const DUEL=new Set(['qpuc','qvgdm','motus','slam','blindtest']);
+const isDuel=cat=>DUEL.has(cat.id)&&comps().length>1;
+function pickOpp(prev){const n=comps().length,me=S.turn;const o=[...Array(n).keys()].filter(i=>i!==me&&i!==prev);return o.length?pick(o):prev}
+
+/* extraits musicaux officiels (30 s) : Apple Music, sinon Deezer */
+const prevCache={};
+function jsonp(url){return new Promise((res,rej)=>{const cb='jp'+Math.random().toString(36).slice(2);const sc=document.createElement('script');
+  const t=setTimeout(()=>{clean();rej(new Error('timeout'))},8000);function clean(){clearTimeout(t);try{delete window[cb]}catch(e){window[cb]=undefined}sc.remove()}
+  window[cb]=d=>{clean();res(d)};sc.onerror=()=>{clean();rej(new Error('load'))};sc.src=url+(url.includes('?')?'&':'?')+'callback='+cb;document.head.appendChild(sc)})}
+const norm=x=>String(x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+async function findPreview(song){
+  const key=song.a+'|'+song.t;if(prevCache[key])return prevCache[key];
+  const firstArtist=norm(song.a.split('&')[0]);
+  try{
+    const d=await jsonp('https://itunes.apple.com/search?media=music&entity=song&limit=10&country=FR&term='+encodeURIComponent(song.a+' '+song.t));
+    const r=(d.results||[]).filter(x=>x.previewUrl);
+    const hit=r.find(x=>norm(x.artistName).includes(firstArtist)&&norm(x.trackName).includes(norm(song.t).slice(0,6)))||r.find(x=>norm(x.artistName).includes(firstArtist));
+    if(hit)return prevCache[key]={url:hit.previewUrl,cover:(hit.artworkUrl100||'')};
+  }catch(e){}
+  try{
+    const d=await jsonp('https://api.deezer.com/search?output=jsonp&q='+encodeURIComponent(song.a.split('&')[0]+' '+song.t));
+    const r=(d.data||[]).filter(x=>x.preview);
+    const hit=r.find(x=>norm(x.artist&&x.artist.name).includes(firstArtist))||r[0];
+    if(hit)return prevCache[key]={url:hit.preview,cover:(hit.album&&hit.album.cover_medium)||''};
+  }catch(e){}
+  throw new Error('introuvable');
+}
+const player=new Audio();player.preload='auto';let musicT=null,musicRAF=null;
+function stopMusic(){try{player.pause()}catch(e){}clearTimeout(musicT);cancelAnimationFrame(musicRAF);const eq=$('#sheetIn .eq');if(eq)eq.classList.remove('on');const pb=$('#sheetIn .play');if(pb)pb.textContent='▶'}
+function playMusic(sec){
+  const pb=$('#sheetIn .play'),eq=$('#sheetIn .eq'),bar=$('#sheetIn .mbar i');
+  if(!player.paused){stopMusic();return}
+  try{speechSynthesis.cancel()}catch(e){}talking(false);
+  player.currentTime=0;const pr=player.play();if(pr&&pr.catch)pr.catch(()=>{const st=$('#sheetIn .mstat');if(st)st.textContent="Le téléphone bloque le son : vérifie qu'il n'est pas en silencieux, puis réessaie."});
+  pb.textContent='⏸';eq.classList.add('on');
+  const t0=performance.now();(function f(){const p=Math.min(1,(performance.now()-t0)/(sec*1000));if(bar)bar.style.width=(p*100)+'%';if(p<1)musicRAF=requestAnimationFrame(f)})();
+  clearTimeout(musicT);musicT=setTimeout(()=>{stopMusic();beep(220,0,.4,.07)},sec*1000);
+}
+function loadSong(){
+  const song=cur.item,pb=$('#sheetIn .play'),st=$('#sheetIn .mstat');if(!pb)return;
+  pb.disabled=true;st.textContent='Chargement de l’extrait…';
+  const yt='https://www.youtube.com/results?search_query='+encodeURIComponent(song.a+' '+song.t);
+  findPreview(song).then(r=>{if(!cur||cur.item!==song)return;player.src=r.url;cur.cover=r.cover;pb.disabled=false;st.textContent='Extrait de 15 secondes. Touchez ▶ pour lancer.'})
+   .catch(()=>{if(!cur||cur.item!==song)return;st.innerHTML=`Extrait introuvable (pas de connexion ?). L'arbitre peut <a href="${yt}" target="_blank" rel="noopener">le lancer sur YouTube</a>.`});
+}
 function intro(cat,item,name){
   let t=`${name} tombe sur… ${cat.name} ! ${QUIP[cat.id]||''} `;
   if(cat.id==='prix')t+=`Tout le monde écrit sa réponse, le plus proche rafle la mise. ${item.q}`;
@@ -471,6 +583,7 @@ function intro(cat,item,name){
   else if(cat.type==='list')t+=cat.how;
   else if(cat.type==='secret')t+="Passe le phone à un adversaire. Toi, pose tes questions en oui ou non, et magne-toi !";
   else if(cat.type==='bigdil')t+="Laquelle tu choisis ?";
+  else if(cat.type==='audio')t+="Ouvrez grand vos esgourdes : l'arbitre lance l'extrait, premier qui buzze !";
   return t;
 }
 function answerLine(cat,item){
@@ -480,6 +593,7 @@ function answerLine(cat,item){
   if(cat.type==='motus')return d+'le mot, c\'était '+item+'.';
   if(cat.type==='slam')return d+'le mot, c\'était '+item.a+'.';
   if(cat.type==='list')return d+item.map(x=>x.a).join(', ')+'.';
+  if(cat.type==='audio')return d+item.t+', de '+item.a+', sorti en '+item.y+'.';
   return 'Alors, t\'as trouvé ou t\'es cuit ?';
 }
 
@@ -779,7 +893,8 @@ function draw1(cat){
   return decks[cat.id].pop();
 }
 let cur=null;
-function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}cur={cat,item:draw1(cat)};renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;say(intro(cat,cur.item,comps()[S.turn]))}
+function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}cur={cat,item:draw1(cat)};if(isDuel(cat))cur.opp=pickOpp();renderSheet();$('#sheet').hidden=false;$('#backdrop').hidden=false;
+  const c=comps();say((cur.opp!==undefined?`Duel ! ${c[S.turn]} contre ${c[cur.opp]} ! `:'')+intro(cat,cur.item,c[S.turn]))}
 let tm=null;
 function stopTimer(){if(tm){clearInterval(tm.id);tm=null}}
 function startTimer(){
@@ -794,7 +909,11 @@ function startTimer(){
     if(left<=0){stopTimer();beep(220,0,.6,.08);box.querySelector('button').textContent='⏱ Relancer';say(pick(TIMEUP))}
   },1000)};
 }
-function closeSheet(){stopTimer();if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
+function duelRes(){
+  const c=comps(),w=cur.buzz,other=w===S.turn?cur.opp:S.turn,pts=cur.cat.pts;
+  $('#duelRes').innerHTML=`<p>${esc(c[w])} répond…</p><div class="row"><button type="button" class="win" data-act="duelok">Bonne réponse · +${pts} ${esc(c[w])}</button><button type="button" class="lose" data-act="duelko">${cur.second?'Raté aussi':'Raté · '+esc(c[other])+' répond'}</button></div><button type="button" class="redraw" data-act="duelnone">Personne ne trouve</button>`;
+}
+function closeSheet(){stopTimer();stopMusic();if(arenaState&&arenaState.to)clearTimeout(arenaState.to);arenaState=null;$('#sheet').hidden=true;$('#backdrop').hidden=true;cur=null}
 
 function renderSheet(){
   stopTimer();
@@ -810,10 +929,18 @@ function renderSheet(){
   if(cat.type==='list'){body=`<ol class="steps">${item.map(x=>`<li>${esc(x.q)}<span class="ans" hidden>${esc(x.a)}</span></li>`).join('')}</ol>`;reveal='Voir les réponses'}
   if(cat.type==='challenge'){body=`<p class="q">${esc(item)}</p>`}
   if(cat.type==='interactive'){body=arenaHTML(item);reveal=''}
+  if(cat.type==='audio'){body=`<div class="music"><button type="button" class="play" data-act="play" aria-label="Écouter l'extrait" disabled>▶</button><div class="eq">${'<i></i>'.repeat(6)}</div><div class="mbar"><i></i></div><p class="mstat"></p><button type="button" class="hintbtn" data-act="hint">Indice : l'année</button></div><div class="ans song" hidden><img alt="" hidden><div><b>${esc(item.t)}</b><small>${esc(item.a)} · ${item.y}</small></div></div>`;reveal='Voir la réponse'}
   if(cat.type==='secret'){body=`<p class="q">Adversaire, toi seul regardes.</p><p class="ans huge" hidden>${esc(item)}</p>`;reveal='Montrer la personne'}
 
   let actions='';
-  if(cat.type==='interactive'){actions=''}else if(cat.type==='bigdil'){
+  const duel=isDuel(cat)&&cur.opp!==undefined;
+  if(duel){
+    const A=c[me],B=c[cur.opp];
+    actions=`<div class="duel"><div class="vs">⚔️ ${esc(A)} contre ${esc(B)}<small>Posez le téléphone entre vous deux. Premier qui buzze répond !</small></div>
+      <div class="buzzers"><button type="button" class="buzz" data-buzz="${me}"><small>BUZZER</small>${esc(A)}</button><button type="button" class="buzz b2" data-buzz="${cur.opp}"><small>BUZZER</small>${esc(B)}</button></div>
+      <div class="duel-res" id="duelRes">${S.mode==='solo'&&c.length>2?'<button type="button" class="oppbtn" data-act="opp">Changer d\'adversaire</button>':''}</div></div>
+      ${cat.items?'<button type="button" class="redraw" data-act="redraw">Autre question</button>':''}`;
+  }else if(cat.type==='interactive'){actions=''}else if(cat.type==='bigdil'){
     body=`<div class="boxes">${[0,1,2].map(i=>`<button type="button" class="box" data-box="${i}">${i+1}</button>`).join('')}</div><div id="bigres"></div>`;
   }else{
     const others=c.map((n,i)=>i===me?'':`<button type="button" data-give="${i}">+${cat.pts} ${esc(n)}</button>`).join('');
@@ -825,12 +952,13 @@ function renderSheet(){
     ${miniScores()}
     ${hostHTML(true)}
     <div class="cathead"><h2 class="cat" style="${TYPO[cat.id]?`font-family:'${TYPO[cat.id].f}',var(--display);font-weight:${TYPO[cat.id].w||400};font-style:${TYPO[cat.id].it?'italic':'normal'}`:''}">${esc(cat.name)}</h2>${cat.pts?`<span class="pts">${cat.pts} pt${cat.pts>1?'s':''}</span>`:''}</div>
-    <p class="how">${esc(name)}, à toi ! ${esc(cat.how)}</p>
-    ${tsec&&cat.type!=='interactive'&&cat.type!=='bigdil'?`<div class="timerbox" data-time="${tsec}"><button type="button" data-act="timer">⏱ Chrono ${tsec} s</button><div class="tbar"><i></i></div><span class="tnum">${tsec}</span></div>`:''}
+    <p class="how">${duel?'':esc(name)+', à toi ! '}${esc(cat.how)}</p>
+    ${tsec&&cat.type!=='interactive'&&cat.type!=='bigdil'&&cat.type!=='audio'?`<div class="timerbox" data-time="${tsec}"><button type="button" data-act="timer">⏱ Chrono ${tsec} s</button><div class="tbar"><i></i></div><span class="tnum">${tsec}</span></div>`:''}
     <div class="card">${body}</div>
     ${reveal?`<button type="button" class="reveal" data-act="reveal">${reveal}</button><div style="height:14px"></div>`:''}
     ${actions}`;
   $('#sheet').scrollTop=0;
+  if(cat.type==='audio')loadSong();
 }
 
 $('#sheet').addEventListener('click',e=>{
@@ -844,12 +972,28 @@ $('#sheet').addEventListener('click',e=>{
 
   const {cat}=cur,me=S.turn,c0=comps();
   if(b.dataset.act==='timer'){startTimer();return}
+  if(b.dataset.act==='play'){playMusic(15);return}
+  if(b.dataset.act==='hint'){b.textContent='Sorti en '+cur.item.y;b.disabled=true;return}
+  if(b.dataset.act==='opp'){cur.opp=pickOpp(cur.opp);renderSheet();say(`Changement ! Ce sera ${c0[me]} contre ${c0[cur.opp]}.`);return}
+  if(b.dataset.buzz!==undefined){
+    if(cur.buzz!==undefined)return;
+    const who=+b.dataset.buzz;cur.buzz=who;stopMusic();stopTimer();beep(1500,0,.25,.09);
+    $('#sheetIn').querySelectorAll('.buzz').forEach(x=>x.classList.add(+x.dataset.buzz===who?'won':'lost'));
+    duelRes();say(pick([`${c0[who]} a buzzé !`,`Buzz ! ${c0[who]}, on t'écoute.`,`${c0[who]} dégaine en premier !`]));return}
+  if(b.dataset.act==='duelok'){const w=cur.buzz;award(w,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[w]} remporte le duel et ${ptsTxt(cat.pts)}.`);return}
+  if(b.dataset.act==='duelko'){
+    if(!cur.second){cur.second=true;const other=cur.buzz===me?cur.opp:me;cur.buzz=other;
+      $('#sheetIn').querySelectorAll('.buzz').forEach(x=>{x.classList.remove('won','lost');x.classList.add(+x.dataset.buzz===other?'won':'lost')});
+      duelRes();say(`Raté ! ${c0[other]}, à toi de répondre, c'est ta chance !`);return}
+    closeSheet();nextTurn('Raté des deux côtés ! '+pick(LOSE));return}
+  if(b.dataset.act==='duelnone'){closeSheet();nextTurn("Personne ? Bande de fadas, même ma grand-mère l'avait !");return}
   if(b.dataset.act==='reveal'){
     $('#sheetIn').querySelectorAll('.ans').forEach(x=>x.hidden=false);
     if(cat.type==='qcm')$('#sheetIn').querySelector(`.qcm li[data-i="${cur.item.a}"]`).classList.add('ok');
+    if(cat.type==='audio'&&cur.cover){const im=$('#sheetIn .song img');im.src=cur.cover;im.hidden=false}
     b.remove();say(answerLine(cat,cur.item));return;
   }
-  if(b.dataset.act==='redraw'){cur.item=draw1(cat);renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}
+  if(b.dataset.act==='redraw'){stopMusic();cur.item=draw1(cat);cur.buzz=undefined;cur.second=false;renderSheet();say("Oh tu fais la tête ? Allez, une autre, j'suis pas rancunier. "+intro(cat,cur.item,c0[me]).split('! ').slice(2).join('! '));return}
   if(b.dataset.act==='win'){award(me,cat.pts);closeSheet();nextTurn(`${pick(WIN)} ${c0[me]} empoche ${ptsTxt(cat.pts)}, ça lui fait ${ptsTxt(S.scores[me])} au compteur.`);return}
   if(b.dataset.act==='lose'){closeSheet();nextTurn(pick(LOSE));return}
   if(b.dataset.give){const g=+b.dataset.give;award(g,cat.pts);closeSheet();nextTurn(`Les points s'envolent chez ${c0[g]}… comme un albatros, vé !`);return}
