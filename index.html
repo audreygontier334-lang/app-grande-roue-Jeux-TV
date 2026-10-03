@@ -341,6 +341,14 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
 .bt-banner{margin:0;padding:14px;border-radius:16px;text-align:center;font-family:var(--display);font-weight:400;font-size:1.5rem;background:linear-gradient(100deg,var(--teal),#9dffd9);color:#031018}
 .bt-banner.z{background:#2a0f1c;color:#ff8aa5;border:1px solid #ff5577}
 .bt-banner small{display:block;font-family:var(--body);font-weight:900;font-size:.85rem}
+.qz-ico{width:clamp(64px,15vw,120px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:clamp(2rem,7vw,3.4rem);background:radial-gradient(circle at 40% 30%,rgba(255,255,255,.35),transparent 60%),var(--c,var(--gold));box-shadow:0 0 0 4px #02060d,0 0 0 7px var(--c,var(--gold)),0 0 34px var(--c,var(--gold))}
+.qz-ico.on{animation:qzglow 1s ease-in-out infinite alternate}
+@keyframes qzglow{to{box-shadow:0 0 0 4px #02060d,0 0 0 7px var(--c,var(--gold)),0 0 60px var(--c,var(--gold))}}
+.bt-stage.qz{align-items:start}
+.qz-q{margin:0;font-weight:900;font-size:clamp(1.1rem,3.4vw,1.7rem);line-height:1.25;text-wrap:pretty}
+.ph-panel .qz-ico{width:56px;font-size:1.8rem}
+.ph-panel .qz-q{font-size:1.05rem}
+.bt-song small+b{margin-top:4px;color:var(--teal)}
 .confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
 </style>
 </head>
@@ -411,6 +419,7 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
         <li>Chaque joueur a des bonus « Quitte ou Double » (2 en partie courte, 3 en normale, 4 en longue) : à son tour, avant de tourner, il peut en jouer un. Gare au revers !</li>
         <li>Le bouton ⏱ lance le chrono du jeu. La partie s'arrête toute seule après le nombre de tours choisi.</li>
         <li>Blind Test : tout le monde joue, sans arbitre. L'extrait se lance tout seul, chacun trouve le bon titre parmi 4. Le plus rapide prend 3 points, le 2e 2 points, les autres bons 1 point. Sur un seul téléphone, chacun a son buzzer et les titres s'affichent au buzz.</li>
+        <li>Questions pour un champion et Qui veut gagner des millions se jouent pareil : tout le monde répond, le plus rapide prend 2 points, les autres bonnes réponses 1 point.</li>
         <li>Blind Test Party : que du blind test, 10, 20 ou 30 titres d'affilée, avec le thème de ton choix (années 80, 90, rap français, Disney, hits du moment…).</li>
       </ul>
     </details>
@@ -500,35 +509,35 @@ body.tv .bt-ch{min-height:96px}body.tv .bt-ch b{font-size:1.25rem}
 
 <script>
 const CATS=[
- {id:'qpuc',wheel:'Champion',name:'Questions pour un champion',col:'--gold',pts:1,type:'qa',
-  how:"Le voisin lit la question à voix haute et compte jusqu'à 5. Réponds avant la fin !",
+ {id:'qpuc',wheel:'Champion',name:'Questions pour un champion',col:'--gold',pts:1,type:'qa',all:{sec:12,pts:[2,1],ico:'🏆'},
+  how:"Tout le monde joue ! Albatar lit la question, puis chacun choisit parmi 4 réponses. Le plus rapide prend 2 points, les autres bonnes réponses 1 point.",
   items:[
-   {q:"Top ! Je suis un pays d'Afrique de l'Ouest, sans accès à la mer. Ma capitale s'appelle Ouagadougou. Je suis…",a:"Le Burkina Faso"},
-   {q:"Quel physicien allemand a formulé le principe d'incertitude en 1927 ?",a:"Werner Heisenberg"},
-   {q:"Quel élément chimique a pour symbole W ?",a:"Le tungstène"},
-   {q:"Quel architecte catalan a conçu la Sagrada Família ?",a:"Antoni Gaudí"},
-   {q:"Quel est le plus long fleuve d'Asie ?",a:"Le Yangtsé"},
-   {q:"En quelle année a eu lieu la bataille de Marignan ?",a:"1515"},
-   {q:"Quel compositeur français a écrit l'opéra Carmen ?",a:"Georges Bizet"},
-   {q:"Quelle est la capitale du Kazakhstan ?",a:"Astana"},
-   {q:"Combien de faces possède un icosaèdre ?",a:"20"},
-   {q:"Quel écrivain a créé le gentleman cambrioleur Arsène Lupin ?",a:"Maurice Leblanc"},
-   {q:"Sur quelle planète se trouve Olympus Mons, le plus haut volcan connu du système solaire ?",a:"Mars"},
-   {q:"Quel roi de France était surnommé « le Bien-Aimé » ?",a:"Louis XV"},
-   {q:"Quel pays a pour monnaie le zloty ?",a:"La Pologne"},
-   {q:"Qui a peint Le Radeau de la Méduse ?",a:"Théodore Géricault"},
-   {q:"Quelle mer borde la ville d'Odessa ?",a:"La mer Noire"},
-   {q:"Top ! Je suis le plus petit os du corps humain, caché dans l'oreille moyenne. Je suis…",a:"L'étrier"},
-   {q:"Quel gaz rare donne leur couleur rouge-orangé aux enseignes lumineuses ?",a:"Le néon"},
-   {q:"Quelle est la plus haute montagne d'Afrique ?",a:"Le Kilimandjaro"},
-   {q:"Quel savant a énoncé les trois lois du mouvement en 1687 ?",a:"Isaac Newton"},
-   {q:"Dans quel pays se trouve le désert d'Atacama, l'un des plus arides du monde ?",a:"Au Chili"}
+   {q:"Top ! Je suis un pays d'Afrique de l'Ouest, sans accès à la mer. Ma capitale s'appelle Ouagadougou. Je suis…",a:"Le Burkina Faso",w:["Le Mali","Le Niger","Le Tchad"]},
+   {q:"Quel physicien allemand a formulé le principe d'incertitude en 1927 ?",a:"Werner Heisenberg",w:["Max Planck","Albert Einstein","Erwin Schrödinger"]},
+   {q:"Quel élément chimique a pour symbole W ?",a:"Le tungstène",w:["Le titane","Le vanadium","Le xénon"]},
+   {q:"Quel architecte catalan a conçu la Sagrada Família ?",a:"Antoni Gaudí",w:["Le Corbusier","Ricardo Bofill","Lluís Domènech i Montaner"]},
+   {q:"Quel est le plus long fleuve d'Asie ?",a:"Le Yangtsé",w:["Le Mékong","Le Gange","Le fleuve Amour"]},
+   {q:"En quelle année a eu lieu la bataille de Marignan ?",a:"1515",w:["1415","1492","1559"]},
+   {q:"Quel compositeur français a écrit l'opéra Carmen ?",a:"Georges Bizet",w:["Jules Massenet","Charles Gounod","Hector Berlioz"]},
+   {q:"Quelle est la capitale du Kazakhstan ?",a:"Astana",w:["Almaty","Bichkek","Tachkent"]},
+   {q:"Combien de faces possède un icosaèdre ?",a:"20",w:["12","16","24"]},
+   {q:"Quel écrivain a créé le gentleman cambrioleur Arsène Lupin ?",a:"Maurice Leblanc",w:["Gaston Leroux","Maurice Druon","Eugène Sue"]},
+   {q:"Sur quelle planète se trouve Olympus Mons, le plus haut volcan connu du système solaire ?",a:"Mars",w:["Vénus","Jupiter","Mercure"]},
+   {q:"Quel roi de France était surnommé « le Bien-Aimé » ?",a:"Louis XV",w:["Louis XIV","Louis XVI","Henri IV"]},
+   {q:"Quel pays a pour monnaie le zloty ?",a:"La Pologne",w:["La Tchéquie","La Hongrie","La Roumanie"]},
+   {q:"Qui a peint Le Radeau de la Méduse ?",a:"Théodore Géricault",w:["Eugène Delacroix","Jacques-Louis David","Gustave Courbet"]},
+   {q:"Quelle mer borde la ville d'Odessa ?",a:"La mer Noire",w:["La mer Caspienne","La mer d'Azov","La mer Égée"]},
+   {q:"Top ! Je suis le plus petit os du corps humain, caché dans l'oreille moyenne. Je suis…",a:"L'étrier",w:["Le marteau","L'enclume","Le coccyx"]},
+   {q:"Quel gaz rare donne leur couleur rouge-orangé aux enseignes lumineuses ?",a:"Le néon",w:["L'argon","Le krypton","L'hélium"]},
+   {q:"Quelle est la plus haute montagne d'Afrique ?",a:"Le Kilimandjaro",w:["Le mont Kenya","Le Ruwenzori","Le mont Cameroun"]},
+   {q:"Quel savant a énoncé les trois lois du mouvement en 1687 ?",a:"Isaac Newton",w:["Galilée","Johannes Kepler","Gottfried Leibniz"]},
+   {q:"Dans quel pays se trouve le désert d'Atacama, l'un des plus arides du monde ?",a:"Au Chili",w:["Au Pérou","En Bolivie","En Argentine"]}
   ]},
  {id:'motus',wheel:'Motus',name:'Motus',col:'--pink',pts:2,type:'motus',
   how:"Tu as la première lettre et le nombre de lettres. Propose des mots : l'arbitre te dit quelles lettres sont bien placées. 5 essais.",
   items:["XYLOPHONE","LABYRINTHE","ASTRONAUTE","HELICOPTERE","DIPLODOCUS","SAXOPHONE","KANGOUROU","BOOMERANG","MARMELADE","ORCHESTRE","CROCODILE","TOURNESOL","PARAPLUIE","ESCARGOT","PYRAMIDE","CATAMARAN","HIPPOCAMPE","TROMBONE"]},
- {id:'qvgdm',wheel:'Millions',name:'Qui veut gagner des millions ?',col:'--cyan',pts:1,type:'qcm',
-  how:"Quatre réponses, une seule bonne. Tu as droit à un joker : demander l'avis d'un adversaire (il peut mentir).",
+ {id:'qvgdm',wheel:'Millions',name:'Qui veut gagner des millions ?',col:'--cyan',pts:1,type:'qcm',all:{sec:20,pts:[2,1],ico:'💰'},
+  how:"Tout le monde joue ! Quatre réponses, une seule bonne. Le plus rapide prend 2 points, les autres bonnes réponses 1 point.",
   items:[
    {q:"Quelle est la capitale du Canada ?",c:["Toronto","Ottawa","Montréal","Vancouver"],a:1},
    {q:"Combien de temps met la lumière du Soleil pour atteindre la Terre ?",c:["8 secondes","Environ 8 minutes","Environ 8 heures","1 seconde"],a:1},
@@ -846,7 +855,7 @@ const QUIP={qpuc:"Top ! Sors tes neurones du formol, gros.",motus:"Motus et bouc
 const TURN=n=>pick([`À toi, ${n} !`,`${n}, vas-y, fais péter !`,`${n}, c'est ton tour, fais pas le mort !`,`${n}, ramène ta fraise, gros !`]);
 const ptsTxt=n=>n+' point'+(Math.abs(n)>1?'s':'');
 /* jeux de quiz joués en duel au buzzer */
-const DUEL=new Set(['qpuc','qvgdm','motus','slam']);
+const DUEL=new Set(['motus','slam']);
 const isDuel=cat=>DUEL.has(cat.id)&&comps().length>1;
 function pickOpp(prev){const n=comps().length,me=S.turn;const o=[...Array(n).keys()].filter(i=>i!==me&&i!==prev);return o.length?pick(o):prev}
 
@@ -1202,7 +1211,7 @@ function draw1(cat){
   return decks[cat.id].pop();
 }
 let cur=null;
-function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}if(cat.type==='bt'){btOpen(false);return}cur={cat,item:draw1(cat)};
+function openCat(cat){if(cat.type==='secondary'){openDexWheel();return}if(cat.type==='bt'||cat.all){btOpen(false,cat);return}cur={cat,item:draw1(cat)};
   if(isDuel(cat)){
     if(NET.role==='host'&&NET.inGame){const n=comps().length,arb=n>=3?(S.turn+1)%n:-1;cur.all=true;cur.arb=arb;cur.buzzers=[...Array(n).keys()].filter(i=>i!==arb)}
     else{cur.opp=pickOpp();cur.buzzers=[S.turn,cur.opp]}
@@ -1769,7 +1778,7 @@ function phoneMsg(m){
     }
   }
   else if(v.ph==='bt'){
-    const b=v.bt||{};role='<p class="ph-role duelist">🎵 Blind test : tout le monde joue !</p>';panel=btPhoneHTML(b);
+    const b=v.bt||{};role=`<p class="ph-role duelist">${esc(b.role||'Tout le monde joue !')}</p>`;panel=btPhoneHTML(b);
     if(b.phase==='reveal'&&b.pts>0&&NET.cfk!==b.k){NET.cfk=b.k;confetti(70);if(navigator.vibrate)navigator.vibrate([60,40,120])}
   }
   else if(v.ph==='podium'){panel=`<ol class="rank">${v.rank||''}</ol>`}
@@ -1881,12 +1890,14 @@ player.addEventListener('error',()=>{const r=BT&&BT.r;if(r&&r.song&&['load','cou
 function btBroken(){if(!BT)return;BT.fails=(BT.fails||0)+1;if(BT.fails>=3){BT.r.phase='error';btRender();return}btRound()}
 function btWaitSpeech(max){return new Promise(res=>{const t0=performance.now();(function f(){const t=performance.now()-t0;let talk=false;try{talk=voiceOn&&hasTTS&&speechSynthesis.speaking}catch(e){}if(t>max||(t>1500&&!talk))res();else setTimeout(f,150)})()})}
 
-function btOpen(party){
+function btOpen(party,cat){
   stopMusic();btClear();
-  const cat=party?{id:'blindtest',name:'Blind Test Party',col:'--violet',pts:3,type:'bt'}:btCat();
+  cat=party?{id:'blindtest',name:'Blind Test Party',col:'--violet',pts:3,type:'bt'}:(cat||btCat());
   cur={cat,item:null,bt:true};
-  BT={party:!!party,theme:btThemeOf(S.btTheme),total:party?S.party.total:1,done:party?S.party.done:0,r:null,fails:0};
-  $('#sheet').style.setProperty('--c',css('--violet'));$('#sheet').hidden=false;$('#backdrop').hidden=false;
+  const q=cat.all;
+  BT={party:!!party,cat,quiz:!!q,sec:q?q.sec:BT_SEC,pts:q?q.pts:BT_PTS,auto:q?8:BT_AUTO,ico:q?q.ico:'💿',
+    theme:btThemeOf(S.btTheme),total:party?S.party.total:1,done:party?S.party.done:0,r:null,fails:0};
+  $('#sheet').style.setProperty('--c',css(cat.col));$('#sheet').hidden=false;$('#backdrop').hidden=false;
   btRound();
 }
 function btClear(){if(!BT)return;clearInterval(BT.iv);clearInterval(BT.bz);clearTimeout(BT.to);BT.iv=BT.bz=BT.to=null}
@@ -1896,6 +1907,7 @@ async function btRound(){
   const r=BT.r={k:Math.random().toString(36).slice(2,8),n:BT.done+1,phase:'load',ans:{},out:[],buzz:-1,pts:{}};
   btRender();$('#sheet').scrollTop=0;
   const c=comps(),th=BT.theme,first=!BT.party||r.n===1;
+  if(BT.quiz){qzRound(r);return}
   say(BT.party?(r.n===1?`Wesh la zone ! Bienvenue au BLIND TEST PARTY d'Albatar ! ${BT.total} titres, thème ${th.n}. Tout le monde joue en même temps, le plus rapide rafle 3 points. Ouvrez grand vos esgourdes !`
       :r.n===BT.total?'Dernier titre ! Tout peut encore basculer, gros.'
       :pick([`Titre ${r.n} ! Chauffez les doigts.`,`Titre ${r.n} sur ${BT.total}. Silence dans les rangs !`,`On enchaîne, titre ${r.n} !`,`Titre ${r.n}. Celui-là, même ma grand-mère le connaît.`]))
@@ -1917,18 +1929,34 @@ async function btRound(){
   r.phase='count';r.cd=3;btRender();beep(660,0,.1,.06);
   BT.iv=setInterval(()=>{r.cd--;if(r.cd>0){beep(660,0,.1,.06);btUpd()}else{clearInterval(BT.iv);btPlay()}},900);
 }
+/* Champion, Millions : Albatar lit la question, puis les 4 réponses s'ouvrent pour tout le monde */
+async function qzRound(r){
+  const it=draw1(BT.cat),c=comps();
+  let ch=it.c?it.c.map((t,i)=>({t,good:i===it.a})):[{t:it.a,good:true}].concat((it.w||[]).map(t=>({t})));
+  ch=shuffle(ch);
+  r.q=it.q;r.choices=ch.map(x=>({t:x.t,a:''}));r.ok=ch.findIndex(x=>x.good);r.answer=r.choices[r.ok].t;
+  r.phase='read';btRender();
+  say(`${c[S.turn]} tombe sur… ${BT.cat.name} ! Et tout le monde joue ! ${it.q}`);
+  const read=voiceOn&&hasTTS?0:Math.min(6000,1500+it.q.length*35);
+  await Promise.all([btWaitSpeech(16000),new Promise(res=>setTimeout(res,read))]);
+  if(!BT||BT.r!==r)return;
+  btGo(r);
+}
+function btGo(r){
+  if(!BT||BT.r!==r||r.phase==='play')return;BT.fails=0;r.phase='play';r.t0=performance.now();r.left=BT.sec;btRender();beep(1320,0,.1,.04);
+  clearInterval(BT.iv);BT.iv=setInterval(btTick,200);
+}
 function btPlay(){
   const r=BT&&BT.r;if(!r||!r.song)return;
   try{speechSynthesis.cancel()}catch(e){}talking(false);
   try{player.currentTime=0}catch(e){}player.volume=1;
-  const go=()=>{if(!BT||BT.r!==r||r.phase==='play')return;BT.fails=0;r.phase='play';r.t0=performance.now();r.left=BT_SEC;btRender();beep(1320,0,.1,.04);
-    clearInterval(BT.iv);BT.iv=setInterval(btTick,200)};
+  const go=()=>btGo(r);
   let p;try{p=player.play()}catch(e){}
   if(p&&p.then)p.then(go).catch(e=>{if(!BT||BT.r!==r)return;if(e&&e.name==='NotAllowedError'){r.phase='blocked';btRender()}else btBroken()});else go();
 }
 function btTick(){
   const r=BT&&BT.r;if(!r||r.phase!=='play'||r.buzz>=0)return;
-  const left=Math.max(0,Math.ceil(BT_SEC-(performance.now()-r.t0)/1000));
+  const left=Math.max(0,Math.ceil(BT.sec-(performance.now()-r.t0)/1000));
   if(left!==r.left){r.left=left;btUpd();if(left>0&&left<=3)beep(520,0,.06,.04)}
   if(left<=0)btReveal();
 }
@@ -1951,7 +1979,7 @@ function btChoose(c){
   if(c===r.ok){btReveal();return}
   r.out.push(slot);beep(180,0,.35,.08);
   if(r.out.length>=comps().length){btReveal();return}
-  r.t0+=performance.now()-r.pauseAt;player.play().catch(()=>{});btRender();
+  r.t0+=performance.now()-r.pauseAt;if(!BT.quiz)player.play().catch(()=>{});btRender();
 }
 function btReveal(){
   const r=BT&&BT.r;if(!r||r.phase!=='play')return;
@@ -1959,13 +1987,12 @@ function btReveal(){
   r.phase='reveal';r.buzz=-1;
   const c=comps();
   const good=Object.keys(r.ans).map(Number).filter(i=>r.ans[i].c===r.ok).sort((x,y)=>r.ans[x].ms-r.ans[y].ms);
-  good.forEach((i,k)=>{r.pts[i]=BT_PTS[Math.min(k,BT_PTS.length-1)]});
+  good.forEach((i,k)=>{r.pts[i]=BT.pts[Math.min(k,BT.pts.length-1)]});
   BT.done++;if(BT.party&&S.party){S.party.done=BT.done;save()}
-  if(player.paused)player.play().catch(()=>{});
-  player.volume=.4;
+  if(!BT.quiz){if(player.paused)player.play().catch(()=>{});player.volume=.4}
   good.forEach(i=>gameAward(i,r.pts[i]));
-  r.auto=BT_AUTO;btRender();
-  const s=r.song,ans=`${s.t}, de ${s.a}`;
+  r.auto=BT.auto;btRender();
+  const ans=BT.quiz?r.answer:`${r.song.t}, de ${r.song.a}`;
   let line;
   if(!good.length)line=pick(['Personne ! ','Silence radio… ','Zéro pointé pour tout le monde ! '])+`C'était ${ans}. `+pick(LOSE);
   else{line=`${pick(['Dans le mille !','Oh fatche, la vitesse !','Validé !'])} ${c[good[0]]} dégaine le plus vite et prend ${ptsTxt(r.pts[good[0]])}. C'était ${ans}.`;
@@ -1979,29 +2006,36 @@ function btAdvance(){
   if(BT.done<BT.total){btRound();return}
   const party=BT.party;closeSheet();
   if(party){S.party=null;save();endGame('Fin du blind test !')}
-  else nextTurn(pick(['On range les vinyles !','Fin du blind test, on remet la roue en route.']));
+  else nextTurn(r.q?pick(['Question suivante… enfin, roue suivante !','On remet la roue en route.']):pick(['On range les vinyles !','Fin du blind test, on remet la roue en route.']));
 }
 function btChoiceHTML(x,i,cls,btn,extra){
-  const inner=`<b>${esc(x.t)}</b><small>${esc(x.a)}</small>${extra||''}`,st=`data-l="${'ABCD'[i]}" style="--k:var(${BT_K[i]})"`;
+  const inner=`<b>${esc(x.t)}</b>${x.a?`<small>${esc(x.a)}</small>`:''}${extra||''}`,st=`data-l="${'ABCD'[i]}" style="--k:var(${BT_K[i]})"`;
   return btn?`<button type="button" class="${cls}" ${btn} ${st}>${inner}</button>`:`<div class="${cls}" ${st}>${inner}</div>`;
 }
+const btRule=()=>BT.pts.length>2?`le plus rapide prend ${BT.pts[0]} points, le 2e ${BT.pts[1]} points, les autres ${ptsTxt(BT.pts[2])}`:`le plus rapide prend ${BT.pts[0]} points, les autres bonnes réponses ${ptsTxt(BT.pts[1])}`;
+function btClock(r,el){return `<div class="bt-clock"><div class="bt-time"><i class="run${r.buzz>=0?' paused':''}" style="--d:${BT.sec}s;animation-delay:-${el.toFixed(2)}s"></i></div><span class="bt-left${r.left<=5?' low':''}" data-btv="left">${r.left}</span></div>`}
 function btRender(){
   if(!BT||!cur||!cur.bt||!BT.r)return;
-  const r=BT.r,c=comps(),net=btNet(),th=BT.theme,ty=TYPO.blindtest;
-  const head=`<div class="cathead"><h2 class="cat" style="font-family:'${ty.f}',var(--display)">${esc(cur.cat.name)}</h2><span class="pts">3 · 2 · 1 pts</span></div>`;
-  const top=`<div class="bt-top"><span>${BT.party?`Titre <b>${r.n} / ${BT.total}</b>`:'⚡ Tout le monde joue'}</span><span>${th.e} ${esc(th.n)}${BT.fb?' · catalogue de secours':''}</span></div>`;
+  const r=BT.r,c=comps(),net=btNet(),th=BT.theme,quiz=BT.quiz,ty=TYPO[BT.cat.id]||TYPO.blindtest;
+  const head=`<div class="cathead"><h2 class="cat" style="font-family:'${ty.f}',var(--display);font-weight:${ty.w||400};${ty.up?'text-transform:uppercase;':''}">${esc(cur.cat.name)}</h2><span class="pts">${BT.pts.join(' · ')} pts</span></div>`;
+  const top=`<div class="bt-top"><span>${BT.party?`Titre <b>${r.n} / ${BT.total}</b>`:'⚡ Tout le monde joue'}</span><span>${quiz?`⏱ ${BT.sec} s pour répondre`:`${th.e} ${esc(th.n)}${BT.fb?' · catalogue de secours':''}`}</span></div>`;
   const spin=(r.phase==='play'&&r.buzz<0)||r.phase==='reveal';
-  const vinyl=`<div class="vinyl${spin?' spin':''}">${r.phase==='reveal'&&r.song.cover?`<img src="${esc(r.song.cover)}" alt="">`:''}</div>`;
+  const disc=quiz?`<div class="qz-ico${r.phase==='play'&&r.buzz<0?' on':''}">${BT.ico}</div>`
+    :`<div class="vinyl${spin?' spin':''}">${r.phase==='reveal'&&r.song.cover?`<img src="${esc(r.song.cover)}" alt="">`:''}</div>`;
+  const el=r.phase==='play'?Math.max(0,((r.buzz>=0?r.pauseAt:performance.now())-r.t0)/1000):0;
+  const buzzMsg=r.phase==='play'&&r.buzz>=0?`<p class="bt-msg">${esc(c[r.buzz])} a buzzé !<small>Plus que <span data-btv="bleft">${r.bleft}</span> s pour choisir</small></p>`:'';
   let side='',below='';
-  if(r.phase==='load')side=`<p class="bt-msg">Albatar fouille dans ses vinyles…<small>L'extrait va se lancer tout seul.</small></p>`;
+  if(quiz){
+    side=`<p class="qz-q">${esc(r.q||'')}</p>`;
+    if(r.phase==='read')side+=`<p class="bt-msg"><small>${net?'Les réponses arrivent sur vos téléphones…':'Écoutez bien, les buzzers arrivent…'}</small></p>`;
+    else if(r.phase==='play')side+=btClock(r,el)+buzzMsg;
+    else if(r.phase==='reveal')side+=`<div class="bt-song"><small>La bonne réponse</small><b>${esc(r.answer)}</b></div>`;
+  }
+  else if(r.phase==='load')side=`<p class="bt-msg">Albatar fouille dans ses vinyles…<small>L'extrait va se lancer tout seul.</small></p>`;
   else if(r.phase==='error')side=`<p class="bt-msg">Pas de musique trouvée<small>Il faut internet pour les extraits. Vérifie la connexion.</small></p><button type="button" class="bt-next" data-btact="retry">Réessayer</button><button type="button" class="ghostbtn" data-btact="quit">${BT.party?'Arrêter le blind test':'Passer au tour suivant'}</button>`;
   else if(r.phase==='count')side=`<div class="bt-count" data-btv="cd">${r.cd}</div><p class="bt-msg"><small>Prêts ? L'extrait arrive…</small></p>`;
   else if(r.phase==='blocked')side=`<p class="bt-msg">Le navigateur bloque le son<small>Touchez le bouton pour lancer l'extrait.</small></p><button type="button" class="bt-next" data-btact="play">▶ Lancer l'extrait</button>`;
-  else if(r.phase==='play'){
-    const el=Math.max(0,((r.buzz>=0?r.pauseAt:performance.now())-r.t0)/1000);
-    side=`<div class="bt-eq${r.buzz<0?' on':''}">${'<i></i>'.repeat(12)}</div><div class="bt-clock"><div class="bt-time"><i class="run${r.buzz>=0?' paused':''}" style="--d:${BT_SEC}s;animation-delay:-${el.toFixed(2)}s"></i></div><span class="bt-left${r.left<=5?' low':''}" data-btv="left">${r.left}</span></div>`;
-    if(r.buzz>=0)side+=`<p class="bt-msg">${esc(c[r.buzz])} a buzzé !<small>Plus que <span data-btv="bleft">${r.bleft}</span> s pour choisir</small></p>`;
-  }
+  else if(r.phase==='play')side=`<div class="bt-eq${r.buzz<0?' on':''}">${'<i></i>'.repeat(12)}</div>`+btClock(r,el)+buzzMsg;
   else if(r.phase==='reveal')side=`<div class="bt-song"><b>${esc(r.song.t)}</b><small>${esc(r.song.a)}${r.song.y?' · '+r.song.y:''}</small></div>`;
   if(r.phase==='play'&&(net||r.buzz>=0)){
     const btn=!net&&r.buzz>=0;
@@ -2013,16 +2047,16 @@ function btRender(){
       return btChoiceHTML(x,i,'bt-ch'+(i===r.ok?' ok':' no'),'',who?`<span class="who">${who}</span>`:'')}).join('')}</div>`;
   }
   if(r.phase==='play'){
-    if(net)below+=`<div class="bt-players">${c.map((n,i)=>`<span class="bt-p${r.ans[i]?' done':''}${btOnline(i)?'':' off'}">${esc(n)}</span>`).join('')}</div><p class="bt-note">Répondez sur vos téléphones : le plus rapide prend 3 points, le 2e 2 points, les autres 1 point.</p>`;
-    else if(r.buzz<0)below+=`<div class="bt-buzzers">${c.map((n,i)=>`<button type="button" class="bt-bz" data-btbuzz="${i}" style="--k:${BT_PCOL[i%8]}"${r.out.includes(i)?' disabled':''}><small>${r.out.includes(i)?'ÉLIMINÉ':'BUZZER'}</small>${esc(n)}</button>`).join('')}</div><p class="bt-note">Tu reconnais ? Buzze ! Les 4 titres s'affichent au buzz. Une erreur et tu es éliminé pour ce titre.</p>`;
+    if(net)below+=`<div class="bt-players">${c.map((n,i)=>`<span class="bt-p${r.ans[i]?' done':''}${btOnline(i)?'':' off'}">${esc(n)}</span>`).join('')}</div><p class="bt-note">Répondez sur vos téléphones : ${btRule()}.</p>`;
+    else if(r.buzz<0)below+=`<div class="bt-buzzers">${c.map((n,i)=>`<button type="button" class="bt-bz" data-btbuzz="${i}" style="--k:${BT_PCOL[i%8]}"${r.out.includes(i)?' disabled':''}><small>${r.out.includes(i)?'ÉLIMINÉ':'BUZZER'}</small>${esc(n)}</button>`).join('')}</div><p class="bt-note">${quiz?'Tu sais ? Buzze ! Les 4 réponses s\'affichent au buzz.':'Tu reconnais ? Buzze ! Les 4 titres s\'affichent au buzz.'} Une erreur et tu es éliminé pour cette ${quiz?'question':'manche'}.</p>`;
   }
   if(r.phase==='reveal'){
     const rows=c.map((n,i)=>({i,n,a:r.ans[i]})).filter(x=>x.a).sort((x,y)=>(r.pts[y.i]||0)-(r.pts[x.i]||0)||x.a.ms-y.a.ms);
-    below+=rows.length?`<ol class="bt-res">${rows.map(x=>{const p=r.pts[x.i]||0;return `<li class="${p===BT_PTS[0]?'win':''}"><span class="nm">${p===BT_PTS[0]?'⚡ ':''}${esc(x.n)}</span><span class="tm">${x.a.c<0?'trop tard':(x.a.ms/1000).toFixed(1).replace('.',',')+' s'}</span><span class="pp${p?'':' z'}">${p?'+'+p:'✗'}</span></li>`}).join('')}</ol>`:`<p class="bt-note">Personne n'a répondu.</p>`;
+    below+=rows.length?`<ol class="bt-res">${rows.map(x=>{const p=r.pts[x.i]||0;return `<li class="${p===BT.pts[0]?'win':''}"><span class="nm">${p===BT.pts[0]?'⚡ ':''}${esc(x.n)}</span><span class="tm">${x.a.c<0?'trop tard':(x.a.ms/1000).toFixed(1).replace('.',',')+' s'}</span><span class="pp${p?'':' z'}">${p?'+'+p:'✗'}</span></li>`}).join('')}</ol>`:`<p class="bt-note">Personne n'a répondu.</p>`;
     below+=`<button type="button" class="bt-next" data-btact="next">${BT.done<BT.total?'Titre suivant':BT.party?'Voir le classement':'Tour suivant'} · <span data-btv="auto">${r.auto}</span> s</button>`;
   }
   if(BT.party&&r.phase!=='error')below+=`<button type="button" class="redraw" data-btact="quit">Arrêter le blind test et voir le classement</button>`;
-  $('#sheetIn').innerHTML=`${miniScores()}${hostHTML(true)}${head}<div class="bt">${top}<div class="bt-stage">${vinyl}<div class="bt-side">${side}</div></div>${below}</div>`;
+  $('#sheetIn').innerHTML=`${miniScores()}${hostHTML(true)}${head}<div class="bt">${top}<div class="bt-stage${quiz?' qz':''}">${disc}<div class="bt-side">${side}</div></div>${below}</div>`;
   try{if(voiceOn&&hasTTS&&speechSynthesis.speaking)talking(true)}catch(e){}
 }
 function btUpd(){
@@ -2042,30 +2076,35 @@ $('#sheet').addEventListener('click',e=>{
 /* ---- vue téléphone du blind test ---- */
 function btViewFor(slot){
   const r=BT&&BT.r;if(!r)return {phase:'load',k:''};
-  const v={phase:r.phase,n:r.n,total:BT.party?BT.total:0,theme:BT.theme.e+' '+BT.theme.n,k:r.k,cd:r.cd,left:r.left};
+  const v={phase:r.phase,n:r.n,total:BT.party?BT.total:0,theme:BT.quiz?`⏱ ${BT.sec} s`:BT.theme.e+' '+BT.theme.n,k:r.k,cd:r.cd,left:r.left,sec:BT.sec,top:BT.pts[0],
+    role:BT.quiz?`⚡ ${BT.cat.name} : tout le monde joue !`:'🎵 Blind test : tout le monde joue !'};
+  if(BT.quiz){v.quiz=1;v.q=r.q;v.ico=BT.ico}
   if(r.phase==='play'||r.phase==='reveal')v.choices=r.choices;
   const a=r.ans[slot];if(a)v.mine={c:a.c,ms:Math.round(a.ms)};
-  if(r.phase==='reveal'){v.ok=r.ok;v.song={t:r.song.t,a:r.song.a,y:r.song.y||'',cover:r.song.cover||''};v.pts=r.pts[slot]||0;v.auto=r.auto;v.last=BT.done>=BT.total}
+  if(r.phase==='reveal'){v.ok=r.ok;v.song=BT.quiz?{t:r.answer,a:'',lbl:'La bonne réponse'}:{t:r.song.t,a:r.song.a,y:r.song.y||'',cover:r.song.cover||''};v.pts=r.pts[slot]||0;v.auto=r.auto;v.last=BT.done>=BT.total}
   return v;
 }
 function btPhoneHTML(v){
   const top=`<div class="bt-top"><span>${v.total?`Titre <b>${v.n} / ${v.total}</b>`:'⚡ Tout le monde joue'}</span><span>${esc(v.theme||'')}</span></div>`;
-  const stage=(spin,side,img)=>`<div class="bt-stage"><div class="vinyl${spin?' spin':''}">${img?`<img src="${esc(img)}" alt="">`:''}</div><div class="bt-side">${side}</div></div>`;
+  const stage=(spin,side,img)=>v.quiz?`<div class="bt-stage qz"><div class="qz-ico${spin&&v.phase==='play'?' on':''}">${v.ico}</div><div class="bt-side"><p class="qz-q">${esc(v.q||'')}</p>${side}</div></div>`
+    :`<div class="bt-stage"><div class="vinyl${spin?' spin':''}">${img?`<img src="${esc(img)}" alt="">`:''}</div><div class="bt-side">${side}</div></div>`;
+  const eq=v.quiz?'':`<div class="bt-eq on">${'<i></i>'.repeat(8)}</div>`;
   const t=ms=>(ms/1000).toFixed(1).replace('.',',');
   let h='';
   if(v.phase==='load')h=stage(false,`<p class="bt-msg">Albatar cherche le disque…<small>Garde les yeux sur ton téléphone !</small></p>`);
   else if(v.phase==='error')h=stage(false,`<p class="bt-msg">Pas de musique trouvée<small>L'écran principal n'arrive pas à charger l'extrait.</small></p>`);
   else if(v.phase==='blocked')h=stage(false,`<p class="bt-msg">Son bloqué sur l'écran principal<small>Touchez ▶ sur l'écran principal.</small></p>`);
   else if(v.phase==='count')h=stage(false,`<div class="bt-count">${v.cd}</div><p class="bt-msg"><small>Prépare tes doigts…</small></p>`);
+  else if(v.phase==='read')h=stage(false,`<p class="bt-msg"><small>Les 4 réponses arrivent, prépare tes doigts…</small></p>`);
   else if(v.phase==='play'){
-    h=stage(true,`<div class="bt-eq on">${'<i></i>'.repeat(8)}</div><div class="bt-clock"><div class="bt-time"><i style="transform:scaleX(${(v.left||0)/BT_SEC});transition:transform 1s linear"></i></div><span class="bt-left${v.left<=5?' low':''}">${v.left}</span></div>`);
+    h=stage(true,`${eq}<div class="bt-clock"><div class="bt-time"><i style="transform:scaleX(${(v.left||0)/(v.sec||BT_SEC)});transition:transform 1s linear"></i></div><span class="bt-left${v.left<=5?' low':''}">${v.left}</span></div>`);
     if(v.mine)h+=`<p class="bt-banner" style="background:linear-gradient(100deg,var(--violet),var(--pink));color:#fff">Réponse ${'ABCD'[v.mine.c]} verrouillée<small>en ${t(v.mine.ms)} s · réponse au signal !</small></p><div class="bt-choices bt-small">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch'+(i===v.mine.c?' mine':' no'),'')).join('')}</div>`;
     else h+=`<div class="bt-choices">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch',`data-btc="${i}" data-btk="${esc(v.k)}"`)).join('')}</div>`;
   }
   else if(v.phase==='reveal'){
     const p=v.pts||0;
-    h=v.mine?(p?`<p class="bt-banner">+${p} point${p>1?'s':''} !<small>${p===BT_PTS[0]?'Le plus rapide !':'Bien joué !'} (${t(v.mine.ms)} s)</small></p>`:`<p class="bt-banner z">Raté !<small>${v.mine.c<0?'Trop tard…':'Mauvaise réponse'}</small></p>`):`<p class="bt-banner z">Trop tard !<small>Pas de réponse cette fois</small></p>`;
-    h+=stage(true,`<div class="bt-song"><b>${esc(v.song.t)}</b><small>${esc(v.song.a)}${v.song.y?' · '+v.song.y:''}</small></div>`,v.song.cover);
+    h=v.mine?(p?`<p class="bt-banner">+${p} point${p>1?'s':''} !<small>${p===v.top?'Le plus rapide !':'Bien joué !'} (${t(v.mine.ms)} s)</small></p>`:`<p class="bt-banner z">Raté !<small>${v.mine.c<0?'Trop tard…':'Mauvaise réponse'}</small></p>`):`<p class="bt-banner z">Trop tard !<small>Pas de réponse cette fois</small></p>`;
+    h+=stage(true,v.quiz?`<div class="bt-song"><small>${v.song.lbl}</small><b>${esc(v.song.t)}</b></div>`:`<div class="bt-song"><b>${esc(v.song.t)}</b><small>${esc(v.song.a)}${v.song.y?' · '+v.song.y:''}</small></div>`,v.song.cover);
     h+=`<div class="bt-choices bt-small">${v.choices.map((x,i)=>btChoiceHTML(x,i,'bt-ch'+(i===v.ok?' ok':' no')+(v.mine&&v.mine.c===i?' mine':''),'')).join('')}</div>`;
     h+=`<button type="button" class="bt-next" data-btnext="1">${v.last?'Continuer':'Titre suivant'} · ${v.auto} s</button>`;
   }

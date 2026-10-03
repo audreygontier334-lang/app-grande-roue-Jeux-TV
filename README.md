@@ -26,6 +26,14 @@ Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette
 - **Thèmes** : Tubes cultes (notre sélection de plus de 100 titres), Hits du moment, Années 70-80, 90, 2000, 2010, Chanson française, Rap français, Disney, Génériques. Sauf Tubes cultes, les thèmes vont chercher une playlist Deezer en direct. Si Deezer ne répond pas, le jeu se rabat sur le catalogue intégré.
 - Si le navigateur bloque le son, un bouton ▶ apparaît sur l'écran principal.
 
+## Champion et Millions : tout le monde joue aussi
+
+Questions pour un champion et Qui veut gagner des millions fonctionnent comme le blind test, sans arbitre :
+- Albatar lit la question à voix haute (ou on la lit à l'écran si la voix est coupée), puis les 4 réponses s'ouvrent pour tout le monde.
+- 12 secondes pour Champion, 20 secondes pour Millions.
+- Le plus rapide avec la bonne réponse prend 2 points, les autres bonnes réponses 1 point.
+- Plusieurs écrans : chacun répond sur son téléphone. Un seul téléphone : un buzzer par joueur, les 4 réponses s'affichent au buzz, une erreur élimine pour la question.
+
 ## Les bonus Quitte ou Double
 
 Chaque joueur a 2 bonus en partie courte, 3 en normale et sans fin, 4 en longue. À son tour, avant de tourner, il peut en jouer un : une roue décide de l'effet (vol ou don de points, stylo entre les dents, échange d'équipe, 2 jeux imposés pendant 3 tours, gages, points doublés, pile ou face, tour bonus, bouclier, jackpot).
