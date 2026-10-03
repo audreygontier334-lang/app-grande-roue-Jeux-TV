@@ -43,7 +43,7 @@ Une case spéciale de la roue : le joueur affronte un adversaire tiré au sort s
 - **Énigme piège** : logique, question ambiguë ou piège, 4 réponses, le plus rapide des deux gagne.
 - **GéoDuel** : une phrase indice, la zone (France, Europe ou Monde) et une vraie photo du lieu (chargée depuis Wikipédia), 4 réponses.
 - **Petit bac** : une lettre et 3 catégories au hasard (métier, sport, loisir, chanteur, légume…). Le plus de mots valables gagne, puis le plus rapide. Un mot douteux ? On touche ❌ pour le refuser.
-- **Puissance 4** : chacun son tour, 10 secondes par coup.
+- **Enchères secrètes** : 7 lots (+1 à +5, et deux malus −1 et −2) et 7 jetons chacun (1 à 7, utilisables une seule fois). Les deux joueurs misent en même temps et en secret : le plus gros jeton gagne le bonus, le plus petit ramasse le malus, égalité = lot jeté. Personne ne commence, donc personne n'est avantagé, et la partie dure 2 minutes maximum (12 s par mise).
 - **3 différences** : deux scènes dessinées par le jeu, toutes différentes à chaque partie.
 - **Memory piège** : 6 paires, dont des cartes presque jumelles qui ne diffèrent que par un détail.
 

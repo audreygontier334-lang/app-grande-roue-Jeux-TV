@@ -407,17 +407,29 @@ body.tv .cd-rule{font-size:2.1rem}body.tv .cd-line{font-size:1.8rem}body.tv .cd-
 .diff{display:grid;gap:6px}.diff-l{margin:0;font-weight:900;color:var(--muted);font-size:.85rem}
 .diff-i svg{display:block;width:100%;max-height:30vh;border-radius:14px}
 .diff-t svg{cursor:crosshair;outline:3px solid var(--orange);outline-offset:-3px}
-.p4{display:grid;gap:8px;justify-items:center}
-.p4-turn{margin:0;font-weight:900;font-size:1.1rem;padding:6px 14px;border-radius:99px;border:2px solid var(--k)}
-.p4-drops,.p4-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;width:min(100%,460px)}
-.p4-drops button{padding:8px 0;border-radius:10px;background:var(--k);color:#031018;font-weight:900}
-.p4-drops button:disabled{opacity:.2}
-.p4-grid{padding:8px;border-radius:16px;background:#1f5fd6;box-sizing:border-box}
-.p4-grid span{aspect-ratio:1;border-radius:50%;background:#02060d;box-shadow:inset 0 3px 6px #000a}
-.p4-grid span[data-on]{background:radial-gradient(circle at 40% 35%,#fff9,transparent 55%),var(--k);animation:p4drop .3s ease-in}
-.p4-grid span.w{outline:3px solid #fff;outline-offset:-3px}
-@keyframes p4drop{from{transform:translateY(-120px)}}
-.p4-leg{display:flex;gap:14px;font-weight:900}.p4-leg i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--k);margin-right:6px;vertical-align:-2px}
+
+.bid{display:grid;gap:12px;justify-items:center}
+.bid-n{margin:0;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-size:.8rem}
+.lot{display:grid;justify-items:center;gap:2px;min-width:150px;padding:12px 18px;border-radius:20px;border:3px solid;animation:cdpop .4s cubic-bezier(.2,1.5,.4,1)}
+.lot b{font-family:var(--display);font-weight:400;font-size:3rem;line-height:1}.lot small{font-weight:900;font-size:.8rem}
+.lot.up{border-color:var(--gold);color:var(--gold);background:rgba(255,209,102,.1);box-shadow:0 0 30px rgba(255,209,102,.25)}
+.lot.down{border-color:#ff5577;color:#ff8aa5;background:rgba(255,85,119,.1);box-shadow:0 0 30px rgba(255,85,119,.25)}
+.bid-who{margin:0;font-weight:900;font-size:1.1rem;text-align:center}
+.bid-clock{margin:0;font-family:var(--display);color:var(--gold);font-size:1.4rem}
+.coins{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.coin{width:56px;aspect-ratio:1;border-radius:50%;display:inline-grid;place-items:center;font-family:var(--display);font-size:1.6rem;color:#140f3a;background:radial-gradient(circle at 35% 30%,#fff6c9,#ffd166 45%,#c9952a);box-shadow:0 5px 0 #8a6416,inset 0 0 0 3px rgba(255,255,255,.35);padding:0}
+button.coin:active,button.coin.on{transform:translateY(4px);box-shadow:0 1px 0 #8a6416}
+.coin.mini{width:24px;font-size:.75rem;box-shadow:none}
+.coin.big{width:84px;font-size:2.6rem;outline:4px solid var(--k);outline-offset:3px;animation:coinflip .5s ease-out}
+@keyframes coinflip{from{transform:rotateY(90deg)}}
+.bid-show{display:flex;align-items:center;gap:18px}.bid-show>div{display:grid;justify-items:center;gap:6px;font-weight:900}.bid-show>span{color:var(--muted);font-weight:900}
+.bid-res{margin:0;font-weight:900;font-size:1.15rem;text-align:center}.bid-res.big{font-family:var(--display);font-weight:400;font-size:1.8rem;color:var(--gold)}
+.bid-ps{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.bid-p{display:grid;gap:6px;padding:10px;border-radius:16px;background:#0b1325;border:2px solid var(--k);min-width:0}
+.bid-h{display:flex;justify-content:space-between;gap:6px;font-weight:900}.bid-h b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bid-h span{color:var(--gold);font-family:var(--display);font-weight:400}
+.bid-got{display:flex;flex-wrap:wrap;gap:4px;min-height:22px}.bid-got i{font-style:normal;font-weight:900;font-size:.8rem;padding:2px 7px;border-radius:8px}
+.bid-got i.up{background:var(--gold);color:#140f3a}.bid-got i.down{background:#ff5577;color:#fff}.bid-got em{color:var(--muted);font-size:.8rem}
+.bid-hand{display:flex;flex-wrap:wrap;gap:3px}
 .confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
 </style>
 </head>
@@ -490,7 +502,7 @@ body.tv .cd-rule{font-size:2.1rem}body.tv .cd-line{font-size:1.8rem}body.tv .cd-
         <li>Blind Test : tout le monde joue, sans arbitre. L'extrait se lance tout seul, chacun trouve le bon titre parmi 4. Le plus rapide prend 3 points, le 2e 2 points, les autres bons 1 point. Sur un seul téléphone, chacun a son buzzer et les titres s'affichent au buzz.</li>
         <li>Questions pour un champion et Qui veut gagner des millions se jouent pareil : tout le monde répond, le plus rapide prend 2 points, les autres bonnes réponses 1 point.</li>
         <li>Motus et Slam aussi : chacun tape le mot, le jeu vérifie tout seul.</li>
-        <li>La case Duel : face-à-face contre un adversaire tiré au sort (énigme piège, GéoDuel, petit bac, Puissance 4, 3 différences ou Memory piège). Le gagnant prend 2 points.</li>
+        <li>La case Duel : face-à-face contre un adversaire tiré au sort (énigme piège, GéoDuel, petit bac, Enchères secrètes, 3 différences ou Memory piège). Le gagnant prend 2 points.</li>
         <li>Blind Test Party : que du blind test, 10, 20 ou 30 titres d'affilée, avec le thème de ton choix (années 80, 90, rap français, Disney, hits du moment…).</li>
       </ul>
     </details>
@@ -1714,7 +1726,7 @@ function hostMsg(c,m){
   const slot=NET.players.indexOf(p);
   if(m.t==='spin'){if(slot===S.turn&&$('#sheet').hidden&&!$('#game').hidden&&!spinning)$('#spin').click();return}
   if(m.t==='bonus'){if(slot===S.turn&&$('#sheet').hidden&&!$('#game').hidden&&!spinning)openBonus();return}
-  if(m.t==='dg'){if(!DG||!cur||!cur.dg)return;if(m.next){dgAdvance();return}if(m.p4!==undefined){p4Play(slot,+m.p4);return}if(m.res&&m.k===DG.k)dgResult(slot,m.res);return}
+  if(m.t==='dg'){if(!DG||!cur||!cur.dg)return;if(m.next){dgAdvance();return}if(m.bid!==undefined){bidPick(slot,+m.bid);return}if(m.res&&m.k===DG.k)dgResult(slot,m.res);return}
   if(m.t==='bt'){if(!BT||!cur||!cur.bt)return;if(m.next){btAdvance()}else if(m.w!==undefined)btWord(slot,String(m.w).slice(0,40),String(m.k||''));else btAnswer(slot,+m.c,String(m.k||''));return}
   if(m.t==='answer'){
     if($('#sheet').hidden)return;resetAnswersIfNew();
@@ -1923,7 +1935,7 @@ $('#phPlay').addEventListener('click',e=>{
   if(b.dataset.btc!==undefined){phSend({t:'bt',c:+b.dataset.btc,k:b.dataset.btk});if(navigator.vibrate)navigator.vibrate(50);$('#phPanel').querySelectorAll('.bt-ch').forEach(x=>{x.classList.add(x===b?'mine':'no');x.disabled=true});return}
   if(b.dataset.btnext!==undefined){phSend({t:'bt',next:1});return}
   if(b.closest('#phTask'))return;
-  if(b.dataset.p4!==undefined){phSend({t:'dg',p4:+b.dataset.p4});if(navigator.vibrate)navigator.vibrate(30);return}
+  if(b.dataset.bid!==undefined){phSend({t:'dg',bid:+b.dataset.bid});if(navigator.vibrate)navigator.vibrate(30);b.classList.add('on');return}
   const sel={...b.dataset};if(b.id)sel.id=b.id;
   const m={t:'click',sel};
   if(b.dataset.codeSubmit!==undefined)m.vals=[...$('#phPanel').querySelectorAll('[data-code]')].map(x=>x.value);
@@ -2326,13 +2338,13 @@ function btPhoneInput(v){
    - Énigme piège et GéoDuel : 4 réponses, le plus rapide des deux gagne (moteur commun)
    - Petit bac, 3 différences, Memory piège : chacun fait l'épreuve, le meilleur gagne
      (plusieurs écrans : en même temps sur chaque téléphone ; un seul téléphone : l'un après l'autre)
-   - Puissance 4 : chacun son tour sur la même grille
+   - Enchères secrètes : les deux misent en même temps, donc personne n'a l'avantage
    ===================================================================== */
 const DGAMES=[
  {id:'piege',n:'Énigme piège',e:'🧠',rule:"Logique, piège ou question ambiguë : le plus rapide des deux avec la bonne réponse gagne !"},
  {id:'geo',n:'GéoDuel',e:'🌍',rule:"Un indice, une photo : trouvez où on est ! Le plus rapide des deux gagne."},
  {id:'bac',n:'Petit bac',e:'📝',rule:"Une lettre, 3 catégories : le plus de mots valables, puis le plus rapide, gagne !"},
- {id:'p4',n:'Puissance 4',e:'🔴',rule:"Chacun son tour : aligne 4 jetons en ligne, colonne ou diagonale. 10 s par coup !"},
+ {id:'bid',n:'Enchères secrètes',e:'🪙',rule:"7 lots, 7 jetons chacun, tout le monde mise en même temps : le plus gros jeton gagne les bonus, le plus petit ramasse les malus !"},
  {id:'diff',n:'3 différences',e:'🔍',rule:"Trouve les 3 différences entre les deux images, plus vite que l'autre !"},
  {id:'memory',n:'Memory piège',e:'🃏',rule:"Retrouve toutes les paires au plus vite. Gare aux jumeaux presque identiques !"}
 ];
@@ -2501,12 +2513,12 @@ function dgStart(g,ps){
   cur={cat:DUELCAT(g),item:null,dg:true};
   DG={g,ps,net:btNet(),k:Math.random().toString(36).slice(2,8),res:{},phase:'',i:0,auto:0};
   $('#sheet').style.setProperty('--c',css('--orange'));$('#sheet').hidden=false;$('#backdrop').hidden=false;
-  if(g.id==='p4'){p4Start();return}
+  if(g.id==='bid'){bidStart();return}
   if(DG.net){DG.data=TASKS[g.id].gen();DG.phase='run';DG.t0=performance.now();dgRender();
     DG.iv=setInterval(()=>{dgUpd();if(performance.now()-DG.t0>(TASKS[g.id].lim+6)*1000)DG.ps.forEach(i=>{if(!DG.res[i])dgResult(i,{score:0,max:0,ms:TASKS[g.id].lim*1000,late:true})})},500)}
   else{DG.phase='ready';dgRender()}
 }
-function dgStop(){if(!DG)return;clearInterval(DG.iv);clearInterval(DG.p4iv);if(dgTask)dgTask.stop();dgTask=null;DG=null}
+function dgStop(){if(!DG)return;clearInterval(DG.iv);clearInterval(DG.biv);clearTimeout(DG.to);if(dgTask)dgTask.stop();dgTask=null;DG=null}
 function dgBetter(a,b){return (a.score-b.score)||(b.ms-a.ms)}
 function bacCheck(i){
   const r=DG.res[i],d=DG.data[i]||DG.data,seen=new Set();r.ok=(r.ans||[]).map((w,j)=>{const n=normW(w);const v=n.length>=2&&n[0]===d.l&&!seen.has(n)&&!(r.rej&&r.rej[j]);seen.add(n);return v});
@@ -2520,12 +2532,12 @@ function dgResult(slot,res,quiet){
   if(DG.ps.every(i=>DG.res[i]))dgReveal();else if(!quiet)dgRender();
 }
 function dgReveal(){
-  clearInterval(DG.iv);clearInterval(DG.p4iv);DG.phase='reveal';DG.auto=DG.g.id==='bac'?15:9;dgRender();
+  clearInterval(DG.iv);clearInterval(DG.biv);clearTimeout(DG.to);DG.phase='reveal';DG.auto=DG.g.id==='bac'?15:9;dgRender();
   const w=dgWinner();if(w>=0){SFX.win();confetti(90)}else SFX.none();
   DG.iv=setInterval(()=>{DG.auto--;dgUpd();if(DG.auto<=0)dgAdvance()},1000);
 }
 function dgWinner(){
-  if(DG.g.id==='p4')return DG.win;
+  if(DG.g.id==='bid')return DG.win;
   const [a,b]=DG.ps,ra=DG.res[a],rb=DG.res[b];
   if(!ra.score&&!rb.score)return -1;
   const c=dgBetter(ra,rb);return c>0?a:c<0?b:-2;
@@ -2542,12 +2554,12 @@ const fmtS=ms=>(ms/1000).toFixed(1).replace('.',',')+' s';
 function dgRender(){
   if(!DG||!cur||!cur.dg)return;
   const g=DG.g,c=comps(),[a,b]=DG.ps;
-  let h=`${miniScores()}<div class="cathead"><h2 class="cat" style="font-family:'Bangers',var(--display);text-transform:uppercase">${g.e} ${esc(g.n)}</h2><span class="pts">2 pts</span></div><div class="bt-top"><span>⚔️ ${esc(c[a])} contre ${esc(c[b])}</span><span>${g.id==='p4'?'10 s par coup':'⏱ '+TASKS[g.id].lim+' s max'}</span></div>`;
-  if(g.id==='p4')h+=p4HTML(true);
+  let h=`${miniScores()}<div class="cathead"><h2 class="cat" style="font-family:'Bangers',var(--display);text-transform:uppercase">${g.e} ${esc(g.n)}</h2><span class="pts">2 pts</span></div><div class="bt-top"><span>⚔️ ${esc(c[a])} contre ${esc(c[b])}</span><span>${g.id==='bid'?BID_SEC+' s par mise':'⏱ '+TASKS[g.id].lim+' s max'}</span></div>`;
+  if(g.id==='bid')h+=bidHTML(true);
   else if(DG.phase==='ready'){const p=DG.ps[DG.i];h+=`<div class="dg-ready"><p class="cd-tag" style="--cc:${BT_PCOL[p%8]}">${DG.i?'Au tour de':'On commence par'}</p><h3>${esc(c[p])}</h3><p class="bt-note">${DG.i?`${esc(c[DG.ps[0]])} a fait ${DG.res[DG.ps[0]].score} / ${DG.res[DG.ps[0]].max} en ${fmtS(DG.res[DG.ps[0]].ms)}. À battre !`:'Passe-lui le téléphone. Les autres, pas de souffle dans le cou !'}</p><button type="button" class="bt-next" data-dg="go">Je suis prêt, GO !</button></div>`}
   else if(DG.phase==='run'&&!DG.net)h+=`<div id="dgTask"></div>`;
   else if(DG.phase==='run')h+=`<div class="dg-stat">${DG.ps.map(i=>{const r=DG.res[i];return `<div class="dg-p${r?' done':''}" style="--k:${BT_PCOL[i%8]}"><b>${esc(c[i])}</b><span>${r?`a fini : ${r.score} / ${r.max} en ${fmtS(r.ms)}`:'joue sur son téléphone…'}</span></div>`}).join('')}<p class="bt-note">Temps écoulé : <b data-dgt>0</b> s</p></div>`;
-  if(DG.phase==='reveal'&&g.id!=='p4'){
+  if(DG.phase==='reveal'&&g.id!=='bid'){
     const w=dgWinner();
     h+=`<div class="dg-stat">${DG.ps.map(i=>{const r=DG.res[i];return `<div class="dg-p${i===w?' win':''}" style="--k:${BT_PCOL[i%8]}"><b>${i===w?'🏆 ':''}${esc(c[i])}</b><span>${r.score} / ${r.max} · ${r.late?'temps écoulé':fmtS(r.ms)}</span>${g.id==='bac'?`<ul class="bac-r">${(r.ans||[]).map((x,j)=>`<li class="${r.ok[j]?'ok':'ko'}"><small>${esc((DG.data[i]||DG.data).cats[j])}</small> ${esc(x||'—')} <button type="button" data-rej="${i}:${j}" title="Contester">${r.ok[j]?'❌':'↩'}</button></li>`).join('')}</ul>`:''}</div>`}).join('')}</div>`;
     if(g.id==='bac')h+=`<p class="bt-note">Un mot douteux ? Touchez ❌ pour le refuser, le résultat se met à jour.</p>`;
@@ -2559,51 +2571,81 @@ function dgRender(){
 function dgUpd(){
   if(!DG)return;const e=$('#sheetIn [data-dga]');if(e)e.textContent=DG.auto;
   const t=$('#sheetIn [data-dgt]');if(t&&DG.t0)t.textContent=Math.floor((performance.now()-DG.t0)/1000);
-  const m=$('#sheetIn [data-p4t]');if(m)m.textContent=DG.mleft;
+  const m=$('#sheetIn [data-dgm]');if(m)m.textContent=DG.mleft;
 }
 $('#sheet').addEventListener('click',e=>{
   if(!DG||!cur||!cur.dg)return;const b=e.target.closest('button');if(!b)return;
   if(b.dataset.dg==='go'&&DG.phase==='ready'){const p=DG.ps[DG.i];DG.data=DG.data||{};DG.data[p]=TASKS[DG.g.id].gen();DG.phase='run';SFX.go();dgRender();return}
   if(b.dataset.dg==='next'){dgAdvance();return}
   if(b.dataset.rej&&DG.phase==='reveal'){const [i,j]=b.dataset.rej.split(':').map(Number),r=DG.res[i];r.rej=r.rej||[];r.rej[j]=!r.rej[j];bacCheck(i);dgRender();return}
-  if(b.dataset.p4!==undefined&&!DG.net){p4Play(DG.ps[DG.who],+b.dataset.p4);return}
+  if(b.dataset.bid!==undefined&&!DG.net){bidPick(bidPicker(),+b.dataset.bid);return}
+  if(b.dataset.dg==='bidgo'&&DG.pass){DG.pass=false;bidClock();dgRender();return}
 });
 
-/* ---------- Puissance 4 ---------- */
-const P4C=7,P4R=6;
-function p4Start(){DG.b=Array(P4C*P4R).fill(-1);DG.who=Math.random()<.5?0:1;DG.phase='p4';DG.win=-1;DG.line=[];p4Clock();dgRender()}
-function p4Clock(){clearInterval(DG.p4iv);DG.mleft=10;DG.p4iv=setInterval(()=>{DG.mleft--;dgUpd();if(DG.mleft<=3&&DG.mleft>0)SFX.tick();if(DG.mleft<=0){const cols=[...Array(P4C).keys()].filter(c=>DG.b[c]<0);p4Play(DG.ps[DG.who],pick(cols))}},1000)}
-function p4Play(slot,col){
-  if(!DG||DG.phase!=='p4'||DG.ps[DG.who]!==slot||!(col>=0&&col<P4C))return;
-  let r=P4R-1;while(r>=0&&DG.b[r*P4C+col]>=0)r--;if(r<0)return;
-  DG.b[r*P4C+col]=DG.who;tone(DG.who?520:780,0,.12,.07,'triangle');
-  const line=p4Line(r,col,DG.who);
-  if(line){DG.win=slot;DG.line=line;clearInterval(DG.p4iv);dgReveal();return}
-  if(DG.b.every(x=>x>=0)){DG.win=-1;clearInterval(DG.p4iv);dgReveal();return}
-  DG.who^=1;p4Clock();dgRender();
+/* ---------- Enchères secrètes : les deux misent en même temps, personne n'a l'avantage ----------
+   7 lots (+1 à +5, −1, −2), 7 jetons chacun (1 à 7, une seule fois chacun).
+   Lot positif : le plus gros jeton l'emporte. Malus : le plus petit jeton le ramasse. Égalité : lot défaussé. */
+const BID_LOTS=[1,2,3,4,5,-1,-2],BID_SEC=12;
+function bidStart(){
+  DG.lots=shuffle(BID_LOTS);DG.bi=0;DG.hand={};DG.got={};
+  DG.ps.forEach(i=>{DG.hand[i]=[1,2,3,4,5,6,7];DG.got[i]=[]});
+  DG.phase='bid';bidRound();
 }
-function p4Line(r,c,w){
-  for(const [dr,dc] of [[0,1],[1,0],[1,1],[1,-1]]){
-    const l=[[r,c]];
-    for(const s of [1,-1]){let rr=r+dr*s,cc=c+dc*s;while(rr>=0&&rr<P4R&&cc>=0&&cc<P4C&&DG.b[rr*P4C+cc]===w){l.push([rr,cc]);rr+=dr*s;cc+=dc*s}}
-    if(l.length>=4)return l.map(([a,b])=>a*P4C+b);
+function bidRound(){DG.pick={};DG.sub=0;DG.pass=false;DG.last=null;bidClock();dgRender()}
+const bidPicker=()=>DG.ps[DG.sub];
+function bidClock(){
+  clearInterval(DG.biv);DG.mleft=BID_SEC;
+  DG.biv=setInterval(()=>{if(!DG||DG.pass)return;DG.mleft--;dgUpd();if(DG.mleft<=3&&DG.mleft>0)SFX.tick();
+    if(DG.mleft<=0)(DG.net?DG.ps.filter(i=>DG.pick[i]===undefined):[bidPicker()]).forEach(i=>bidPick(i,pick(DG.hand[i])))},1000);
+}
+function bidPick(slot,v){
+  if(!DG||DG.phase!=='bid'||!DG.ps.includes(slot)||DG.pick[slot]!==undefined||!DG.hand[slot].includes(v))return;
+  if(!DG.net&&slot!==bidPicker())return;
+  DG.pick[slot]=v;tone(700,0,.08,.05,'triangle');
+  if(DG.ps.every(i=>DG.pick[i]!==undefined)){bidShow();return}
+  if(!DG.net){DG.sub=1;DG.pass=true}
+  dgRender();
+}
+function bidShow(){
+  clearInterval(DG.biv);
+  const [a,b]=DG.ps,va=DG.pick[a],vb=DG.pick[b],lot=DG.lots[DG.bi];
+  DG.ps.forEach(i=>{DG.hand[i]=DG.hand[i].filter(x=>x!==DG.pick[i])});
+  const w=va===vb?-1:lot>0?(va>vb?a:b):(va<vb?a:b);
+  if(w>=0)DG.got[w].push(lot);
+  DG.last={va,vb,lot,w};DG.phase='show';dgRender();
+  (w<0?SFX.none:lot>0?SFX.ding:SFX.bad)();
+  DG.to=setTimeout(()=>{if(!DG)return;DG.bi++;if(DG.bi>=DG.lots.length){DG.win=bidWinner();dgReveal()}else{DG.phase='bid';bidRound()}},2800);
+}
+const bidPts=i=>DG.got[i].reduce((t,x)=>t+x,0);
+function bidWinner(){const [a,b]=DG.ps,pa=bidPts(a),pb=bidPts(b);return pa===pb?-2:pa>pb?a:b}
+const sgn=v=>(v>0?'+':'−')+Math.abs(v);
+function coinHTML(v,cls,attr){return attr?`<button type="button" class="coin ${cls||''}" ${attr}>${v}</button>`:`<span class="coin ${cls||''}">${v}</span>`}
+function bidHTML(host,slot){
+  const c=comps(),[a,b]=DG.ps,lot=DG.lots[Math.min(DG.bi,DG.lots.length-1)];
+  const side=i=>`<div class="bid-p" style="--k:${BT_PCOL[i%8]}"><div class="bid-h"><b>${esc(c[i])}</b><span>${bidPts(i)} pts</span></div><div class="bid-got">${DG.got[i].map(x=>`<i class="${x>0?'up':'down'}">${sgn(x)}</i>`).join('')||'<em>aucun lot</em>'}</div><div class="bid-hand">${DG.hand[i].map(v=>coinHTML(v,'mini')).join('')}</div></div>`;
+  const btns=i=>`<div class="coins">${DG.hand[i].map(v=>coinHTML(v,'',`data-bid="${v}"`)).join('')}</div>`;
+  const clock=`<p class="bid-clock">⏱ <span data-dgm>${DG.mleft}</span> s</p>`;
+  let mid='';
+  if(DG.phase==='bid'){
+    if(host&&!DG.net){const p=bidPicker();
+      mid=DG.pass?`<div class="dg-ready"><p class="bt-note">${esc(c[a])} a misé en secret.</p><h3>${esc(c[p])}</h3><p class="bt-note">À toi le téléphone, ${esc(c[a])} ne regarde pas !</p><button type="button" class="bt-next" data-dg="bidgo">À moi de miser</button></div>`
+        :`<p class="bid-who">🤫 <b>${esc(c[p])}</b>, mise un jeton en secret</p>${clock}${btns(p)}`}
+    else if(host)mid=`<div class="bt-players">${DG.ps.map(i=>`<span class="bt-p${DG.pick[i]!==undefined?' done':''}">${esc(c[i])}</span>`).join('')}</div>${clock}<p class="bt-note">Misez en secret sur vos téléphones !</p>`;
+    else if(DG.ps.includes(slot))mid=DG.pick[slot]!==undefined?`<p class="bt-banner" style="background:linear-gradient(100deg,var(--violet),var(--pink));color:#fff">Tu mises ${DG.pick[slot]}<small>On attend l'adversaire…</small></p>`:`<p class="bid-who">🤫 Mise un jeton en secret</p>${clock}${btns(slot)}`;
+    else mid=`<p class="bt-note">Les duellistes misent en secret…</p>`;
   }
-  return null;
-}
-function p4HTML(host,slot){
-  const c=comps(),p=DG.ps[DG.who],col=i=>BT_PCOL[DG.ps[i]%8];
-  const myTurn=DG.phase==='p4'&&(host?!DG.net:p===slot);
-  const head=DG.phase==='p4'?`<p class="p4-turn" style="--k:${col(DG.who)}">Au tour de <b>${esc(c[p])}</b> · <span data-p4t>${DG.mleft}</span> s</p>`
-    :`<p class="p4-turn" style="--k:${DG.win>=0?BT_PCOL[DG.win%8]:'#8aa7bf'}">${DG.win>=0?`🏆 ${esc(c[DG.win])} aligne 4 !`:'Grille pleine : match nul !'}</p>`;
-  const drops=myTurn?`<div class="p4-drops">${[...Array(P4C).keys()].map(i=>`<button type="button" data-p4="${i}"${DG.b[i]>=0?' disabled':''} style="--k:${col(DG.who)}">▼</button>`).join('')}</div>`:'';
-  return `<div class="p4">${head}${drops}<div class="p4-grid">${DG.b.map((v,i)=>`<span class="${DG.line.includes(i)?'w':''}" style="${v>=0?`--k:${col(v)}`:''}"${v>=0?' data-on':''}></span>`).join('')}</div><div class="p4-leg">${DG.ps.map((s,i)=>`<span style="--k:${col(i)}"><i></i>${esc(c[s])}</span>`).join('')}</div></div>`;
+  else if(DG.last){const L=DG.last;
+    mid=`<div class="bid-show"><div style="--k:${BT_PCOL[a%8]}">${coinHTML(L.va,'big')}<small>${esc(c[a])}</small></div><span>contre</span><div style="--k:${BT_PCOL[b%8]}">${coinHTML(L.vb,'big')}<small>${esc(c[b])}</small></div></div><p class="bid-res">${L.w<0?'Égalité : le lot part à la poubelle !':`${esc(c[L.w])} ${L.lot>0?'remporte':'ramasse'} ${sgn(L.lot)} !`}</p>`}
+  const head=DG.phase==='reveal'?`<p class="bid-res big">${DG.win>=0?`🏆 ${esc(c[DG.win])} gagne ${bidPts(DG.win)} à ${bidPts(DG.win===a?b:a)} !`:`🤝 Égalité, ${bidPts(a)} partout !`}</p>`
+    :`<p class="bid-n">Lot ${DG.bi+1} / ${DG.lots.length}</p><div class="lot ${lot>0?'up':'down'}"><b>${sgn(lot)}</b><small>${lot>0?'Le plus gros jeton gagne':'Le plus petit jeton ramasse le malus'}</small></div>`;
+  return `<div class="bid">${head}${mid}<div class="bid-ps">${side(a)}${side(b)}</div></div>`;
 }
 
 /* ---------- vue téléphone ---------- */
 function dgViewFor(slot){
   const g=DG.g,c=comps(),mine=DG.ps.includes(slot);
   const v={g:g.id,n:g.n,e:g.e,phase:DG.phase,mine,k:DG.k,role:mine?`⚔️ Duel · ${g.n} : ${c[DG.ps[0]]} contre ${c[DG.ps[1]]}`:`👀 Duel ${c[DG.ps[0]]} – ${c[DG.ps[1]]}`};
-  if(g.id==='p4'){v.p4=p4HTML(false,slot);return v}
+  if(g.id==='bid'){v.bid=bidHTML(false,slot);return v}
   if(DG.phase==='run'&&DG.net&&mine&&!DG.res[slot])v.task={k:DG.k+slot,data:DG.data,lim:TASKS[g.id].lim};
   if(DG.res[slot])v.done=DG.res[slot];
   if(DG.phase==='reveal'){const w=dgWinner();v.win=w;v.res=DG.ps.map(i=>({n:c[i],r:DG.res[i],w:i===w}));v.auto=DG.auto}
@@ -2611,7 +2653,7 @@ function dgViewFor(slot){
 }
 function dgPhoneHTML(v){
   let h=`<div class="cathead"><h2 class="cat" style="font-family:'Bangers',var(--display);text-transform:uppercase">${v.e} ${esc(v.n)}</h2></div>`;
-  if(v.p4)return h+v.p4;
+  if(v.bid)return h+v.bid;
   if(v.phase==='ready'||(v.phase==='run'&&!v.mine))h+=`<p class="ph-wait">Duel en cours…<b>${v.e}</b></p>`;
   else if(v.phase==='run'&&v.done)h+=`<p class="bt-banner">Terminé : ${v.done.score} / ${v.done.max}<small>en ${fmtS(v.done.ms)} · attends ton adversaire…</small></p>`;
   if(v.phase==='reveal'){
