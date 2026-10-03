@@ -13,7 +13,18 @@ Un jeu de soirée sur téléphone : on fait tourner une roue de 15 jeux télé c
 
 ## Mode multi-écrans
 
-Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette) : un code et un QR code s'affichent. Chaque joueur (2 à 8) le scanne avec son téléphone. Le joueur dont c'est le tour fait tourner la roue depuis son téléphone, l'arbitre voit la réponse en secret, chacun écrit ses réponses sans que les autres les voient, et les duels se jouent avec un buzzer sur chaque téléphone. Pour mettre le jeu sur la télé : navigateur de la télé, « Caster » de Chrome, AirPlay ou câble HDMI.
+Choisis « Plusieurs écrans » sur l'écran principal (télé, ordi ou tablette) : un code et un QR code s'affichent. Chaque joueur (2 à 8) le scanne avec son téléphone. Le joueur dont c'est le tour fait tourner la roue depuis son téléphone, l'arbitre voit la réponse en secret, chacun écrit ses réponses sans que les autres les voient, les duels se jouent avec un buzzer sur chaque téléphone et le blind test se joue sur tous les téléphones à la fois. Pour mettre le jeu sur la télé : navigateur de la télé, « Caster » de Chrome, AirPlay ou câble HDMI.
+
+## Le Blind Test : tout le monde joue, sans arbitre
+
+- L'extrait officiel de 30 secondes (Apple Music, sinon Deezer) se lance tout seul après un compte à rebours de 3 secondes.
+- Tout le monde joue en même temps et le jeu corrige seul : il faut trouver le bon titre parmi 4 propositions.
+- **Plusieurs écrans** : chacun répond sur son téléphone. Le plus rapide prend 3 points, le 2e 2 points, les autres bonnes réponses 1 point.
+- **Un seul téléphone** : chaque joueur a son buzzer. Celui qui buzze voit les 4 titres et a 7 secondes pour choisir. Une erreur et il est éliminé pour ce titre, la musique repart pour les autres.
+- Après la réponse, la pochette, le titre et les réponses de chacun s'affichent, et on passe tout seul au titre suivant au bout de 10 secondes.
+- **Blind Test Party** : un mode de jeu à part, choisi sur l'écran d'accueil (ou dans le salon multi-écrans), avec 10, 20 ou 30 titres d'affilée puis le podium.
+- **Thèmes** : Tubes cultes (notre sélection de plus de 100 titres), Hits du moment, Années 70-80, 90, 2000, 2010, Chanson française, Rap français, Disney, Génériques. Sauf Tubes cultes, les thèmes vont chercher une playlist Deezer en direct. Si Deezer ne répond pas, le jeu se rabat sur le catalogue intégré.
+- Si le navigateur bloque le son, un bouton ▶ apparaît sur l'écran principal.
 
 ## Les bonus Quitte ou Double
 
@@ -21,7 +32,7 @@ Chaque joueur a 2 bonus en partie courte, 3 en normale et sans fin, 4 en longue.
 
 ## Les 15 jeux
 
-Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix (version chiffres), N'oubliez pas les paroles, Fort Boyard, Attention à la marche !, Les Z'amours, Le Bigdil, Qui est qui ?, Slam, Burger Quiz (Sel ou poivre), Blind Test, NEO ARENA (mini-jeux réflexes, mémoire et code) et Défis & Duels (une deuxième roue de défis physiques).
+Questions pour un champion, Motus, Qui veut gagner des millions ?, Le Juste Prix (version chiffres), N'oubliez pas les paroles, Fort Boyard, Attention à la marche !, Les Z'amours, Le Bigdil, Qui est qui ?, Slam, Burger Quiz (Sel ou poivre), Blind Test (tout le monde joue), NEO ARENA (mini-jeux réflexes, mémoire et code) et Défis & Duels (une deuxième roue de défis physiques).
 
 Si une joueuse s'appelle Cécile, des cartes spéciales à son sujet s'ajoutent automatiquement.
 
